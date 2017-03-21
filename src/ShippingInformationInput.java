@@ -158,7 +158,7 @@ public class ShippingInformationInput {
 	public void submitSQL() throws ClassNotFoundException,SQLException{
 
 		String connectionURL = "jdbc:mysql://localhost:3306/projecttest?autoReconnect=true&useSSL=false";
-		Connection connection = DriverManager.getConnection(connectionURL, "root", "Pass");
+		Connection connection = DriverManager.getConnection(connectionURL, "root", "integertombob");
 		Statement statement = connection.createStatement();
 		//Table Creation
 		
@@ -274,12 +274,20 @@ public class ShippingInformationInput {
 			}      	
         }                                      
 		System.out.println(ShipType);
-		String insertintosql = "insert into shipment  (CID, Destination, ShipType, ShipDate)  VALUES  ('"+CID+"','"+PDestination+"','"+ShipType+"','"+dtf.format(now)+"');";
+		
+		String thedate = dtf.format(now);
+		
+		String insertintosql = "insert into shipment  (CID, Destination, ShipType, ShipDate)  VALUES  ('"+CID+"','"+PDestination+"','"+ShipType+"','"+thedate+"');";
 		
 		statement.executeUpdate(insertintosql);
 		
-		connection.close();
+	//	String pullback = "select idshipment from shipment where cid = "+CID+" and ShipDate = "+thedate+";";
+		//statement.executeUpdate(pullback);
 		
+		
+		
+		connection.close();
+
 		
 	}
 	
