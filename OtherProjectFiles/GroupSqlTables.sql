@@ -136,6 +136,7 @@ CREATE TABLE `shipmentmethod` (
 
 LOCK TABLES `shipmentmethod` WRITE;
 /*!40000 ALTER TABLE `shipmentmethod` DISABLE KEYS */;
+INSERT INTO `shipmentmethod` VALUES (4000,'No','No','No',30,'Overnight'),(4001,'Yes','No','No',32,'Overnight'),(4010,'No','Yes','No',32,'Overnight'),(4011,'Yes','Yes','No',34,'Overnight'),(4100,'No','No','Yes',32,'Overnight'),(4101,'Yes','No','Yes',34,'Overnight'),(4110,'No','Yes','Yes',34,'Overnight'),(4111,'Yes','Yes','Yes',36,'Overnight'),(5000,'No','No','No',20,'Express'),(5001,'Yes','No','No',22,'Express'),(5010,'No','Yes','No',22,'Express'),(5011,'Yes','Yes','No',24,'Express'),(5100,'No','No','Yes',22,'Express'),(5101,'Yes','No','Yes',24,'Express'),(5110,'No','Yes','Yes',24,'Express'),(5111,'Yes','Yes','Yes',26,'Express'),(6000,'No','No','No',10,'Regular'),(6001,'Yes','No','No',12,'Regular'),(6010,'No','Yes','No',12,'Regular'),(6011,'Yes','Yes','No',14,'Regular'),(6100,'No','No','Yes',12,'Regular'),(6101,'Yes','No','Yes',14,'Regular'),(6110,'No','Yes','Yes',14,'Regular'),(6111,'Yes','Yes','Yes',16,'Regular');
 /*!40000 ALTER TABLE `shipmentmethod` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -176,4 +177,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-21 18:05:52
+-- Dump completed on 2017-03-23 12:07:16
