@@ -32,6 +32,8 @@ import javax.swing.GroupLayout.Alignment;
 import java.awt.Component;
 import javax.swing.JTextArea;
 import java.awt.Color;
+import javax.swing.JSeparator;
+import javax.swing.JPasswordField;
 
 public class CIT345Project extends JFrame {
 
@@ -59,8 +61,6 @@ public class CIT345Project extends JFrame {
 	private JTextField SF_street;
 	private JTextField SF_city;
 	private JTextField SF_zip;
-	
-	public boolean customerCheck = false;
 	private JTextField SF_price;
 	private JTextField SF_deliverydate;
 	private JTextField CIP_fname;
@@ -76,6 +76,24 @@ public class CIT345Project extends JFrame {
 	private JTable ChargeTable;
 	private JTable PaymentTable;
 	
+	public boolean customerCheck = false;
+	sqlConnection sqlcon = new sqlConnection();
+	private JTextField HP_username;
+	private JPasswordField HP_password;
+	private JTextField MAP_fname;
+	private JTextField textField_1;
+	private JTextField MAP_email;
+	private JTextField MAP_username;
+	private JPasswordField MAP_password;
+	private JPasswordField MAP_passwordcon;
+	private JTextField UTF_location;
+	private JTextField UTF_date;
+	private JTextField UTF_status;
+	private JTextField UTF_mode;
+	private JTextField SF_weight;
+	private JTextField SF_dimensions;
+	private JTextField SF_contents;
+	private JTextField SF_value;
 	/**
 	 * Launch the application.
 	 */
@@ -135,6 +153,12 @@ public class CIT345Project extends JFrame {
 		
 		JPanel HomePage = new JPanel();
 		MainCard.add(HomePage);
+		HomePage.setLayout(null);
+		
+		JLabel lblNewLabel_5 = new JLabel("Customer Portal");
+		lblNewLabel_5.setFont(new Font("Candara", Font.BOLD, 18));
+		lblNewLabel_5.setBounds(23, 11, 162, 49);
+		HomePage.add(lblNewLabel_5);
 		
 		JPanel HomePage_bot = new JPanel();
 		BottomCard.add(HomePage_bot);
@@ -208,10 +232,6 @@ public class CIT345Project extends JFrame {
 		
 		JPanel shipSummary = new JPanel();
 		ShipmentForm.add(shipSummary, BorderLayout.SOUTH);
-		shipSummary.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		JPanel PackageSummary = new JPanel();
-		ShipmentForm.add(PackageSummary, BorderLayout.EAST);
 		
 		//-------Customer Info Page-------//
 		
@@ -224,6 +244,12 @@ public class CIT345Project extends JFrame {
 		
 		JPanel CustomerInfoPage_bot2 = new JPanel();
 		BottomCard.add(CustomerInfoPage_bot2);
+
+		JPanel CustomerLogin_bot = new JPanel();
+		BottomCard.add(CustomerLogin_bot);
+		
+		JPanel CustomerLogin_bot2 = new JPanel();
+		BottomCard.add(CustomerLogin_bot2);
 		
 		//-------Contract Info Page-------//
 		
@@ -258,10 +284,31 @@ public class CIT345Project extends JFrame {
 		JScrollPane PaymentHistory = new JScrollPane();
 		MainCard.add(PaymentHistory);
 		
+		JPanel ChargeHistoryCL_bot = new JPanel();
+		BottomCard.add(ChargeHistoryCL_bot);
 		
+		//-------Make Account Page-------//
 		
+		JPanel MakeAccountPage = new JPanel();
+		MainCard.add(MakeAccountPage);
+		MakeAccountPage.setLayout(null);
 		
+		JPanel MakeAccountPage_bot = new JPanel();
+		BottomCard.add(MakeAccountPage_bot);
 		
+		//-------Update Tracking Page-------//
+		
+		JPanel UpdateTracking_bot = new JPanel();
+		BottomCard.add(UpdateTracking_bot);
+		
+		JPanel UpdateTrackingForm = new JPanel();
+		MainCard.add(UpdateTrackingForm);
+		UpdateTrackingForm.setLayout(null);
+		
+		JPanel UpdateTrackingForm_bot = new JPanel();
+		BottomCard.add(UpdateTrackingForm_bot);
+		
+
 		
 	//components and fields of GUI 
 		
@@ -278,6 +325,9 @@ public class CIT345Project extends JFrame {
 		StartButton.setFont(new Font("Candara", Font.PLAIN, 16));
 		StartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+					
+				sqlcon.dbConnector();
+				
 				MainCard.removeAll();
 				MainCard.add(HomePage);
 				MainCard.repaint();
@@ -291,6 +341,109 @@ public class CIT345Project extends JFrame {
 		});
 		
 		//-------Home Page-------//
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 213, 452, 7);
+		HomePage.add(separator);
+		
+		JLabel lblUserName_1 = new JLabel("User Name");
+		lblUserName_1.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblUserName_1.setBounds(30, 71, 84, 14);
+		HomePage.add(lblUserName_1);
+		
+		JLabel lblPassword = new JLabel("Password");
+		lblPassword.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblPassword.setBounds(30, 110, 84, 14);
+		HomePage.add(lblPassword);
+		
+		HP_username = new JTextField();
+		HP_username.setBounds(110, 71, 132, 20);
+		HomePage.add(HP_username);
+		HP_username.setColumns(10);
+		
+		HP_password = new JPasswordField();
+		HP_password.setBounds(110, 106, 132, 20);
+		HomePage.add(HP_password);
+		
+		JButton HP_login = new JButton("Login");
+		HP_login.setFont(new Font("Candara", Font.PLAIN, 14));
+		HP_login.setBounds(110, 147, 132, 23);
+		HomePage.add(HP_login);
+		HP_login.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(CustomerInfoPage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(CustomerLogin_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		
+		JButton HP_createAccount = new JButton("Create an Account");
+		HP_createAccount.setFont(new Font("Candara", Font.PLAIN, 14));
+		HP_createAccount.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MainCard.removeAll();
+				MainCard.add(MakeAccountPage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(MakeAccountPage_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		HP_createAccount.setBounds(291, 147, 149, 23);
+		HomePage.add(HP_createAccount);
+		
+		JLabel label_1 = new JLabel("");
+		label_1.setBounds(94, 68, 46, 14);
+		HomePage.add(label_1);
+		
+		JLabel lblDontHaveAn = new JLabel("<html>Don't Have An Account? <br>Make One!</html>");
+		lblDontHaveAn.setVerticalAlignment(SwingConstants.TOP);
+		lblDontHaveAn.setHorizontalAlignment(SwingConstants.CENTER);
+		lblDontHaveAn.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblDontHaveAn.setBounds(291, 66, 171, 57);
+		HomePage.add(lblDontHaveAn);
+		
+		JLabel lblShipperPortal = new JLabel("Shipper Portal");
+		lblShipperPortal.setFont(new Font("Candara", Font.BOLD, 18));
+		lblShipperPortal.setBounds(23, 228, 162, 49);
+		HomePage.add(lblShipperPortal);
+		
+		JButton HP_updateTracking = new JButton("Update Tracking");
+		HP_updateTracking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(TrackPackagePage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(UpdateTracking_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		HP_updateTracking.setFont(new Font("Candara", Font.PLAIN, 14));
+		HP_updateTracking.setBounds(291, 242, 149, 23);
+		HomePage.add(HP_updateTracking);
+		
+		JSeparator separator_1 = new JSeparator();
+		separator_1.setBounds(10, 288, 452, 7);
+		HomePage.add(separator_1);
+		
+		JLabel lblEmployeePortal = new JLabel("Employee Portal");
+		lblEmployeePortal.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEmployeePortal.setFont(new Font("Candara", Font.BOLD, 25));
+		lblEmployeePortal.setBounds(129, 319, 221, 49);
+		HomePage.add(lblEmployeePortal);
 		
 		JButton newCustomer = new JButton("New Customer");
 		newCustomer.setFont(new Font("Candara", Font.PLAIN, 16));
@@ -823,102 +976,153 @@ public class CIT345Project extends JFrame {
 		
 		JLabel lblShipDate = new JLabel("Ship Date");
 		lblShipDate.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblShipDate.setBounds(10, 48, 65, 14);
+		lblShipDate.setBounds(207, 11, 65, 14);
 		shipFormFields.add(lblShipDate);
 		
 		SF_shipdate = new JTextField();
 		SF_shipdate.setEnabled(false);
 		SF_shipdate.setColumns(10);
-		SF_shipdate.setBounds(101, 45, 86, 20);
+		SF_shipdate.setBounds(287, 8, 86, 20);
 		shipFormFields.add(SF_shipdate);
 		
 		JLabel lblDestination = new JLabel("Destination");
-		lblDestination.setBounds(10, 85, 65, 14);
+		lblDestination.setBounds(10, 41, 65, 14);
 		shipFormFields.add(lblDestination);
 		
 		JLabel lblStreet = new JLabel("Street");
 		lblStreet.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblStreet.setBounds(10, 110, 65, 14);
+		lblStreet.setBounds(10, 66, 65, 14);
 		shipFormFields.add(lblStreet);
 		
 		SF_street = new JTextField();
 		SF_street.setColumns(10);
-		SF_street.setBounds(90, 107, 215, 20);
+		SF_street.setBounds(85, 63, 215, 20);
 		shipFormFields.add(SF_street);
 		
 		JLabel lblCity = new JLabel("City");
 		lblCity.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblCity.setBounds(10, 142, 65, 14);
+		lblCity.setBounds(10, 91, 65, 14);
 		shipFormFields.add(lblCity);
 		
 		SF_city = new JTextField();
 		SF_city.setColumns(10);
-		SF_city.setBounds(90, 138, 86, 20);
+		SF_city.setBounds(85, 88, 86, 20);
 		shipFormFields.add(SF_city);
 		
 		JLabel label_12 = new JLabel("State");
-		label_12.setBounds(186, 142, 41, 14);
+		label_12.setBounds(178, 91, 41, 14);
 		shipFormFields.add(label_12);
 		
 		JComboBox SF_state = new JComboBox();
 		SF_state.setModel(new DefaultComboBoxModel(new String[] {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}));
 		SF_state.setMaximumRowCount(10);
-		SF_state.setBounds(222, 139, 83, 20);
+		SF_state.setBounds(217, 88, 83, 20);
 		shipFormFields.add(SF_state);
 		
 		JLabel lblZip = new JLabel("Zip");
 		lblZip.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblZip.setBounds(10, 177, 65, 14);
+		lblZip.setBounds(264, 91, 65, 14);
 		shipFormFields.add(lblZip);
 		
 		SF_zip = new JTextField();
 		SF_zip.setColumns(10);
-		SF_zip.setBounds(90, 174, 42, 20);
+		SF_zip.setBounds(339, 88, 42, 20);
 		shipFormFields.add(SF_zip);
 		
 		JLabel lblCountry = new JLabel("Country");
-		lblCountry.setBounds(36, 215, 71, 14);
+		lblCountry.setBounds(36, 119, 71, 14);
 		shipFormFields.add(lblCountry);
 		
 		JComboBox SF_country = new JComboBox();
 		SF_country.setModel(new DefaultComboBoxModel(new String[] {"United States", "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua & Deps", "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas", "Bahrain", "Bangladesh", "Barbados", "Belarus", "Belgium", "Belize", "Benin", "Bhutan", "Bolivia", "Bosnia Herzegovina", "Botswana", "Brazil", "Brunei", "Bulgaria", "Burkina", "Burundi", "Cambodia", "Cameroon", "Canada", "Cape Verde", "Central African Rep", "Chad", "Chile", "China", "Colombia", "Comoros", "Congo", "Congo {Democratic Rep}", "Costa Rica", "Croatia", "Cuba", "Cyprus", "Czech Republic", "Denmark", "Djibouti", "Dominica", "Dominican Republic", "East Timor", "Ecuador", "Egypt", "El Salvador", "Equatorial Guinea", "Eritrea", "Estonia", "Ethiopia", "Fiji", "Finland", "France", "Gabon", "Gambia", "Georgia", "Germany", "Ghana", "Greece", "Grenada", "Guatemala", "Guinea", "Guinea-Bissau", "Guyana", "Haiti", "Honduras", "Hungary", "Iceland", "India", "Indonesia", "Iran", "Iraq", "Ireland {Republic}", "Israel", "Italy", "Ivory Coast", "Jamaica", "Japan", "Jordan", "Kazakhstan", "Kenya", "Kiribati", "Korea North", "Korea South", "Kosovo", "Kuwait", "Kyrgyzstan", "Laos", "Latvia", "Lebanon", "Lesotho", "Liberia", "Libya", "Liechtenstein", "Lithuania", "Luxembourg", "Macedonia", "Madagascar", "Malawi", "Malaysia", "Maldives", "Mali", "Malta", "Marshall Islands", "Mauritania", "Mauritius", "Mexico", "Micronesia", "Moldova", "Monaco", "Mongolia", "Montenegro", "Morocco", "Mozambique", "Myanmar, {Burma}", "Namibia", "Nauru", "Nepal", "Netherlands", "New Zealand", "Nicaragua", "Niger", "Nigeria", "Norway", "Oman", "Pakistan", "Palau", "Panama", "Papua New Guinea", "Paraguay", "Peru", "Philippines", "Poland", "Portugal", "Qatar", "Romania", "Russian Federation", "Rwanda", "St Kitts & Nevis", "St Lucia", "Saint Vincent & the Grenadines", "Samoa", "San Marino", "Sao Tome & Principe", "Saudi Arabia", "Senegal", "Serbia", "Seychelles", "Sierra Leone", "Singapore", "Slovakia", "Slovenia", "Solomon Islands", "Somalia", "South Africa", "South Sudan", "Spain", "Sri Lanka", "Sudan", "Suriname", "Swaziland", "Sweden", "Switzerland", "Syria", "Taiwan", "Tajikistan", "Tanzania", "Thailand", "Togo", "Tonga", "Trinidad & Tobago", "Tunisia", "Turkey", "Turkmenistan", "Tuvalu", "Uganda", "Ukraine", "United Arab Emirates", "United Kingdom", "United States", "Uruguay", "Uzbekistan", "Vanuatu", "Vatican City", "Venezuela", "Vietnam", "Yemen", "Zambia", "Zimbabwe"}));
 		SF_country.setMaximumRowCount(10);
-		SF_country.setBounds(90, 212, 129, 20);
+		SF_country.setBounds(85, 116, 129, 20);
 		shipFormFields.add(SF_country);
 		
 		JRadioButton SF_overnight = new JRadioButton("Over Night");
 		SF_overnight.setSelected(true);
-		SF_overnight.setBounds(68, 275, 97, 23);
+		SF_overnight.setBounds(36, 168, 97, 23);
 		shipFormFields.add(SF_overnight);
 		
 		JRadioButton SF_express = new JRadioButton("Express");
-		SF_express.setBounds(68, 305, 87, 23);
+		SF_express.setBounds(132, 168, 87, 23);
 		shipFormFields.add(SF_express);
 		
 		JRadioButton SF_regular = new JRadioButton("Regular");
-		SF_regular.setBounds(68, 331, 87, 23);
+		SF_regular.setBounds(217, 168, 87, 23);
 		shipFormFields.add(SF_regular);
 		
 		JCheckBox SF_international = new JCheckBox("International");
-		SF_international.setBounds(165, 275, 97, 23);
+		SF_international.setBounds(36, 198, 97, 23);
 		shipFormFields.add(SF_international);
 		
 		JCheckBox SF_oversized = new JCheckBox("Oversized");
-		SF_oversized.setBounds(165, 305, 97, 23);
+		SF_oversized.setBounds(221, 198, 97, 23);
 		shipFormFields.add(SF_oversized);
 		
 		JCheckBox SF_hazardous = new JCheckBox("Hazardous ");
-		SF_hazardous.setBounds(165, 331, 97, 23);
+		SF_hazardous.setBounds(132, 198, 97, 23);
 		shipFormFields.add(SF_hazardous);
 		
 		JLabel lblShippingMethod = new JLabel("Shipping Method");
-		lblShippingMethod.setBounds(10, 255, 97, 14);
+		lblShippingMethod.setBounds(10, 147, 97, 14);
 		shipFormFields.add(lblShippingMethod);
 		
 		ButtonGroup shipSpeed = new ButtonGroup();
 		shipSpeed.add(SF_overnight);
 		shipSpeed.add(SF_express);
 		shipSpeed.add(SF_regular);
+		
+		JLabel lblPackageDetails = new JLabel("Package Details");
+		lblPackageDetails.setBounds(10, 238, 97, 14);
+		shipFormFields.add(lblPackageDetails);
+		
+		JSeparator separator_2 = new JSeparator();
+		separator_2.setBounds(10, 228, 452, 3);
+		shipFormFields.add(separator_2);
+		
+		SF_weight = new JTextField();
+		SF_weight.setColumns(10);
+		SF_weight.setBounds(85, 263, 86, 20);
+		shipFormFields.add(SF_weight);
+		
+		JLabel label_2 = new JLabel("Weight");
+		label_2.setBounds(36, 263, 74, 20);
+		shipFormFields.add(label_2);
+		
+		JLabel label_13 = new JLabel("<html>Dimensions <br> (LxWxH)</html>");
+		label_13.setBounds(197, 253, 86, 44);
+		shipFormFields.add(label_13);
+		
+		SF_dimensions = new JTextField();
+		SF_dimensions.setColumns(10);
+		SF_dimensions.setBounds(264, 263, 86, 20);
+		shipFormFields.add(SF_dimensions);
+		
+		JCheckBox SF_fragile = new JCheckBox("Fragile?");
+		SF_fragile.setBounds(369, 262, 97, 23);
+		shipFormFields.add(SF_fragile);
+		
+		JLabel label_24 = new JLabel("Contents");
+		label_24.setBounds(33, 308, 74, 14);
+		shipFormFields.add(label_24);
+		
+		JLabel label_25 = new JLabel("Value");
+		label_25.setBounds(197, 308, 74, 14);
+		shipFormFields.add(label_25);
+		
+		SF_contents = new JTextField();
+		SF_contents.setEnabled(false);
+		SF_contents.setColumns(10);
+		SF_contents.setBounds(85, 306, 86, 20);
+		shipFormFields.add(SF_contents);
+		
+		SF_value = new JTextField();
+		SF_value.setEnabled(false);
+		SF_value.setColumns(10);
+		SF_value.setBounds(264, 306, 86, 20);
+		shipFormFields.add(SF_value);
+		shipSummary.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblPrice = new JLabel("Price");
 		shipSummary.add(lblPrice);
@@ -937,12 +1141,6 @@ public class CIT345Project extends JFrame {
 		SF_deliverydate.setColumns(10);
 		
 		
-		
-		JLabel lblNewLabel_3 = new JLabel("Packages");
-		lblNewLabel_3.setFont(new Font("Candara", Font.PLAIN, 18));
-		PackageSummary.add(lblNewLabel_3);
-		
-		
 		JButton SF_submit = new JButton("Submit");
 		SF_submit.setFont(new Font("Candara", Font.PLAIN, 16));
 		ShipmentForm_bot.add(SF_submit);
@@ -957,16 +1155,6 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(ActionPage_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
-			}
-		});
-		
-		JButton SF_package = new JButton("Add Package");
-		SF_package.setFont(new Font("Candara", Font.PLAIN, 16));
-		ShipmentForm_bot.add(SF_package);
-		SF_package.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				packageForms pf = new packageForms();
-				pf.setVisible(true);
 			}
 		});
 		
@@ -1247,6 +1435,117 @@ public class CIT345Project extends JFrame {
 			}
 		});
 		
+		JButton CL_edit = new JButton("Edit Info");
+		CL_edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CIP_fname.setEditable(true);
+				CIP_lname.setEditable(true);
+				CIP_address.setEditable(true);
+				CIP_city.setEditable(true);
+				CIP_state.setEnabled(true);
+				CIP_zip.setEditable(true);
+				CIP_phone1.setEditable(true);
+				CIP_phone2.setEditable(true);
+				CIP_phone3.setEditable(true);
+				CIP_email.setEditable(true);
+				CIP_username.setEditable(true);
+				
+				BottomCard.removeAll();
+				BottomCard.add(CustomerLogin_bot2);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		CL_edit.setFont(new Font("Candara", Font.PLAIN, 16));
+		CustomerLogin_bot.add(CL_edit);
+		
+		JButton CL_pay = new JButton("Check Payments");
+		CL_pay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(ChargeHistory);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(ChargeHistoryCL_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		CL_pay.setFont(new Font("Candara", Font.PLAIN, 16));
+		CustomerLogin_bot.add(CL_pay);
+		
+		JButton CL_logout = new JButton("Logout");
+		CL_logout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(HomePage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(HomePage_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		CL_logout.setFont(new Font("Candara", Font.PLAIN, 16));
+		CustomerLogin_bot.add(CL_logout);
+		
+		JButton CL2_save = new JButton("Save Info");
+		CL2_save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CIP_fname.setEditable(false);
+				CIP_lname.setEditable(false);
+				CIP_address.setEditable(false);
+				CIP_city.setEditable(false);
+				CIP_state.setEnabled(false);
+				CIP_zip.setEditable(false);
+				CIP_phone1.setEditable(false);
+				CIP_phone2.setEditable(false);
+				CIP_phone3.setEditable(false);
+				CIP_email.setEditable(false);
+				CIP_username.setEditable(false);
+				
+				BottomCard.removeAll();
+				BottomCard.add(CustomerLogin_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		CL2_save.setFont(new Font("Candara", Font.PLAIN, 16));
+		CustomerLogin_bot2.add(CL2_save);
+		
+		JButton CL2_pay = new JButton("Check Payments");
+		CL2_pay.setFont(new Font("Candara", Font.PLAIN, 16));
+		CL2_pay.setEnabled(false);
+		CustomerLogin_bot2.add(CL2_pay);
+		
+		JButton CL2_cancel = new JButton("Cancel");
+		CL2_cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				CIP_fname.setEditable(false);
+				CIP_lname.setEditable(false);
+				CIP_address.setEditable(false);
+				CIP_city.setEditable(false);
+				CIP_state.setEnabled(false);
+				CIP_zip.setEditable(false);
+				CIP_phone1.setEditable(false);
+				CIP_phone2.setEditable(false);
+				CIP_phone3.setEditable(false);
+				CIP_email.setEditable(false);
+				CIP_username.setEditable(false);
+				
+				BottomCard.removeAll();
+				BottomCard.add(CustomerLogin_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		CL2_cancel.setFont(new Font("Candara", Font.PLAIN, 16));
+		CustomerLogin_bot2.add(CL2_cancel);
+		
 		//-------Contract Info Page-------//
 		
 		JLabel lblNewLabel_4 = new JLabel("Bronze");
@@ -1378,8 +1677,6 @@ public class CIT345Project extends JFrame {
 		));
 		PaymentHistory.setViewportView(PaymentTable);
 		
-		
-		
 		JButton CH_pay = new JButton("Billed Payments");
 		
 		JButton CH_charge = new JButton("Charge History");
@@ -1397,8 +1694,6 @@ public class CIT345Project extends JFrame {
 				CH_pay.setEnabled(true);
 			}
 		});
-		
-		
 		
 		CH_pay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -1432,6 +1727,270 @@ public class CIT345Project extends JFrame {
 			}
 			
 		});
+		
+		JButton CHCL_pay = new JButton("Billed Payments");
+		
+		
+		JButton CHCL_charge = new JButton("Charge History");
+		CHCL_charge.setFont(new Font("Candara", Font.PLAIN, 16));
+		CHCL_charge.setEnabled(false);
+		ChargeHistoryCL_bot.add(CHCL_charge);
+		CHCL_charge.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(ChargeHistory);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				CHCL_charge.setEnabled(false);
+				CHCL_pay.setEnabled(true);
+			}
+		});
+		
+		
+		
+		CHCL_pay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(PaymentHistory);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				CHCL_pay.setEnabled(false);
+				CHCL_charge.setEnabled(true);
+			}
+		});
+		CHCL_pay.setFont(new Font("Candara", Font.PLAIN, 16));
+		ChargeHistoryCL_bot.add(CHCL_pay);
+		
+		JButton CHCL_back = new JButton("Back");
+		CHCL_back.setFont(new Font("Candara", Font.PLAIN, 16));
+		ChargeHistoryCL_bot.add(CHCL_back);
+		
+		
+		CHCL_back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(CustomerInfoPage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(CustomerLogin_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		
+		//-------Make Account Page-------//
+		
+		JLabel lblFirstName_1 = new JLabel("First Name");
+		lblFirstName_1.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblFirstName_1.setBounds(41, 48, 107, 30);
+		MakeAccountPage.add(lblFirstName_1);
+		
+		JLabel MAP_lname = new JLabel("Last Name");
+		MAP_lname.setFont(new Font("Candara", Font.PLAIN, 14));
+		MAP_lname.setBounds(41, 89, 107, 30);
+		MakeAccountPage.add(MAP_lname);
+		
+		MAP_fname = new JTextField();
+		MAP_fname.setBounds(137, 52, 107, 20);
+		MakeAccountPage.add(MAP_fname);
+		MAP_fname.setColumns(10);
+		
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(137, 93, 107, 20);
+		MakeAccountPage.add(textField_1);
+		
+		JLabel lblEmail_1 = new JLabel("Email");
+		lblEmail_1.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblEmail_1.setBounds(41, 130, 107, 30);
+		MakeAccountPage.add(lblEmail_1);
+		
+		MAP_email = new JTextField();
+		MAP_email.setColumns(10);
+		MAP_email.setBounds(137, 134, 107, 20);
+		MakeAccountPage.add(MAP_email);
+		
+		JLabel lblUserName_2 = new JLabel("User Name");
+		lblUserName_2.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblUserName_2.setBounds(41, 222, 107, 30);
+		MakeAccountPage.add(lblUserName_2);
+		
+		JLabel lblPassword_1 = new JLabel("Password");
+		lblPassword_1.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblPassword_1.setBounds(41, 266, 107, 30);
+		MakeAccountPage.add(lblPassword_1);
+		
+		JLabel lblConfirmPassword = new JLabel("Confirm Password");
+		lblConfirmPassword.setFont(new Font("Candara", Font.PLAIN, 14));
+		lblConfirmPassword.setBounds(21, 316, 128, 30);
+		MakeAccountPage.add(lblConfirmPassword);
+		
+		MAP_username = new JTextField();
+		MAP_username.setColumns(10);
+		MAP_username.setBounds(137, 226, 107, 20);
+		MakeAccountPage.add(MAP_username);
+		
+		MAP_password = new JPasswordField();
+		MAP_password.setBounds(137, 270, 107, 20);
+		MakeAccountPage.add(MAP_password);
+		
+		MAP_passwordcon = new JPasswordField();
+		MAP_passwordcon.setBounds(137, 320, 107, 20);
+		MakeAccountPage.add(MAP_passwordcon);
+		
+	
+		
+		JButton MAP_create = new JButton("Create");
+		MAP_create.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(HomePage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(HomePage_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		MAP_create.setFont(new Font("Candara", Font.PLAIN, 16));
+		MakeAccountPage_bot.add(MAP_create);
+		
+		JButton MAP_cancel = new JButton("Cancel");
+		MAP_cancel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(HomePage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(HomePage_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		MAP_cancel.setFont(new Font("Candara", Font.PLAIN, 16));
+		MakeAccountPage_bot.add(MAP_cancel);
+		
+		//-------Update Tracking Page-------//
+		
+		JButton UT_update = new JButton("Update");
+		UT_update.setFont(new Font("Candara", Font.PLAIN, 16));
+		UpdateTracking_bot.add(UT_update);
+		UT_update.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(UpdateTrackingForm);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(UpdateTrackingForm_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		
+		JButton UT_back = new JButton("Back");
+		UT_back.setFont(new Font("Candara", Font.PLAIN, 16));
+		UpdateTracking_bot.add(UT_back);
+		UT_back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(HomePage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(HomePage_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		
+		
+		JButton UTF_save = new JButton("Save");
+		UTF_save.setFont(new Font("Candara", Font.PLAIN, 16));
+		UpdateTrackingForm_bot.add(UTF_save);
+		UTF_save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(HomePage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(HomePage_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		
+		JButton UTF_back = new JButton("Back");
+		UTF_back.setFont(new Font("Candara", Font.PLAIN, 16));
+		UpdateTrackingForm_bot.add(UTF_back);
+		UTF_back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(TrackPackagePage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(UpdateTracking_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		
+		
+		
+		JLabel lblNewLabel_6 = new JLabel("Current Location");
+		lblNewLabel_6.setFont(new Font("Candara", Font.PLAIN, 11));
+		lblNewLabel_6.setBounds(49, 98, 111, 14);
+		UpdateTrackingForm.add(lblNewLabel_6);
+		
+		JLabel lblDate = new JLabel("Date");
+		lblDate.setFont(new Font("Candara", Font.PLAIN, 11));
+		lblDate.setBounds(49, 22, 111, 14);
+		UpdateTrackingForm.add(lblDate);
+		
+		JLabel lblStatus = new JLabel("Status");
+		lblStatus.setFont(new Font("Candara", Font.PLAIN, 11));
+		lblStatus.setBounds(49, 147, 111, 14);
+		UpdateTrackingForm.add(lblStatus);
+		
+		JLabel lblMode = new JLabel("Mode");
+		lblMode.setFont(new Font("Candara", Font.PLAIN, 11));
+		lblMode.setBounds(49, 204, 111, 14);
+		UpdateTrackingForm.add(lblMode);
+		
+		UTF_location = new JTextField();
+		UTF_location.setBounds(145, 94, 225, 20);
+		UpdateTrackingForm.add(UTF_location);
+		UTF_location.setColumns(10);
+		
+		UTF_date = new JTextField();
+		UTF_date.setEditable(false);
+		UTF_date.setBounds(145, 18, 86, 20);
+		UpdateTrackingForm.add(UTF_date);
+		UTF_date.setColumns(10);
+		
+		UTF_status = new JTextField();
+		UTF_status.setBounds(145, 143, 86, 20);
+		UpdateTrackingForm.add(UTF_status);
+		UTF_status.setColumns(10);
+		
+		UTF_mode = new JTextField();
+		UTF_mode.setBounds(145, 200, 86, 20);
+		UpdateTrackingForm.add(UTF_mode);
+		UTF_mode.setColumns(10);
 		
 		
 		
