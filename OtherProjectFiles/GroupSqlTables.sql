@@ -59,7 +59,7 @@ CREATE TABLE `chargehistory` (
   PRIMARY KEY (`CustomerID`,`ShipmentID`),
   KEY `ShipmentIDFK_idx` (`ShipmentID`),
   CONSTRAINT `CustomerIDFK ` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ShipmentIDFK` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `ShipmentIDFK` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -175,7 +175,7 @@ CREATE TABLE `declarationform` (
   `Value` double NOT NULL,
   PRIMARY KEY (`FormID`),
   KEY `ShipmentIDDF_idx` (`PackageID`),
-  CONSTRAINT `PackageIDDF` FOREIGN KEY (`PackageID`) REFERENCES `packages` (`packageID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `PackageIDDF` FOREIGN KEY (`PackageID`) REFERENCES `packages` (`packageID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -236,7 +236,7 @@ CREATE TABLE `payments` (
   PRIMARY KEY (`AccoutNumber`,`ShipmentID`),
   KEY `ShipmentID_idx` (`ShipmentID`),
   CONSTRAINT `AcountNumFK` FOREIGN KEY (`AccoutNumber`) REFERENCES `account` (`AccountID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ShipmentID` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `ShipmentID` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -383,4 +383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-29 13:44:00
+-- Dump completed on 2017-03-29 13:49:43
