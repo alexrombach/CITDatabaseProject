@@ -1,4 +1,4 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.17, for Win64 (x86_64)
 --
 -- Host: localhost    Database: cit345groupproject
 -- ------------------------------------------------------
@@ -59,7 +59,7 @@ CREATE TABLE `chargehistory` (
   PRIMARY KEY (`CustomerID`,`ShipmentID`),
   KEY `ShipmentIDFK_idx` (`ShipmentID`),
   CONSTRAINT `CustomerIDFK ` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ShipmentIDFK` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `ShipmentIDFK` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -80,17 +80,19 @@ DROP TABLE IF EXISTS `contract`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `contract` (
-  `ContractNumber` int(11) NOT NULL,
+  `ContractNumber` int(11) NOT NULL AUTO_INCREMENT,
   `AccountNumber` int(11) NOT NULL,
   `ContractTier` enum('Bronze','Silver','Gold') NOT NULL,
   `StartDate` datetime NOT NULL,
   `EndDate` datetime NOT NULL,
   PRIMARY KEY (`ContractNumber`),
   KEY `AccountNumberFK_idx` (`AccountNumber`),
-  KEY `TeirFK_idx` (`ContractTier`),
-  CONSTRAINT `AccountNumberFK` FOREIGN KEY (`AccountNumber`) REFERENCES `account` (`AccountID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `TeirFK` FOREIGN KEY (`ContractTier`) REFERENCES `contracttype` (`Teir`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `TierFK_idx` (`ContractTier`),
+  KEY `AccountNumberFKcontract_idx` (`AccountNumber`),
+  KEY `TierFKcontract_idx` (`ContractTier`),
+  CONSTRAINT `AccountFK` FOREIGN KEY (`AccountNumber`) REFERENCES `account` (`AccountID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `TierFK` FOREIGN KEY (`ContractTier`) REFERENCES `contracttype` (`Teir`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,6 +101,7 @@ CREATE TABLE `contract` (
 
 LOCK TABLES `contract` WRITE;
 /*!40000 ALTER TABLE `contract` DISABLE KEYS */;
+INSERT INTO `contract` VALUES (3,1002,'Silver','2017-03-28 00:00:00','2018-03-28 00:00:00'),(4,1003,'Bronze','2017-03-28 00:00:00','2018-03-28 00:00:00'),(5,1004,'Silver','2017-03-28 00:00:00','2018-03-28 00:00:00'),(6,1005,'Silver','2017-03-28 00:00:00','2018-03-28 00:00:00'),(7,1006,'Bronze','2017-03-28 00:00:00','2018-03-28 00:00:00'),(8,1007,'Gold','2017-03-28 00:00:00','2018-03-28 00:00:00'),(9,1008,'Silver','2017-03-28 00:00:00','2018-03-28 00:00:00'),(10,1009,'Bronze','2017-03-28 00:00:00','2018-03-28 00:00:00'),(11,1010,'Silver','2017-03-28 00:00:00','2018-03-28 00:00:00');
 /*!40000 ALTER TABLE `contract` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -123,6 +126,7 @@ CREATE TABLE `contracttype` (
 
 LOCK TABLES `contracttype` WRITE;
 /*!40000 ALTER TABLE `contracttype` DISABLE KEYS */;
+INSERT INTO `contracttype` VALUES ('Bronze',50,10),('Silver',100,15),('Gold',200,25);
 /*!40000 ALTER TABLE `contracttype` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -165,14 +169,14 @@ DROP TABLE IF EXISTS `declarationform`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `declarationform` (
-  `FormID` int(11) NOT NULL,
+  `FormID` int(11) NOT NULL AUTO_INCREMENT,
   `PackageID` int(11) NOT NULL,
   `Contents` varchar(45) NOT NULL,
   `Value` double NOT NULL,
   PRIMARY KEY (`FormID`),
-  KEY `FormPackageIDFK_idx` (`PackageID`),
-  CONSTRAINT `FormPackageIDFK` FOREIGN KEY (`PackageID`) REFERENCES `packages` (`packageID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  KEY `ShipmentIDDF_idx` (`PackageID`),
+  CONSTRAINT `PackageIDDF` FOREIGN KEY (`PackageID`) REFERENCES `packages` (`packageID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,6 +185,7 @@ CREATE TABLE `declarationform` (
 
 LOCK TABLES `declarationform` WRITE;
 /*!40000 ALTER TABLE `declarationform` DISABLE KEYS */;
+INSERT INTO `declarationform` VALUES (1,1,'Baby',53.46),(2,2,'Automotive',4.63),(3,3,'Books',86.49),(4,4,'Jewelery',11.73),(5,5,'Games',12),(6,6,'Shoes',21.84),(7,7,'Industrial',46.51),(8,8,'Toys',57.97),(9,9,'Beauty',88.58),(10,10,'Kids',69.43),(11,11,'Jewelery',40.36),(12,12,'Tools',88.4),(13,13,'Music',81.05),(14,14,'Electronics',74.74),(15,15,'Computers',16.21),(16,16,'Kids',47.96),(17,17,'Computers',83.49),(18,18,'Health',55.47),(19,19,'Clothing',53.81),(20,20,'Baby',78.32),(21,21,'Clothing',71.3),(22,22,'Kids',58.69),(23,23,'Clothing',17.12),(24,24,'Outdoors',97.08),(25,25,'Games',84.56),(26,26,'Books',19.26),(27,27,'Games',48.38),(28,28,'Electronics',14.93),(29,29,'Movies',35.43),(30,30,'Jewelery',1.8),(31,31,'Electronics',86.95),(32,32,'Toys',5.15),(33,33,'Industrial',89.36),(34,34,'Garden',28.35),(35,35,'Kids',40.65),(36,36,'Home',30.25),(37,37,'Toys',53.63),(38,38,'Health',92.6),(39,39,'Books',89.66),(40,40,'Kids',48.01),(41,41,'Grocery',48.01),(42,42,'Beauty',64.73),(43,43,'Computers',9.51),(44,44,'Garden',81.46),(45,45,'Health',13.58),(46,46,'Jewelery',85.58),(47,47,'Computers',76.45),(48,48,'Jewelery',36.8),(49,49,'Toys',79.2),(50,50,'Jewelery',23.52),(51,51,'Automotive',45.65),(52,52,'Grocery',38.62),(53,53,'Books',97.01),(54,54,'Garden',45.46),(55,55,'Sports',4.47),(56,56,'Home',84.98),(57,57,'Kids',26.53),(58,58,'Music',42.43),(59,59,'Outdoors',88.67),(60,60,'Electronics',80.96),(61,61,'Industrial',6.77),(62,62,'Sports',7.96),(63,63,'Movies',46.23),(64,64,'Books',94.74),(65,65,'Beauty',52.52),(66,66,'Kids',77.93),(67,67,'Music',96.95),(68,68,'Movies',73.31),(69,69,'Industrial',55.32),(70,70,'Outdoors',35.82),(71,71,'Computers',30.81),(72,72,'Tools',70.44),(73,73,'Garden',14.85),(74,74,'Tools',49.23),(75,75,'Books',56.36),(76,76,'Home',94.05),(77,77,'Health',64.94),(78,78,'Outdoors',14.82),(79,79,'Automotive',5.49),(80,80,'Beauty',2.99),(81,81,'Health',60.34),(82,82,'Games',87.5),(83,83,'Industrial',19.62),(84,84,'Computers',86.99),(85,85,'Shoes',15.8),(86,86,'Kids',15.24),(87,87,'Garden',70.09),(88,88,'Games',32.67),(89,89,'Garden',83.22),(90,90,'Health',55.76),(91,91,'Shoes',62.46),(92,92,'Shoes',87.38),(93,93,'Kids',53.9),(94,94,'Shoes',78.18),(95,95,'Books',56.28),(96,96,'Grocery',8.16),(97,97,'Shoes',97.84),(98,98,'Industrial',62.08),(99,99,'Health',44.73),(100,100,'Jewelery',62.31),(101,101,'Baby',24.93),(102,102,'Home',16.87),(103,103,'Outdoors',56.07),(104,104,'Movies',89.53),(105,105,'Home',52.45),(106,106,'Grocery',79.59),(107,107,'Kids',26.48),(108,108,'Movies',73.47),(109,109,'Sports',30.1),(110,110,'Shoes',98.78),(111,111,'Movies',43.09),(112,112,'Electronics',5.1),(113,113,'Industrial',31.47),(114,114,'Baby',47.65),(115,115,'Industrial',93.31),(116,116,'Outdoors',44.73),(117,117,'Clothing',73.53),(118,118,'Shoes',43.95),(119,119,'Clothing',53.83),(120,120,'Movies',78.31),(121,121,'Industrial',99.12),(122,122,'Health',11.98),(123,123,'Sports',6.8),(124,124,'Books',82.3),(125,125,'Outdoors',23.19),(126,126,'Health',43.53),(127,127,'Beauty',79.26),(128,128,'Books',5.62),(129,129,'Health',58.45),(130,130,'Clothing',3.68),(131,131,'Beauty',98.11),(132,132,'Outdoors',88.57),(133,133,'Clothing',48.82),(134,134,'Garden',62.02),(135,135,'Baby',23.97),(136,136,'Computers',95.88),(137,137,'Tools',79.52),(138,138,'Sports',37.94),(139,139,'Garden',98.33),(140,140,'Jewelery',87.64),(141,141,'Grocery',23.23),(142,142,'Industrial',77.56),(143,143,'Sports',53.04),(144,144,'Books',1.58),(145,145,'Garden',45.5),(146,146,'Industrial',20.08),(147,147,'Music',67.4),(148,148,'Baby',63.92),(149,149,'Automotive',2.73),(150,150,'Home',20.84),(151,151,'Music',98.91),(152,152,'Grocery',47.42),(153,153,'Electronics',91.32),(154,154,'Tools',11.71),(155,155,'Clothing',79.89),(156,156,'Games',32.27),(157,157,'Games',74.52),(158,158,'Industrial',84.7),(159,159,'Home',74.23),(160,160,'Games',39.27),(161,161,'Baby',86.25),(162,162,'Industrial',86.32),(163,163,'Industrial',16.77),(164,164,'Shoes',18.14),(165,165,'Computers',20.02),(166,166,'Automotive',78.99),(167,167,'Garden',93.2),(168,168,'Clothing',67.41),(169,169,'Shoes',8.77),(170,170,'Home',31.09),(171,171,'Health',14.05),(172,172,'Home',11.17),(173,173,'Electronics',78.17),(174,174,'Electronics',63.51),(175,175,'Sports',1.08),(176,176,'Sports',92.35),(177,177,'Sports',81.61),(178,178,'Jewelery',20.58),(179,179,'Books',21.51),(180,180,'Books',70.08),(181,181,'Clothing',95.5),(182,182,'Garden',17.49),(183,183,'Grocery',30.23),(184,184,'Music',23.52),(185,185,'Computers',82.98),(186,186,'Shoes',38.04),(187,187,'Music',48.82),(188,188,'Grocery',39.14),(189,189,'Games',35.28),(190,190,'Tools',46.62),(191,191,'Electronics',49.34),(192,192,'Outdoors',83.3),(193,193,'Sports',15.91),(194,194,'Garden',28.2),(195,195,'Beauty',0.32),(196,196,'Music',32.87),(197,197,'Games',81.72),(198,198,'Garden',50.88),(199,199,'Music',33.89),(200,200,'Music',74.5);
 /*!40000 ALTER TABLE `declarationform` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -192,7 +197,7 @@ DROP TABLE IF EXISTS `packages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `packages` (
-  `packageID` int(11) NOT NULL,
+  `packageID` int(11) NOT NULL AUTO_INCREMENT,
   `shipmentID` int(11) NOT NULL,
   `Dimensions` varchar(45) NOT NULL,
   `Weight` double NOT NULL,
@@ -201,7 +206,7 @@ CREATE TABLE `packages` (
   PRIMARY KEY (`packageID`),
   KEY `packageShipmentIdFK_idx` (`shipmentID`),
   CONSTRAINT `packageShipmentIdFK` FOREIGN KEY (`shipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,6 +215,7 @@ CREATE TABLE `packages` (
 
 LOCK TABLES `packages` WRITE;
 /*!40000 ALTER TABLE `packages` DISABLE KEYS */;
+INSERT INTO `packages` VALUES (1,1,'3 x 6 x 9',62,'No','Yes'),(2,2,'12 x 12 x 11',67,'No','Yes'),(3,3,'8 x 11 x 11',55,'No','Yes'),(4,4,'11 x 5 x 3',79,'No','No'),(5,5,'6 x 7 x 4',53,'No','Yes'),(6,6,'4 x 9 x 12',29,'Yes','No'),(7,7,'9 x 12 x 1',50,'Yes','Yes'),(8,8,'1 x 7 x 3',92,'No','Yes'),(9,9,'5 x 7 x 4',27,'No','Yes'),(10,10,'9 x 8 x 2',59,'No','Yes'),(11,11,'9 x 2 x 12',76,'Yes','Yes'),(12,12,'2 x 7 x 1',83,'Yes','No'),(13,13,'7 x 5 x 9',49,'Yes','No'),(14,14,'7 x 4 x 8',57,'No','No'),(15,15,'2 x 8 x 5',21,'No','Yes'),(16,16,'12 x 6 x 8',88,'Yes','Yes'),(17,17,'4 x 4 x 2',7,'No','No'),(18,18,'3 x 4 x 3',98,'No','No'),(19,19,'5 x 2 x 1',63,'Yes','No'),(20,20,'12 x 10 x 2',50,'Yes','Yes'),(21,21,'3 x 6 x 12',18,'Yes','No'),(22,22,'5 x 9 x 10',7,'Yes','No'),(23,23,'2 x 8 x 2',67,'Yes','Yes'),(24,24,'6 x 1 x 8',23,'Yes','No'),(25,25,'11 x 7 x 11',85,'No','Yes'),(26,26,'9 x 10 x 5',30,'Yes','Yes'),(27,27,'6 x 12 x 10',68,'Yes','Yes'),(28,28,'9 x 6 x 2',11,'Yes','No'),(29,29,'3 x 6 x 12',75,'No','No'),(30,30,'10 x 12 x 7',31,'Yes','Yes'),(31,31,'12 x 12 x 7',40,'No','Yes'),(32,32,'9 x 4 x 9',36,'No','Yes'),(33,33,'11 x 4 x 4',73,'No','No'),(34,34,'8 x 3 x 8',57,'No','Yes'),(35,35,'9 x 1 x 5',84,'Yes','No'),(36,36,'12 x 11 x 5',6,'No','Yes'),(37,37,'3 x 3 x 1',51,'No','Yes'),(38,38,'10 x 2 x 8',70,'Yes','Yes'),(39,39,'8 x 3 x 3',71,'No','Yes'),(40,40,'3 x 12 x 8',93,'No','Yes'),(41,41,'1 x 5 x 10',23,'No','No'),(42,42,'10 x 4 x 3',63,'Yes','Yes'),(43,43,'5 x 11 x 2',94,'No','No'),(44,44,'9 x 7 x 4',75,'Yes','No'),(45,45,'3 x 5 x 1',93,'No','Yes'),(46,46,'9 x 11 x 8',95,'Yes','Yes'),(47,47,'8 x 1 x 12',34,'No','Yes'),(48,48,'11 x 12 x 2',92,'Yes','Yes'),(49,49,'7 x 1 x 3',9,'Yes','No'),(50,50,'6 x 3 x 8',15,'Yes','No'),(51,51,'10 x 5 x 10',54,'Yes','Yes'),(52,52,'12 x 12 x 3',58,'No','No'),(53,53,'11 x 4 x 10',44,'Yes','Yes'),(54,54,'10 x 8 x 11',65,'No','Yes'),(55,55,'1 x 7 x 1',12,'Yes','Yes'),(56,56,'3 x 1 x 5',79,'Yes','Yes'),(57,57,'12 x 2 x 2',19,'Yes','No'),(58,58,'10 x 4 x 1',42,'Yes','No'),(59,59,'9 x 2 x 9',95,'No','No'),(60,60,'11 x 4 x 6',11,'No','Yes'),(61,61,'1 x 12 x 10',79,'No','Yes'),(62,62,'4 x 12 x 11',17,'No','No'),(63,63,'7 x 1 x 12',23,'No','Yes'),(64,64,'9 x 3 x 9',59,'No','No'),(65,65,'9 x 2 x 7',61,'Yes','Yes'),(66,66,'2 x 9 x 10',31,'Yes','No'),(67,67,'4 x 8 x 6',62,'Yes','Yes'),(68,68,'9 x 6 x 12',54,'No','No'),(69,69,'1 x 3 x 1',93,'Yes','Yes'),(70,70,'3 x 10 x 11',1,'Yes','Yes'),(71,71,'2 x 10 x 4',25,'No','No'),(72,72,'10 x 8 x 8',97,'Yes','No'),(73,73,'8 x 10 x 5',80,'Yes','Yes'),(74,74,'4 x 1 x 5',45,'Yes','No'),(75,75,'6 x 7 x 1',29,'No','No'),(76,76,'7 x 1 x 4',86,'No','Yes'),(77,77,'5 x 3 x 3',87,'Yes','Yes'),(78,78,'9 x 7 x 9',61,'No','Yes'),(79,79,'11 x 3 x 3',14,'Yes','No'),(80,80,'8 x 4 x 2',23,'No','Yes'),(81,81,'6 x 5 x 1',42,'No','Yes'),(82,82,'5 x 3 x 11',71,'No','No'),(83,83,'5 x 9 x 7',68,'Yes','Yes'),(84,84,'3 x 10 x 5',53,'Yes','No'),(85,85,'10 x 3 x 9',34,'No','Yes'),(86,86,'5 x 12 x 11',74,'No','No'),(87,87,'12 x 6 x 5',95,'Yes','No'),(88,88,'10 x 10 x 2',5,'No','Yes'),(89,89,'10 x 6 x 4',91,'Yes','Yes'),(90,90,'7 x 1 x 6',62,'Yes','Yes'),(91,91,'3 x 6 x 2',42,'No','No'),(92,92,'6 x 7 x 3',44,'No','No'),(93,93,'12 x 6 x 3',53,'Yes','No'),(94,94,'7 x 6 x 8',25,'No','Yes'),(95,95,'3 x 12 x 1',47,'No','No'),(96,96,'11 x 3 x 8',6,'No','Yes'),(97,97,'3 x 5 x 2',31,'No','No'),(98,98,'12 x 7 x 5',41,'Yes','Yes'),(99,99,'7 x 9 x 4',48,'No','No'),(100,100,'6 x 9 x 1',37,'Yes','Yes'),(101,1,'3 x 6 x 9',62,'No','Yes'),(102,2,'12 x 12 x 11',67,'No','Yes'),(103,3,'8 x 11 x 11',55,'No','Yes'),(104,4,'11 x 5 x 3',79,'No','No'),(105,5,'6 x 7 x 4',53,'No','Yes'),(106,6,'4 x 9 x 12',29,'Yes','No'),(107,7,'9 x 12 x 1',50,'Yes','Yes'),(108,8,'1 x 7 x 3',92,'No','Yes'),(109,9,'5 x 7 x 4',27,'No','Yes'),(110,10,'9 x 8 x 2',59,'No','Yes'),(111,11,'9 x 2 x 12',76,'Yes','Yes'),(112,12,'2 x 7 x 1',83,'Yes','No'),(113,13,'7 x 5 x 9',49,'Yes','No'),(114,14,'7 x 4 x 8',57,'No','No'),(115,15,'2 x 8 x 5',21,'No','Yes'),(116,16,'12 x 6 x 8',88,'Yes','Yes'),(117,17,'4 x 4 x 2',7,'No','No'),(118,18,'3 x 4 x 3',98,'No','No'),(119,19,'5 x 2 x 1',63,'Yes','No'),(120,20,'12 x 10 x 2',50,'Yes','Yes'),(121,21,'3 x 6 x 12',18,'Yes','No'),(122,22,'5 x 9 x 10',7,'Yes','No'),(123,23,'2 x 8 x 2',67,'Yes','Yes'),(124,24,'6 x 1 x 8',23,'Yes','No'),(125,25,'11 x 7 x 11',85,'No','Yes'),(126,26,'9 x 10 x 5',30,'Yes','Yes'),(127,27,'6 x 12 x 10',68,'Yes','Yes'),(128,28,'9 x 6 x 2',11,'Yes','No'),(129,29,'3 x 6 x 12',75,'No','No'),(130,30,'10 x 12 x 7',31,'Yes','Yes'),(131,31,'12 x 12 x 7',40,'No','Yes'),(132,32,'9 x 4 x 9',36,'No','Yes'),(133,33,'11 x 4 x 4',73,'No','No'),(134,34,'8 x 3 x 8',57,'No','Yes'),(135,35,'9 x 1 x 5',84,'Yes','No'),(136,36,'12 x 11 x 5',6,'No','Yes'),(137,37,'3 x 3 x 1',51,'No','Yes'),(138,38,'10 x 2 x 8',70,'Yes','Yes'),(139,39,'8 x 3 x 3',71,'No','Yes'),(140,40,'3 x 12 x 8',93,'No','Yes'),(141,41,'1 x 5 x 10',23,'No','No'),(142,42,'10 x 4 x 3',63,'Yes','Yes'),(143,43,'5 x 11 x 2',94,'No','No'),(144,44,'9 x 7 x 4',75,'Yes','No'),(145,45,'3 x 5 x 1',93,'No','Yes'),(146,46,'9 x 11 x 8',95,'Yes','Yes'),(147,47,'8 x 1 x 12',34,'No','Yes'),(148,48,'11 x 12 x 2',92,'Yes','Yes'),(149,49,'7 x 1 x 3',9,'Yes','No'),(150,50,'6 x 3 x 8',15,'Yes','No'),(151,51,'10 x 5 x 10',54,'Yes','Yes'),(152,52,'12 x 12 x 3',58,'No','No'),(153,53,'11 x 4 x 10',44,'Yes','Yes'),(154,54,'10 x 8 x 11',65,'No','Yes'),(155,55,'1 x 7 x 1',12,'Yes','Yes'),(156,56,'3 x 1 x 5',79,'Yes','Yes'),(157,57,'12 x 2 x 2',19,'Yes','No'),(158,58,'10 x 4 x 1',42,'Yes','No'),(159,59,'9 x 2 x 9',95,'No','No'),(160,60,'11 x 4 x 6',11,'No','Yes'),(161,61,'1 x 12 x 10',79,'No','Yes'),(162,62,'4 x 12 x 11',17,'No','No'),(163,63,'7 x 1 x 12',23,'No','Yes'),(164,64,'9 x 3 x 9',59,'No','No'),(165,65,'9 x 2 x 7',61,'Yes','Yes'),(166,66,'2 x 9 x 10',31,'Yes','No'),(167,67,'4 x 8 x 6',62,'Yes','Yes'),(168,68,'9 x 6 x 12',54,'No','No'),(169,69,'1 x 3 x 1',93,'Yes','Yes'),(170,70,'3 x 10 x 11',1,'Yes','Yes'),(171,71,'2 x 10 x 4',25,'No','No'),(172,72,'10 x 8 x 8',97,'Yes','No'),(173,73,'8 x 10 x 5',80,'Yes','Yes'),(174,74,'4 x 1 x 5',45,'Yes','No'),(175,75,'6 x 7 x 1',29,'No','No'),(176,76,'7 x 1 x 4',86,'No','Yes'),(177,77,'5 x 3 x 3',87,'Yes','Yes'),(178,78,'9 x 7 x 9',61,'No','Yes'),(179,79,'11 x 3 x 3',14,'Yes','No'),(180,80,'8 x 4 x 2',23,'No','Yes'),(181,81,'6 x 5 x 1',42,'No','Yes'),(182,82,'5 x 3 x 11',71,'No','No'),(183,83,'5 x 9 x 7',68,'Yes','Yes'),(184,84,'3 x 10 x 5',53,'Yes','No'),(185,85,'10 x 3 x 9',34,'No','Yes'),(186,86,'5 x 12 x 11',74,'No','No'),(187,87,'12 x 6 x 5',95,'Yes','No'),(188,88,'10 x 10 x 2',5,'No','Yes'),(189,89,'10 x 6 x 4',91,'Yes','Yes'),(190,90,'7 x 1 x 6',62,'Yes','Yes'),(191,91,'3 x 6 x 2',42,'No','No'),(192,92,'6 x 7 x 3',44,'No','No'),(193,93,'12 x 6 x 3',53,'Yes','No'),(194,94,'7 x 6 x 8',25,'No','Yes'),(195,95,'3 x 12 x 1',47,'No','No'),(196,96,'11 x 3 x 8',6,'No','Yes'),(197,97,'3 x 5 x 2',31,'No','No'),(198,98,'12 x 7 x 5',41,'Yes','Yes'),(199,99,'7 x 9 x 4',48,'No','No'),(200,100,'6 x 9 x 1',37,'Yes','Yes');
 /*!40000 ALTER TABLE `packages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -228,9 +234,9 @@ CREATE TABLE `payments` (
   `DatePaid` datetime NOT NULL,
   `paymentscol` varchar(45) NOT NULL,
   PRIMARY KEY (`AccoutNumber`,`ShipmentID`),
-  KEY `ShipmentIDFK_idx` (`ShipmentID`),
+  KEY `ShipmentID_idx` (`ShipmentID`),
   CONSTRAINT `AcountNumFK` FOREIGN KEY (`AccoutNumber`) REFERENCES `account` (`AccountID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ShipmentIDPaymentFK` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT `ShipmentID` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -364,6 +370,7 @@ CREATE TABLE `tracking` (
 
 LOCK TABLES `tracking` WRITE;
 /*!40000 ALTER TABLE `tracking` DISABLE KEYS */;
+INSERT INTO `tracking` VALUES (1,'2016-11-23 00:58:47','Shangmofang','In Transit','Freight'),(2,'2016-09-08 21:03:27','Arroio do Meio','In Transit','Air'),(3,'2017-02-27 10:18:38','Usman’','In Transit','Rail'),(4,'2016-08-14 02:00:04','Chalon-sur-Saône','In Transit','Air'),(5,'2016-04-21 10:58:50','Jinchang','In Transit','Freight'),(6,'2016-11-13 18:39:30','Fundación','In Transit','Freight'),(7,'2016-12-24 21:16:46','Arāk','In Transit','Air'),(8,'2016-07-31 00:03:23','Shiyuetian','In Transit','Rail'),(9,'2016-08-26 10:12:33','Trondheim','In Transit','Air'),(10,'2016-08-31 17:05:39','Kičevo','In Transit','Air'),(11,'2016-03-29 23:36:02','Berezniki','In Transit','Freight'),(12,'2016-08-31 17:23:39','Bremen','In Transit','Air'),(13,'2016-08-22 05:09:14','Columbeira','In Transit','Rail'),(14,'2016-04-29 02:58:43','Surcubamba','In Transit','Freight'),(15,'2016-09-05 12:00:03','Oropéndolas','In Transit','Air'),(16,'2016-12-07 13:14:10','Yoro','In Transit','Freight'),(17,'2016-12-20 06:12:19','Brzączowice','In Transit','Air'),(18,'2017-02-10 01:01:54','Pereira','In Transit','Freight'),(19,'2016-06-09 22:59:17','Chahe','In Transit','Rail'),(20,'2017-01-02 22:35:11','Ljupina','In Transit','Freight'),(21,'2017-02-14 16:55:31','Huancheng','In Transit','Freight'),(22,'2016-05-02 05:24:50','Pasar','In Transit','Air'),(23,'2016-06-07 23:18:13','Macroom','In Transit','Rail'),(24,'2016-12-22 10:43:01','Vitry-sur-Seine','In Transit','Freight'),(25,'2017-02-25 08:04:19','Orito','In Transit','Freight'),(26,'2017-01-10 21:44:21','Moycullen','In Transit','Air'),(27,'2016-12-11 19:05:12','Odessa','In Transit','Rail'),(28,'2017-01-20 15:38:58','Anlu','In Transit','Freight'),(29,'2016-07-27 07:35:39','El Corozal','In Transit','Freight'),(30,'2016-07-27 07:39:57','Pashiya','In Transit','Rail'),(31,'2016-04-09 13:53:04','Kaiyun','In Transit','Air'),(32,'2016-08-10 10:00:04','Shitong','In Transit','Freight'),(33,'2017-03-12 03:07:13','Urzhar','In Transit','Rail'),(34,'2016-09-17 15:01:50','Machachi','In Transit','Rail'),(35,'2017-01-30 07:40:34','Vrané nad Vltavou','In Transit','Rail'),(36,'2016-11-23 04:35:33','Osasco','In Transit','Freight'),(37,'2017-02-24 15:12:59','Västerås','In Transit','Freight'),(38,'2016-06-14 13:04:20','Dobra','In Transit','Rail'),(39,'2016-04-03 10:52:01','São Paulo','In Transit','Freight'),(40,'2016-08-11 08:32:30','Serrinha','In Transit','Air'),(41,'2016-05-17 23:39:24','Biliri','In Transit','Freight'),(42,'2016-06-10 03:33:04','Pukhavichy','In Transit','Air'),(43,'2016-11-10 22:18:02','Pukë','In Transit','Rail'),(44,'2016-04-01 00:30:18','Alicia','In Transit','Freight'),(45,'2016-12-05 19:30:12','Ratenggoji','In Transit','Air'),(46,'2016-04-11 15:58:36','Arroyo Salado','In Transit','Rail'),(47,'2016-04-17 11:39:37','Berestechko','In Transit','Rail'),(48,'2016-12-06 21:27:27','Maïné Soroa','In Transit','Rail'),(49,'2016-07-01 22:54:29','Rumāh','In Transit','Air'),(50,'2016-10-23 05:33:11','Girón','In Transit','Air'),(51,'2016-07-14 21:11:15','Weston','In Transit','Air'),(52,'2016-12-30 03:36:33','Balekersukamaju','In Transit','Freight'),(53,'2016-08-27 13:20:00','Borovo','In Transit','Freight'),(54,'2016-07-24 16:32:32','Shimen','In Transit','Freight'),(55,'2017-02-01 20:51:51','Tembayangan Barat','In Transit','Freight'),(56,'2017-01-31 21:54:15','Gurbuki','In Transit','Rail'),(57,'2017-03-09 09:34:18','Tarakan','In Transit','Air'),(58,'2016-08-24 16:31:28','Santol','In Transit','Rail'),(59,'2016-06-24 03:32:50','Bayaguana','In Transit','Air'),(60,'2017-01-16 15:00:04','Villa Florida','In Transit','Freight'),(61,'2016-04-27 20:14:53','Saskylakh','In Transit','Air'),(62,'2016-12-14 03:29:25','Pryazha','In Transit','Air'),(63,'2016-04-02 14:55:00','Gaofeng','In Transit','Freight'),(64,'2016-08-30 20:07:52','Sabanagrande','In Transit','Freight'),(65,'2016-07-18 01:55:57','Monze','In Transit','Rail'),(66,'2017-03-08 00:31:26','Nepomuceno','In Transit','Air'),(67,'2016-08-29 03:50:48','Kyzyl-Kyya','In Transit','Rail'),(68,'2017-01-02 15:43:52','Jiuxian','In Transit','Freight'),(69,'2016-06-23 02:13:58','Kopychyntsi','In Transit','Air'),(70,'2016-12-04 14:46:27','Marathókampos','In Transit','Freight'),(71,'2017-03-04 19:52:45','Santa María de Caparo','In Transit','Rail'),(72,'2016-08-04 06:29:49','Chinameca','In Transit','Freight'),(73,'2016-10-10 17:25:31','San Pablo','In Transit','Air'),(74,'2016-11-10 10:19:14','Caohezhang','In Transit','Freight'),(75,'2017-02-16 07:42:34','Salinggara','In Transit','Freight'),(76,'2017-01-10 09:48:23','Heba','In Transit','Air'),(77,'2016-12-09 12:25:09','Shangrao','In Transit','Rail'),(78,'2017-01-18 03:39:07','Rossosh’','In Transit','Freight'),(79,'2016-09-20 08:03:48','Porecatu','In Transit','Freight'),(80,'2016-03-31 07:48:15','Metsamor','In Transit','Air'),(81,'2016-10-05 05:09:37','Souziqiu','In Transit','Freight'),(82,'2017-01-03 14:39:17','Esmeraldas','In Transit','Rail'),(83,'2016-10-29 00:07:32','Washington','In Transit','Freight'),(84,'2017-01-24 08:35:01','Dayr Sāmit','In Transit','Rail'),(85,'2016-06-21 10:57:57','Pagatan','In Transit','Rail'),(86,'2016-07-16 01:16:03','Saumur','In Transit','Rail'),(87,'2016-05-30 07:29:38','Cachoeiras de Macacu','In Transit','Freight'),(88,'2016-07-15 21:17:26','Liucheng','In Transit','Air'),(89,'2016-12-06 03:18:14','San Casimiro','In Transit','Freight'),(90,'2016-09-08 07:04:30','Ia Kha','In Transit','Air'),(91,'2016-06-20 03:37:26','Tarłów','In Transit','Freight'),(92,'2016-05-01 14:47:11','Santiago del Estero','In Transit','Air'),(93,'2016-10-27 05:12:40','Catujal','In Transit','Freight'),(94,'2016-09-17 15:37:20','Xinzheng','In Transit','Air'),(95,'2016-08-31 06:47:56','Hīrna','In Transit','Rail'),(96,'2016-05-09 15:33:31','Bến Cầu','In Transit','Rail'),(97,'2017-01-02 07:40:23','Aguas del Padre','In Transit','Air'),(98,'2016-10-24 16:54:57','Uiasa','In Transit','Freight'),(99,'2016-06-15 17:36:38','Hujirt','In Transit','Air'),(100,'2016-11-07 04:13:23','Banyliv','In Transit','Rail');
 /*!40000 ALTER TABLE `tracking` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -376,4 +383,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-03-23 14:30:36
+-- Dump completed on 2017-03-29 13:44:00
