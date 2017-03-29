@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
@@ -18,6 +20,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
+
+import net.proteanit.sql.DbUtils;
+
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -31,8 +36,10 @@ import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.JTable;
+import javax.swing.JScrollPane;
 
-public class ShippingInformationInput {
+public class AlexsPreTestingFourm {
 
 	private JFrame frame;
 	private JTextField Customer_ID;
@@ -49,13 +56,13 @@ public class ShippingInformationInput {
 	 */
 	
 	public static void main(String[] args) throws ClassNotFoundException,SQLException{
-		Class.forName("com.mysql.jdbc.Driver");
+		
 
 		EventQueue.invokeLater(new Runnable() {
 			
 			public void run() {
 				try {
-					ShippingInformationInput window = new ShippingInformationInput();
+					AlexsPreTestingFourm window = new AlexsPreTestingFourm();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -67,24 +74,30 @@ public class ShippingInformationInput {
 	/**
 	 * Create the application.
 	 */
-	public ShippingInformationInput() {
+	
+	static Connection connection=null;
+	private JTable table;
+	
+	public AlexsPreTestingFourm() {
 		
 		initialize();
+		
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
+	
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 761, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		
 		
 		JButton btnClickMe = new JButton("Click Me!");
-		btnClickMe.setBounds(10, 218, 414, 32);
+		btnClickMe.setBounds(10, 218, 183, 32);
 		btnClickMe.setFont(new Font("Palatino Linotype", Font.BOLD, 29));
 		btnClickMe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -151,15 +164,49 @@ public class ShippingInformationInput {
 		chckbx_Hazard.setBounds(107, 143, 97, 23);
 		frame.getContentPane().add(chckbx_Hazard);
 		
+		JButton button = new JButton("Click Me!");
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				connection=sqlConnection.dbConnector();
+				try {
+					String CID = Customer_ID.getText();
+					String query="select * from shipment where cid = '"+CID+"';";
+					PreparedStatement pst= connection.prepareStatement(query);
+					ResultSet rs=pst.executeQuery();
+					
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		button.setFont(new Font("Palatino Linotype", Font.BOLD, 29));
+		button.setBounds(336, 218, 183, 32);
+		frame.getContentPane().add(button);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(235, 14, 391, 191);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		
 		
 	}
 	
 	
 	public void submitSQL() throws ClassNotFoundException,SQLException{
 
-		String connectionURL = "jdbc:mysql://localhost:3306/projecttest?autoReconnect=true&useSSL=false";
-		Connection connection = DriverManager.getConnection(connectionURL, "root", "integertombob");
-		Statement statement = connection.createStatement();
+		
 		//Table Creation
 		
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -276,13 +323,14 @@ public class ShippingInformationInput {
 		System.out.println(ShipType);
 		
 		String thedate = dtf.format(now);
-		
-		String insertintosql = "insert into shipment  (CID, Destination, ShipType, ShipDate)  VALUES  ('"+CID+"','"+PDestination+"','"+ShipType+"','"+thedate+"');";
-		
-		statement.executeUpdate(insertintosql);
-		
-	//	String pullback = "select idshipment from shipment where cid = "+CID+" and ShipDate = "+thedate+";";
-		//statement.executeUpdate(pullback);
+		connection=sqlConnection.dbConnector();
+		try{
+			PreparedStatement posted = connection.prepareStatement("insert into shipment  (CID, Destination, ShipType, ShipDate)  VALUES  ('"+CID+"','"+PDestination+"','"+ShipType+"','"+thedate+"');");
+			posted.executeUpdate();
+		} catch(Exception e) {System.out.println(e);}
+		finally{
+			System.out.println("insert completed");
+			};
 		
 		
 		
@@ -290,5 +338,4 @@ public class ShippingInformationInput {
 
 		
 	}
-	
 }
