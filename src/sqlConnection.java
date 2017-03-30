@@ -9,7 +9,7 @@ public class sqlConnection {
 			String driver = "com.mysql.jdbc.Driver";
 			String url = "jdbc:mysql://localhost:3306/cit345groupproject?autoReconnect=true&useSSL=false";
 			String username = "root";
-			String password = "integertombob";
+			String password = "Password123";
 			
 			Class.forName(driver);
 			

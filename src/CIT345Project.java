@@ -892,7 +892,8 @@ public class CIT345Project extends JFrame {
 		TPP_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SID = TPP_number.getText();
-				System.out.println(SID);
+				// system.out.println used for testing
+				//System.out.println(SID);
 				MainCard.removeAll();
 				MainCard.add(TrackPackageResult);
 				MainCard.repaint();
@@ -907,7 +908,8 @@ public class CIT345Project extends JFrame {
 				TPR_table = new JTable();
 				
 				try {
-					System.out.println("tracking page " + SID);
+					// system.out.println is used for testing
+					//System.out.println("tracking page " + SID);
 					String query="select tracking.Date, tracking.CurrentLocation, tracking.Status, tracking.CurrentMode from tracking join shipment on 					tracking.shipmentid = shipment.ShipmentID WHERE shipment.ShipmentID='"+SID+"' ORDER BY tracking.Date;";
 					PreparedStatement pst= connection.prepareStatement(query);
 					ResultSet rs=pst.executeQuery();
