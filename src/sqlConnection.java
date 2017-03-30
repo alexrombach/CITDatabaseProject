@@ -7,7 +7,7 @@ public class sqlConnection {
 	{
 		try{
 			String driver = "com.mysql.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/projecttest?autoReconnect=true&useSSL=false";
+			String url = "jdbc:mysql://localhost:3306/cit345groupproject?autoReconnect=true&useSSL=false";
 			String username = "root";
 			String password = "integertombob";
 			

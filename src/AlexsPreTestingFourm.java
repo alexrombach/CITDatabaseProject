@@ -170,7 +170,7 @@ public class AlexsPreTestingFourm {
 				connection=sqlConnection.dbConnector();
 				try {
 					String CID = Customer_ID.getText();
-					String query="select * from shipment where cid = '"+CID+"';";
+					String query="select * from customer where customerid = '"+CID+"';";
 					PreparedStatement pst= connection.prepareStatement(query);
 					ResultSet rs=pst.executeQuery();
 					
