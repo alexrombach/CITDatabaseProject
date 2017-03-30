@@ -8,6 +8,10 @@ import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -24,6 +28,9 @@ import java.awt.GridLayout;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import net.proteanit.sql.DbUtils;
+
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
 import java.awt.ScrollPane;
@@ -94,6 +101,7 @@ public class CIT345Project extends JFrame {
 	private JTextField SF_dimensions;
 	private JTextField SF_contents;
 	private JTextField SF_value;
+	String SID;
 	/**
 	 * Launch the application.
 	 */
@@ -868,7 +876,6 @@ public class CIT345Project extends JFrame {
 		});
 		
 		//-------Track Package Page-------//
-		
 		JLabel lblTracking = new JLabel("Tracking #");
 		lblTracking.setFont(new Font("Candara", Font.PLAIN, 18));
 		lblTracking.setBounds(97, 152, 86, 44);
@@ -884,6 +891,8 @@ public class CIT345Project extends JFrame {
 		TrackPackagePage_bot.add(TPP_search);
 		TPP_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				SID = TPP_number.getText();
+				System.out.println(SID);
 				MainCard.removeAll();
 				MainCard.add(TrackPackageResult);
 				MainCard.repaint();
@@ -893,6 +902,23 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(TrackPackageResult_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+				TPR_table = new JTable();
+				
+				try {
+					System.out.println("tracking page " + SID);
+					String query="select tracking.Date, tracking.CurrentLocation, tracking.Status, tracking.CurrentMode from tracking join shipment on 					tracking.shipmentid = shipment.ShipmentID WHERE shipment.ShipmentID='"+SID+"' ORDER BY tracking.Date;";
+					PreparedStatement pst= connection.prepareStatement(query);
+					ResultSet rs=pst.executeQuery();
+					
+					TPR_table.setModel(DbUtils.resultSetToTableModel(rs));
+					TrackPackageResult.setViewportView(TPR_table);
+					
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		
@@ -926,23 +952,13 @@ public class CIT345Project extends JFrame {
 				}
 				
 		});
-		
+
 		//-------Track Package Result Page-------//
 		
 		JLabel lblShipmentIdAnd = new JLabel("Shipment ID and Estimated Delivery Date");
 		lblShipmentIdAnd.setFont(new Font("Candara", Font.PLAIN, 18));
 		lblShipmentIdAnd.setHorizontalAlignment(SwingConstants.CENTER);
 		TrackPackageResult.setColumnHeaderView(lblShipmentIdAnd);
-		
-		TPR_table = new JTable();
-		TPR_table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null},
-			},
-			new String[] {
-				"Location", "Date", "Status", "Mode"
-			}
-		));
 		TrackPackageResult.setViewportView(TPR_table);
 		
 		JButton TPR_trackAnother = new JButton("Search Another Package");
