@@ -910,7 +910,7 @@ public class CIT345Project extends JFrame {
 				try {
 					// system.out.println is used for testing
 					//System.out.println("tracking page " + SID);
-					String query="select tracking.Date, tracking.CurrentLocation, tracking.Status, tracking.CurrentMode from tracking join shipment on 					tracking.shipmentid = shipment.ShipmentID WHERE shipment.ShipmentID='"+SID+"' ORDER BY tracking.Date;";
+					String query="select tracking.Date, tracking.CurrentLocation, tracking.Status, tracking.CurrentMode from tracking join shipment on 					tracking.shipmentid = shipment.ShipmentID WHERE shipment.ShipmentID='"+SID+"' ORDER BY tracking.Date DESC;";
 					PreparedStatement pst= connection.prepareStatement(query);
 					ResultSet rs=pst.executeQuery();
 					
