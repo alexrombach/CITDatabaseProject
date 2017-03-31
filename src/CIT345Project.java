@@ -7,6 +7,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.CardLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -45,15 +47,16 @@ import javax.swing.JPasswordField;
 public class CIT345Project extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField NFC_fName;
-	private JTextField NFC_lName;
-	private JTextField NFC_street;
-	private JTextField NFC_city;
-	private JTextField NFC_zip;
-	private JTextField NFC_phone1;
-	private JTextField NFC_phone2;
-	private JTextField NFC_email;
-	private JTextField NFC_phone3;
+	public JTextField NCF_fName;
+	public JTextField NCF_lName;
+	public JTextField NCF_street;
+	public JTextField NCF_city;
+	public JTextField NCF_zip;
+	public JTextField NCF_phone1;
+	public JTextField NCF_phone2;
+	public JTextField NCF_email;
+	public JTextField NCF_phone3;
+	public JComboBox NCF_state;
 	private JTextField CS_fName;
 	private JTextField CS_lName;
 	private JTextField CS_email;
@@ -82,9 +85,6 @@ public class CIT345Project extends JFrame {
 	private JTextField CIP_username;
 	private JTable ChargeTable;
 	private JTable PaymentTable;
-	
-	public boolean customerCheck = false;
-	sqlConnection sqlcon = new sqlConnection();
 	private JTextField HP_username;
 	private JPasswordField HP_password;
 	private JTextField MAP_fname;
@@ -101,7 +101,14 @@ public class CIT345Project extends JFrame {
 	private JTextField SF_dimensions;
 	private JTextField SF_contents;
 	private JTextField SF_value;
-	String SID;
+	
+	public static boolean customerCheck = false;
+	public static String SID;
+	public static int CID;
+	
+
+	Methods methods; //reference to method java class
+
 	/**
 	 * Launch the application.
 	 */
@@ -128,6 +135,7 @@ public class CIT345Project extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		
 		
 		//Panel Creation
 		JPanel mainScreen = new JPanel();
@@ -334,7 +342,9 @@ public class CIT345Project extends JFrame {
 		StartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					
-				sqlcon.dbConnector();
+				
+				methods = new Methods();
+				methods.connectToDB();
 				
 				MainCard.removeAll();
 				MainCard.add(HomePage);
@@ -515,20 +525,20 @@ public class CIT345Project extends JFrame {
 		NFC_fnameHeading.setBounds(43, 41, 92, 20);
 		NewCustomerForm.add(NFC_fnameHeading);
 		
-		NFC_fName = new JTextField();
-		NFC_fName.setBounds(115, 41, 111, 20);
-		NFC_fName.setColumns(10);
-		NewCustomerForm.add(NFC_fName);
+		NCF_fName = new JTextField();
+		NCF_fName.setBounds(115, 41, 111, 20);
+		NCF_fName.setColumns(10);
+		NewCustomerForm.add(NCF_fName);
 		
 		JLabel label_3 = new JLabel("Last Name");
 		label_3.setBounds(44, 82, 102, 20);
 		label_3.setHorizontalAlignment(SwingConstants.LEFT);
 		NewCustomerForm.add(label_3);
 		
-		NFC_lName = new JTextField();
-		NFC_lName.setBounds(115, 82, 111, 20);
-		NFC_lName.setColumns(10);
-		NewCustomerForm.add(NFC_lName);
+		NCF_lName = new JTextField();
+		NCF_lName.setBounds(115, 82, 111, 20);
+		NCF_lName.setColumns(10);
+		NewCustomerForm.add(NCF_lName);
 		
 		JLabel label_4 = new JLabel("Address");
 		label_4.setBounds(29, 123, 80, 19);
@@ -538,19 +548,19 @@ public class CIT345Project extends JFrame {
 		label_5.setBounds(54, 156, 55, 20);
 		NewCustomerForm.add(label_5);
 		
-		NFC_street = new JTextField();
-		NFC_street.setBounds(115, 156, 237, 20);
-		NFC_street.setColumns(10);
-		NewCustomerForm.add(NFC_street);
+		NCF_street = new JTextField();
+		NCF_street.setBounds(115, 156, 237, 20);
+		NCF_street.setColumns(10);
+		NewCustomerForm.add(NCF_street);
 		
 		JLabel label_6 = new JLabel("City");
 		label_6.setBounds(59, 187, 50, 21);
 		NewCustomerForm.add(label_6);
 		
-		NFC_city = new JTextField();
-		NFC_city.setBounds(115, 187, 111, 20);
-		NFC_city.setColumns(10);
-		NewCustomerForm.add(NFC_city);
+		NCF_city = new JTextField();
+		NCF_city.setBounds(115, 187, 111, 20);
+		NCF_city.setColumns(10);
+		NewCustomerForm.add(NCF_city);
 		
 		JLabel label_7 = new JLabel("State");
 		label_7.setBounds(257, 190, 53, 14);
@@ -560,10 +570,10 @@ public class CIT345Project extends JFrame {
 		label_8.setBounds(62, 233, 47, 14);
 		NewCustomerForm.add(label_8);
 		
-		NFC_zip = new JTextField();
-		NFC_zip.setBounds(115, 228, 111, 19);
-		NFC_zip.setColumns(10);
-		NewCustomerForm.add(NFC_zip);
+		NCF_zip = new JTextField();
+		NCF_zip.setBounds(115, 228, 111, 19);
+		NCF_zip.setColumns(10);
+		NewCustomerForm.add(NCF_zip);
 		
 		JLabel label_9 = new JLabel("Contact");
 		label_9.setBounds(29, 258, 80, 14);
@@ -573,35 +583,35 @@ public class CIT345Project extends JFrame {
 		lblPhone.setBounds(48, 281, 61, 14);
 		NewCustomerForm.add(lblPhone);
 		
-		NFC_phone1 = new JTextField();
-		NFC_phone1.setBounds(115, 278, 35, 20);
-		NFC_phone1.setColumns(10);
-		NewCustomerForm.add(NFC_phone1);
+		NCF_phone1 = new JTextField();
+		NCF_phone1.setBounds(115, 278, 35, 20);
+		NCF_phone1.setColumns(10);
+		NewCustomerForm.add(NCF_phone1);
 		
-		NFC_phone2 = new JTextField();
-		NFC_phone2.setBounds(160, 278, 35, 20);
-		NFC_phone2.setColumns(10);
-		NewCustomerForm.add(NFC_phone2);
+		NCF_phone2 = new JTextField();
+		NCF_phone2.setBounds(160, 278, 35, 20);
+		NCF_phone2.setColumns(10);
+		NewCustomerForm.add(NCF_phone2);
 		
-		NFC_phone3 = new JTextField();
-		NFC_phone3.setBounds(205, 278, 55, 20);
-		NFC_phone3.setColumns(10);
-		NewCustomerForm.add(NFC_phone3);
+		NCF_phone3 = new JTextField();
+		NCF_phone3.setBounds(205, 278, 55, 20);
+		NCF_phone3.setColumns(10);
+		NewCustomerForm.add(NCF_phone3);
 		
 		JLabel label_11 = new JLabel("Email ");
 		label_11.setBounds(55, 315, 54, 14);
 		NewCustomerForm.add(label_11);
 		
-		NFC_email = new JTextField();
-		NFC_email.setBounds(115, 312, 111, 20);
-		NFC_email.setColumns(10);
-		NewCustomerForm.add(NFC_email);
+		NCF_email = new JTextField();
+		NCF_email.setBounds(115, 312, 111, 20);
+		NCF_email.setColumns(10);
+		NewCustomerForm.add(NCF_email);
 		
-		JComboBox NFC_state = new JComboBox();
-		NFC_state.setBounds(297, 187, 55, 20);
-		NFC_state.setModel(new DefaultComboBoxModel(new String[] {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}));
-		NFC_state.setMaximumRowCount(10);
-		NewCustomerForm.add(NFC_state);
+		NCF_state = new JComboBox();
+		NCF_state.setBounds(297, 187, 55, 20);
+		NCF_state.setModel(new DefaultComboBoxModel(new String[] {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}));
+		NCF_state.setMaximumRowCount(10);
+		NewCustomerForm.add(NCF_state);
 		
 		
 		JButton NCF_Save = new JButton("Save");
@@ -609,8 +619,22 @@ public class CIT345Project extends JFrame {
 		NewCustomerForm_bot.add(NCF_Save);
 		NCF_Save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				customerCheck = true;
 				
+				
+				String fname = NCF_fName.getText();
+				String lname = NCF_lName.getText();
+				String street = NCF_street.getText();
+				String city = NCF_city.getText();
+				String zip = NCF_zip.getText();
+				String phone1 = NCF_phone1.getText();
+				String phone2 = NCF_phone2.getText();
+				String phone3 = NCF_phone3.getText();
+				String email = NCF_email.getText();
+				String state = NCF_state.getSelectedItem().toString();
+
+				methods.addNewCustomer(fname,lname,street,city,phone1,phone2,phone3,email,state,zip);
+
+				if (customerCheck ==true){
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
@@ -619,7 +643,9 @@ public class CIT345Project extends JFrame {
 				BottomCard.removeAll();
 				BottomCard.add(ActionPage_bot);
 				BottomCard.repaint();
-				BottomCard.revalidate();
+				BottomCard.revalidate();	
+				}
+				
 			}
 		});
 		
@@ -903,11 +929,10 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(TrackPackageResult_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
-				Connection connection;
-				connection=sqlConnection.dbConnector();
+				
 				TPR_table = new JTable();
 				
-				try {
+				/*try {
 					// system.out.println is used for testing
 					//System.out.println("tracking page " + SID);
 					String query="select tracking.Date, tracking.CurrentLocation, tracking.Status, tracking.CurrentMode from tracking join shipment on 					tracking.shipmentid = shipment.ShipmentID WHERE shipment.ShipmentID='"+SID+"' ORDER BY tracking.Date DESC;";
@@ -920,7 +945,7 @@ public class CIT345Project extends JFrame {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}
+				}*/
 			}
 		});
 		
