@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
 import javax.swing.SwingConstants;
@@ -43,20 +45,26 @@ import javax.swing.JTextArea;
 import java.awt.Color;
 import javax.swing.JSeparator;
 import javax.swing.JPasswordField;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.InputMethodListener;
+import java.awt.event.InputMethodEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class CIT345Project extends JFrame {
 
 	private JPanel contentPane;
-	public JTextField NCF_fName;
-	public JTextField NCF_lName;
-	public JTextField NCF_street;
-	public JTextField NCF_city;
-	public JTextField NCF_zip;
-	public JTextField NCF_phone1;
-	public JTextField NCF_phone2;
-	public JTextField NCF_email;
-	public JTextField NCF_phone3;
-	public JComboBox NCF_state;
+	private JTextField NCF_fName;
+	private JTextField NCF_lName;
+	private JTextField NCF_street;
+	private JTextField NCF_city;
+	private JTextField NCF_zip;
+	private JTextField NCF_phone1;
+	private JTextField NCF_phone2;
+	private JTextField NCF_email;
+	private JTextField NCF_phone3;
+	private JComboBox NCF_state;
 	private JTextField CS_fName;
 	private JTextField CS_lName;
 	private JTextField CS_email;
@@ -73,6 +81,10 @@ public class CIT345Project extends JFrame {
 	private JTextField SF_zip;
 	private JTextField SF_price;
 	private JTextField SF_deliverydate;
+	private JTextField SF_weight;
+	private JTextField SF_dimensions;
+	private JTextField SF_contents;
+	private JTextField SF_value;
 	private JTextField CIP_fname;
 	private JTextField CIP_lname;
 	private JTextField CIP_address;
@@ -97,11 +109,12 @@ public class CIT345Project extends JFrame {
 	private JTextField UTF_date;
 	private JTextField UTF_status;
 	private JTextField UTF_mode;
-	private JTextField SF_weight;
-	private JTextField SF_dimensions;
-	private JTextField SF_contents;
-	private JTextField SF_value;
-	
+
+	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	LocalDateTime now = LocalDateTime.now();
+	public static double price = 0;
+	public static String dDate;
+	public static double weight;
 	public static boolean customerCheck = false;
 	public static String SID;
 	public static int CID;
@@ -246,7 +259,13 @@ public class CIT345Project extends JFrame {
 		JPanel ShipmentForm_bot = new JPanel();
 		BottomCard.add(ShipmentForm_bot);
 		
+		JPanel ShipmentForm_bot2 = new JPanel();
+		BottomCard.add(ShipmentForm_bot2);
+		
+		
+		
 		JPanel shipSummary = new JPanel();
+		shipSummary.setVisible(false);
 		ShipmentForm.add(shipSummary, BorderLayout.SOUTH);
 		
 		//-------Customer Info Page-------//
@@ -1023,9 +1042,10 @@ public class CIT345Project extends JFrame {
 		shipFormFields.add(lblShipDate);
 		
 		SF_shipdate = new JTextField();
-		SF_shipdate.setEnabled(false);
+		SF_shipdate.setEditable(false);
 		SF_shipdate.setColumns(10);
-		SF_shipdate.setBounds(287, 8, 86, 20);
+		SF_shipdate.setBounds(287, 8, 143, 20);
+		SF_shipdate.setText(dtf.format(now));
 		shipFormFields.add(SF_shipdate);
 		
 		JLabel lblDestination = new JLabel("Destination");
@@ -1057,7 +1077,7 @@ public class CIT345Project extends JFrame {
 		shipFormFields.add(label_12);
 		
 		JComboBox SF_state = new JComboBox();
-		SF_state.setModel(new DefaultComboBoxModel(new String[] {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}));
+		SF_state.setModel(new DefaultComboBoxModel(new String[] {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "INT"}));
 		SF_state.setMaximumRowCount(10);
 		SF_state.setBounds(217, 88, 83, 20);
 		shipFormFields.add(SF_state);
@@ -1085,26 +1105,32 @@ public class CIT345Project extends JFrame {
 		JRadioButton SF_overnight = new JRadioButton("Over Night");
 		SF_overnight.setSelected(true);
 		SF_overnight.setBounds(36, 168, 97, 23);
+		SF_overnight.setActionCommand("Overnight");
 		shipFormFields.add(SF_overnight);
 		
 		JRadioButton SF_express = new JRadioButton("Express");
-		SF_express.setBounds(132, 168, 87, 23);
+		SF_express.setBounds(153, 168, 87, 23);
+		SF_express.setActionCommand("Express");
 		shipFormFields.add(SF_express);
 		
 		JRadioButton SF_regular = new JRadioButton("Regular");
-		SF_regular.setBounds(217, 168, 87, 23);
+		SF_regular.setBounds(264, 168, 87, 23);
+		SF_regular.setActionCommand("Regular");
 		shipFormFields.add(SF_regular);
 		
 		JCheckBox SF_international = new JCheckBox("International");
+		SF_international.setEnabled(false);
 		SF_international.setBounds(36, 198, 97, 23);
 		shipFormFields.add(SF_international);
 		
 		JCheckBox SF_oversized = new JCheckBox("Oversized");
-		SF_oversized.setBounds(221, 198, 97, 23);
+		SF_oversized.setEnabled(false);
+		SF_oversized.setBounds(272, 198, 97, 23);
 		shipFormFields.add(SF_oversized);
 		
 		JCheckBox SF_hazardous = new JCheckBox("Hazardous ");
-		SF_hazardous.setBounds(132, 198, 97, 23);
+		SF_hazardous.setEnabled(false);
+		SF_hazardous.setBounds(153, 198, 108, 23);
 		shipFormFields.add(SF_hazardous);
 		
 		JLabel lblShippingMethod = new JLabel("Shipping Method");
@@ -1165,13 +1191,18 @@ public class CIT345Project extends JFrame {
 		SF_value.setColumns(10);
 		SF_value.setBounds(264, 306, 86, 20);
 		shipFormFields.add(SF_value);
+		
+		JCheckBox SF_hazardousPack = new JCheckBox("Hazardous ");
+		SF_hazardousPack.setBounds(369, 288, 97, 23);
+		shipFormFields.add(SF_hazardousPack);
 		shipSummary.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		JLabel lblPrice = new JLabel("Price");
 		shipSummary.add(lblPrice);
 		
 		SF_price = new JTextField();
-		SF_price.setEnabled(false);
+		SF_price.setEditable(false);
+		SF_price.setText(Double.toString(price));
 		shipSummary.add(SF_price);
 		SF_price.setColumns(10);
 		
@@ -1179,9 +1210,52 @@ public class CIT345Project extends JFrame {
 		shipSummary.add(lblExpectedDelivery);
 		
 		SF_deliverydate = new JTextField();
-		SF_deliverydate.setEnabled(false);
+		SF_deliverydate.setEditable(false);
 		shipSummary.add(SF_deliverydate);
 		SF_deliverydate.setColumns(10);
+		
+		//international shipping status
+		SF_country.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				String country = SF_country.getSelectedItem().toString();
+					if (country != "United States"){
+						SF_contents.setEnabled(true);
+						SF_value.setEnabled(true);
+						SF_international.setSelected(true);
+						SF_state.setEnabled(false);
+						SF_state.setSelectedItem("INT");
+					} else{
+						SF_contents.setEnabled(false);
+						SF_value.setEnabled(false);
+						SF_international.setSelected(false);
+						SF_state.setEnabled(true);
+						SF_state.setSelectedItem("");
+					}
+			}
+		});
+		
+		SF_hazardousPack.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if (SF_hazardousPack.isSelected()){
+					SF_hazardous.setSelected(true);
+				} else {
+					SF_hazardous.setSelected(false);
+				}
+			}
+		});
+		
+		SF_weight.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent arg0) {
+				weight = Double.parseDouble(SF_weight.getText());
+				if (weight >= 5.0){
+					SF_oversized.setSelected(true);
+				} else {
+					SF_oversized.setSelected(false);
+				}
+			}
+		});
+		
 		
 		
 		JButton SF_submit = new JButton("Submit");
@@ -1189,15 +1263,80 @@ public class CIT345Project extends JFrame {
 		ShipmentForm_bot.add(SF_submit);
 		SF_submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainCard.removeAll();
+				
+				
+				String store = SF_storeid.getText();
+				String sdate = SF_shipdate.getText();
+				String street = SF_street.getText();
+				String city = SF_city.getText();
+				String state = SF_state.getSelectedItem().toString();
+				String zip = SF_zip.getText();
+				String country = SF_country.getSelectedItem().toString();
+				String speed = shipSpeed.getSelection().getActionCommand();
+				String inter;
+				String osize;
+				if (SF_international.isSelected()){
+					inter = "Yes";
+				} else {
+					inter = "No";
+				}
+				if (SF_oversized.isSelected()){
+					osize = "Yes";
+				} else {
+					osize = "No";
+				}
+				
+				String weight = SF_weight.getText();
+				String dimension = SF_dimensions.getText();
+				String content = SF_contents.getText();
+				String value = SF_value.getText();
+				String fragile;
+				String hazpack;
+				if (SF_fragile.isSelected()){
+					fragile = "Yes";
+				}else {
+					fragile = "No";
+				}
+				if (SF_hazardousPack.isSelected()){
+					hazpack = "Yes";
+				} else {
+					hazpack = "No";
+				}
+				
+				methods.calculate(speed, inter, hazpack, osize);
+				SF_price.setText(Double.toString(price));
+				SF_deliverydate.setText(dDate);
+				shipSummary.setVisible(true);
+				
+				SF_storeid.setEditable(false);
+				SF_street.setEditable(false);
+				SF_city.setEditable(false);
+				SF_state.setEnabled(false);
+				SF_zip.setEditable(false);
+				SF_country.setEnabled(false);
+				SF_overnight.setEnabled(false);
+				SF_express.setEnabled(false);
+				SF_regular.setEnabled(false);
+				SF_weight.setEditable(false);
+				SF_dimensions.setEditable(false);
+				SF_fragile.setEnabled(false);
+				SF_hazardousPack.setEnabled(false);
+				SF_contents.setEditable(false);
+				SF_value.setEditable(false);
+				
+				
+				/*MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
-				MainCard.revalidate();
+				MainCard.revalidate();*/
 		
 				BottomCard.removeAll();
-				BottomCard.add(ActionPage_bot);
+				BottomCard.add(ShipmentForm_bot2);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				
+				
+				
 			}
 		});
 		
@@ -1217,6 +1356,39 @@ public class CIT345Project extends JFrame {
 				BottomCard.revalidate();
 			}
 		});
+		
+		JButton SF_confirm = new JButton("Confirm");
+		SF_confirm.setFont(new Font("Candara", Font.PLAIN, 16));
+		ShipmentForm_bot2.add(SF_confirm);
+		
+		JButton SF_edit = new JButton("Edit");
+		SF_edit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				SF_storeid.setEditable(true);
+				SF_street.setEditable(true);
+				SF_city.setEditable(true);
+				SF_state.setEnabled(true);
+				SF_zip.setEditable(true);
+				SF_country.setEnabled(true);
+				SF_overnight.setEnabled(true);
+				SF_express.setEnabled(true);
+				SF_regular.setEnabled(true);
+				SF_weight.setEditable(true);
+				SF_dimensions.setEditable(true);
+				SF_fragile.setEnabled(true);
+				SF_hazardousPack.setEnabled(true);
+				SF_contents.setEditable(true);
+				SF_value.setEditable(true);
+				
+				BottomCard.removeAll();
+				BottomCard.add(ShipmentForm_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+			}
+		});
+		SF_edit.setFont(new Font("Candara", Font.PLAIN, 16));
+		ShipmentForm_bot2.add(SF_edit);
 		
 		//-------Customer Info Page-------//
 		
@@ -1978,6 +2150,8 @@ public class CIT345Project extends JFrame {
 		JButton UTF_back = new JButton("Back");
 		UTF_back.setFont(new Font("Candara", Font.PLAIN, 16));
 		UpdateTrackingForm_bot.add(UTF_back);
+		
+		
 		UTF_back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MainCard.removeAll();

@@ -1,6 +1,11 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
 
@@ -94,4 +99,84 @@ public class Methods {
 		
 	}
 	
+	public void calculate(String...strings){
+		int a = 0,b = 0,c = 0,d = 0;
+		String speed = "";
+		String inter = "";
+		String haz = "";
+		String size = "";
+		String id = "";
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime ldt;
+		String d1 = "";
+
+		for (int i = 0; i < strings.length; i++){
+			speed = strings[0];
+			inter = strings[1];
+			haz = strings[2];
+			size = strings[3];
+	}
+		switch(speed){
+		case "Overnight":
+			a = 4;
+			ldt = LocalDateTime.now().plusDays(1);
+			d1 = dtf.format(ldt);
+			break;
+		case "Express":
+			a = 5;
+			ldt = LocalDateTime.now().plusDays(3);
+			d1 = dtf.format(ldt);
+			break;
+		case "Regular":
+			a = 6;
+			ldt = LocalDateTime.now().plusDays(7);
+			d1 = dtf.format(ldt);
+			break;
+		}
+		
+		switch(inter){
+		case "Yes":
+			b = 1;
+			break;
+		case "No":
+			b = 0;
+			break;
+		}
+		
+		switch(size){
+		case "Yes":
+			c = 1;
+			break;
+		case "No":
+			c = 0;
+			break;
+		}
+		
+		switch(haz){
+		case "Yes":
+			d = 1;
+			break;
+		case "No":
+			d = 0;
+			break;
+		}
+		
+		id = "" + a+b+c+d;
+		int methodID = Integer.parseInt(id);
+		
+		String q1 = "select price from shipmentmethod where shipmentmethodid =" +methodID+";";
+		try{
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+			ResultSet set = retrieve.executeQuery();
+				if (set.next()){
+					CIT345Project.price = set.getInt(1);
+					CIT345Project.dDate = d1;
+				}
+		} catch(Exception e1) {
+			}
+		System.out.println(speed + inter + haz + size + methodID);
+	}
+	
+
 }
