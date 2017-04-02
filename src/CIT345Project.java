@@ -832,16 +832,18 @@ public class CIT345Project extends JFrame {
 				methods.grabCIDfromCustomerList();
 				
 				
-				
-				MainCard.removeAll();
-				MainCard.add(ActionPage);
-				MainCard.repaint();
-				MainCard.revalidate();
-				
-				BottomCard.removeAll();
-				BottomCard.add(ActionPage_bot);
-				BottomCard.repaint();
-				BottomCard.revalidate();
+				if(CIT345Project.customerCheck == true)
+				{
+					MainCard.removeAll();
+					MainCard.add(ActionPage);
+					MainCard.repaint();
+					MainCard.revalidate();
+					
+					BottomCard.removeAll();
+					BottomCard.add(ActionPage_bot);
+					BottomCard.repaint();
+					BottomCard.revalidate();
+				}
 			}
 
 		
