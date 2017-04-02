@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import net.proteanit.sql.DbUtils;
 
 public class Methods {
 
@@ -31,7 +36,8 @@ public class Methods {
 		String state = "";
 		String zip = "";
 		
-	
+		connectToDB();
+		
 			for (int i = 0; i < strings.length; i++){
 				if (strings[i] == ""){
 					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
@@ -224,7 +230,7 @@ public class Methods {
 					PreparedStatement retrieve = connection.prepareStatement(q2);
 					ResultSet set = retrieve.executeQuery();
 						if (set.next()){
-							CIT345Project.SID = set.getInt(1);
+							CIT345Project.SID1 = set.getInt(1);
 						}
 				} catch(Exception e1) {
 					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
@@ -232,14 +238,14 @@ public class Methods {
 					}
 				finally{
 					System.out.println("insert completed");
-					System.out.println(CIT345Project.SID);
+					System.out.println(CIT345Project.SID1);
 					};
 		 }
 	 }
 	 
 	public void packageinsert(String...strings){
 		boolean test = false;
-		int sid = CIT345Project.SID;
+		int sid = CIT345Project.SID1;
 		double weight = CIT345Project.weight;
 		String dim = "";
 		String fragile = "";
@@ -282,6 +288,7 @@ public class Methods {
 			 }
 	}
 	
+
 	public void declarationinsert(String ...strings){
 		boolean test = false;
 		int pid = CIT345Project.PID;
@@ -315,6 +322,74 @@ public class Methods {
 			 		System.out.println("insert completed");
 			 	}
 		 }
+	}
+
+	public void seachCustomer(String...strings){
+		boolean test = false;
+		String fname = null;
+		String lname = null;
+		String phone1 = null;
+		String phone2 = null;
+		String phone3 = null;
+		String email = null;
+
+		for (int i = 0; i < strings.length; i++){
+			if (strings[i] == ""){
+				JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+				test = false;
+				break;
+			} else {
+				for (int j = 0; j < strings.length; j++){
+			fname = strings[0];
+			lname = strings[1];
+			phone1 = strings[2];
+			phone2 = strings[3];
+			phone3 = strings[4];
+			email = strings[5];
+
+			
+		}
+		test = true;
+				
+			}
+		}
+		
+		
+		
+		//JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+		CIT345Project.customerCheck = true;
+
+		if(!phone1.isEmpty() || !phone2.isEmpty() || !phone3.isEmpty()){
+			if(phone1.isEmpty() || phone2.isEmpty() || phone3.isEmpty() ){
+				CIT345Project.customerCheck = false;
+				JOptionPane.showMessageDialog(null, "Please make sure that all phone number feilds are entered");
+			}
+		}
+		
+		if (test == true){
+			String phoneNum = ( phone1 + "-" + phone2 + "-" + phone3);
+			String q1 = "select * from customer where FirstName = '"+fname+"' or LastName = '"+lname+"' or PhoneNumber = '"+phoneNum+"' or email = '"+email+"';";
+		try{
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+
+			ResultSet rs=retrieve.executeQuery();
+			
+			CIT345Project.CSR_table.setModel(DbUtils.resultSetToTableModel(rs));
+		} catch(Exception e1) {
+			JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+			
+			}
+		
+		}
+	}
+	
+	public  void grabCIDfromCustomerList(){
+		int row = CIT345Project.CSR_table.getSelectedRow();
+		Object Selected_CID = CIT345Project.CSR_table.getModel().getValueAt(row, 0);
+		System.out.println(Selected_CID.toString());
+		String cid = Selected_CID.toString();
+		CIT345Project.CID = Integer.parseInt(cid);
+
 	}
 }
 

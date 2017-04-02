@@ -54,6 +54,10 @@ import java.awt.event.FocusEvent;
 
 public class CIT345Project extends JFrame {
 
+	public static final String CustomerSearchResult = null;
+
+	public static final String cs_fname = null;
+	
 	private JPanel contentPane;
 	private JTextField NCF_fName;
 	private JTextField NCF_lName;
@@ -68,10 +72,11 @@ public class CIT345Project extends JFrame {
 	private JTextField CS_fName;
 	private JTextField CS_lName;
 	private JTextField CS_email;
+	
 	private JTextField CS_phone1;
 	private JTextField CS_phone2;
 	private JTextField CS_phone3;
-	private JTable CSR_table;
+	static JTable CSR_table;
 	private JTextField TPP_number;
 	private JTable TPR_table;
 	private JTextField SF_storeid;
@@ -117,10 +122,19 @@ public class CIT345Project extends JFrame {
 	public static double weight;
 	public static int shipMethod = 0000;
 	public static boolean customerCheck = false;
+
 	public static boolean formcheck = false;
-	public static int SID;
-	public static int CID = 4; //4 is for testing purposes 	
+	public static int SID1; 	
 	public static int PID;
+
+
+	public static String SID;
+	public static int CID;
+	
+	Object Selected_CID;
+	
+	
+	
 
 	Methods methods; //reference to method java class
 
@@ -758,6 +772,19 @@ public class CIT345Project extends JFrame {
 		CustomerSearch_bot.add(CS_search);
 		CS_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String fname = CS_fName.getText();
+				String lname = CS_lName.getText();
+				String phone1 = CS_phone1.getText();
+				String phone2 = CS_phone2.getText();
+				String phone3 = CS_phone3.getText();
+				String email = CS_email.getText();
+				
+				methods.seachCustomer(fname, lname, phone1, phone2, phone3, email) ;
+				
+				CustomerSearchResult.setViewportView(CSR_table);
+				
+				if (customerCheck ==true){
 				MainCard.removeAll();
 				MainCard.add(CustomerSearchResult);
 				MainCard.repaint();
@@ -767,6 +794,7 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(CustomerSearchResult_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				}
 			}
 		});
 		
@@ -790,14 +818,7 @@ public class CIT345Project extends JFrame {
 		//-------Customer Search Result Page-------//
 		
 		CSR_table = new JTable();
-		CSR_table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"First Name", "Last Name", "Address", "Phone #", "Email"
-			}
-		));
+
 		CSR_table.setFont(new Font("Candara", Font.PLAIN, 11));
 		CustomerSearchResult.setViewportView(CSR_table);
 		
@@ -807,6 +828,10 @@ public class CIT345Project extends JFrame {
 		CSR_select.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				customerCheck = true;
+				
+				methods.grabCIDfromCustomerList();
+				
+				
 				
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
@@ -818,6 +843,8 @@ public class CIT345Project extends JFrame {
 				BottomCard.repaint();
 				BottomCard.revalidate();
 			}
+
+		
 		});
 		
 		JButton CSR_back = new JButton("Back");
@@ -862,8 +889,10 @@ public class CIT345Project extends JFrame {
 		JLabel lblCustomerInfosummary = new JLabel("Customer Info/Summary");
 		lblCustomerInfosummary.setFont(new Font("Candara", Font.PLAIN, 18));
 		lblCustomerInfosummary.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCustomerInfosummary.setBounds(31, 97, 411, 237);
+		lblCustomerInfosummary.setBounds(25, 73, 411, 98);
 		ActionPage.add(lblCustomerInfosummary);
+		
+	
 		
 		JButton AP_Ship = new JButton("Start Shipment");
 		AP_Ship.setFont(new Font("Candara", Font.PLAIN, 16));
@@ -932,7 +961,7 @@ public class CIT345Project extends JFrame {
 		TrackPackagePage_bot.add(TPP_search);
 		TPP_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SID = Integer.parseInt(TPP_number.getText());
+				SID =TPP_number.getText();
 				// system.out.println used for testing
 				//System.out.println(SID);
 				MainCard.removeAll();
@@ -2194,4 +2223,8 @@ public class CIT345Project extends JFrame {
 		
 		
 	}
+
+
+
+
 }
