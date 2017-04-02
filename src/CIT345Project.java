@@ -779,6 +779,7 @@ public class CIT345Project extends JFrame {
 				
 				CustomerSearchResult.setViewportView(CSR_table);
 				
+				if (customerCheck ==true){
 				MainCard.removeAll();
 				MainCard.add(CustomerSearchResult);
 				MainCard.repaint();
@@ -788,6 +789,7 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(CustomerSearchResult_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				}
 			}
 		});
 		

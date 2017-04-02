@@ -36,7 +36,8 @@ public class Methods {
 		String state = "";
 		String zip = "";
 		
-	
+		connectToDB();
+		
 			for (int i = 0; i < strings.length; i++){
 				if (strings[i] == ""){
 					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
@@ -185,12 +186,12 @@ public class Methods {
 	
 	public void seachCustomer(String...strings){
 		boolean test = false;
-		String fname = "";
-		String lname = "";
-		String phone1 = "";
-		String phone2 = "";
-		String phone3 = "";
-		String email = "";
+		String fname = null;
+		String lname = null;
+		String phone1 = null;
+		String phone2 = null;
+		String phone3 = null;
+		String email = null;
 
 		for (int i = 0; i < strings.length; i++){
 			if (strings[i] == ""){
@@ -208,42 +209,38 @@ public class Methods {
 
 			
 		}
-				test = true;
+		test = true;
+				
 			}
 		}
 		
-		try {
-			
-			String phoneNum = (phone1 + "-" + phone2 + "-" + phone3);
-			String q1 = "select * from customer where (FirstName = '"+fname+"' and LastName = '"+lname+"') or PhoneNumber = '"+phoneNum+"' or email = '"+email+"';";
+		
+		
+		//JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+		CIT345Project.customerCheck = true;
 
+		if(!phone1.isEmpty() || !phone2.isEmpty() || !phone3.isEmpty()){
+			if(phone1.isEmpty() || phone2.isEmpty() || phone3.isEmpty() ){
+				CIT345Project.customerCheck = false;
+				JOptionPane.showMessageDialog(null, "Please make sure that all phone number feilds are entered");
+			}
+		}
+		
+		if (test == true){
+			String phoneNum = ( phone1 + "-" + phone2 + "-" + phone3);
+			String q1 = "select * from customer where FirstName = '"+fname+"' or LastName = '"+lname+"' or PhoneNumber = '"+phoneNum+"' or email = '"+email+"';";
+		try{
 			PreparedStatement retrieve = connection.prepareStatement(q1);
 
 			ResultSet rs=retrieve.executeQuery();
 			
 			CIT345Project.CSR_table.setModel(DbUtils.resultSetToTableModel(rs));
+		} catch(Exception e1) {
+			JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
 			
-			
-			
-
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			}
+		
 		}
-		
-		try {
-			connection.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
-		
-		
-
-		
-		
-		
 	}
 	
 
