@@ -115,10 +115,12 @@ public class CIT345Project extends JFrame {
 	public static double price = 0;
 	public static String dDate;
 	public static double weight;
+	public static int shipMethod = 0000;
 	public static boolean customerCheck = false;
-	public static String SID;
-	public static int CID;
-	
+	public static boolean formcheck = false;
+	public static int SID;
+	public static int CID = 4; //4 is for testing purposes 	
+	public static int PID;
 
 	Methods methods; //reference to method java class
 
@@ -259,13 +261,7 @@ public class CIT345Project extends JFrame {
 		JPanel ShipmentForm_bot = new JPanel();
 		BottomCard.add(ShipmentForm_bot);
 		
-		JPanel ShipmentForm_bot2 = new JPanel();
-		BottomCard.add(ShipmentForm_bot2);
-		
-		
-		
 		JPanel shipSummary = new JPanel();
-		shipSummary.setVisible(false);
 		ShipmentForm.add(shipSummary, BorderLayout.SOUTH);
 		
 		//-------Customer Info Page-------//
@@ -936,7 +932,7 @@ public class CIT345Project extends JFrame {
 		TrackPackagePage_bot.add(TPP_search);
 		TPP_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SID = TPP_number.getText();
+				SID = Integer.parseInt(TPP_number.getText());
 				// system.out.println used for testing
 				//System.out.println(SID);
 				MainCard.removeAll();
@@ -1264,7 +1260,6 @@ public class CIT345Project extends JFrame {
 		SF_submit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				
 				String store = SF_storeid.getText();
 				String sdate = SF_shipdate.getText();
 				String street = SF_street.getText();
@@ -1302,40 +1297,27 @@ public class CIT345Project extends JFrame {
 				} else {
 					hazpack = "No";
 				}
-				
+
 				methods.calculate(speed, inter, hazpack, osize);
 				SF_price.setText(Double.toString(price));
 				SF_deliverydate.setText(dDate);
 				shipSummary.setVisible(true);
-				
-				SF_storeid.setEditable(false);
-				SF_street.setEditable(false);
-				SF_city.setEditable(false);
-				SF_state.setEnabled(false);
-				SF_zip.setEditable(false);
-				SF_country.setEnabled(false);
-				SF_overnight.setEnabled(false);
-				SF_express.setEnabled(false);
-				SF_regular.setEnabled(false);
-				SF_weight.setEditable(false);
-				SF_dimensions.setEditable(false);
-				SF_fragile.setEnabled(false);
-				SF_hazardousPack.setEnabled(false);
-				SF_contents.setEditable(false);
-				SF_value.setEditable(false);
-				
-				
-				/*MainCard.removeAll();
+				methods.shipinsert(store, street, city, state, zip, sdate);
+				methods.packageinsert(dimension, fragile, hazpack);
+				if (!content.equals("") && !value.equals("") ){
+					methods.declarationinsert(content, value);
+				}
+				JOptionPane.showMessageDialog(null, "Shipment has been completed");
+				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
-				MainCard.revalidate();*/
+				MainCard.revalidate();
 		
 				BottomCard.removeAll();
-				BottomCard.add(ShipmentForm_bot2);
+				BottomCard.add(ActionPage_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
-				
-				
+	
 				
 			}
 		});
@@ -1357,38 +1339,38 @@ public class CIT345Project extends JFrame {
 			}
 		});
 		
-		JButton SF_confirm = new JButton("Confirm");
-		SF_confirm.setFont(new Font("Candara", Font.PLAIN, 16));
-		ShipmentForm_bot2.add(SF_confirm);
-		
-		JButton SF_edit = new JButton("Edit");
-		SF_edit.addActionListener(new ActionListener() {
+		JButton SF_checkprice = new JButton("Check Price");
+		SF_checkprice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String speed = shipSpeed.getSelection().getActionCommand();
+				String inter;
+				String osize;
+				if (SF_international.isSelected()){
+					inter = "Yes";
+				} else {
+					inter = "No";
+				}
+				if (SF_oversized.isSelected()){
+					osize = "Yes";
+				} else {
+					osize = "No";
+				}
+				String hazpack;
+				if (SF_hazardousPack.isSelected()){
+					hazpack = "Yes";
+				} else {
+					hazpack = "No";
+				}
 				
-				SF_storeid.setEditable(true);
-				SF_street.setEditable(true);
-				SF_city.setEditable(true);
-				SF_state.setEnabled(true);
-				SF_zip.setEditable(true);
-				SF_country.setEnabled(true);
-				SF_overnight.setEnabled(true);
-				SF_express.setEnabled(true);
-				SF_regular.setEnabled(true);
-				SF_weight.setEditable(true);
-				SF_dimensions.setEditable(true);
-				SF_fragile.setEnabled(true);
-				SF_hazardousPack.setEnabled(true);
-				SF_contents.setEditable(true);
-				SF_value.setEditable(true);
-				
-				BottomCard.removeAll();
-				BottomCard.add(ShipmentForm_bot);
-				BottomCard.repaint();
-				BottomCard.revalidate();
+				methods.calculate(speed, inter, hazpack, osize);
+				SF_price.setText(Double.toString(price));
+				SF_deliverydate.setText(dDate);
+				shipSummary.setVisible(true);
 			}
 		});
-		SF_edit.setFont(new Font("Candara", Font.PLAIN, 16));
-		ShipmentForm_bot2.add(SF_edit);
+		SF_checkprice.setFont(new Font("Candara", Font.PLAIN, 16));
+		ShipmentForm_bot.add(SF_checkprice);
+		
 		
 		//-------Customer Info Page-------//
 		
