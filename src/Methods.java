@@ -1,8 +1,18 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import net.proteanit.sql.DbUtils;
 
 public class Methods {
 
@@ -26,7 +36,8 @@ public class Methods {
 		String state = "";
 		String zip = "";
 		
-	
+		connectToDB();
+		
 			for (int i = 0; i < strings.length; i++){
 				if (strings[i] == ""){
 					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
@@ -94,4 +105,147 @@ public class Methods {
 		
 	}
 	
+	public void calculate(String...strings){
+		int a = 0,b = 0,c = 0,d = 0;
+		String speed = "";
+		String inter = "";
+		String haz = "";
+		String size = "";
+		String id = "";
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		LocalDateTime ldt;
+		String d1 = "";
+
+		for (int i = 0; i < strings.length; i++){
+			speed = strings[0];
+			inter = strings[1];
+			haz = strings[2];
+			size = strings[3];
+	}
+		switch(speed){
+		case "Overnight":
+			a = 4;
+			ldt = LocalDateTime.now().plusDays(1);
+			d1 = dtf.format(ldt);
+			break;
+		case "Express":
+			a = 5;
+			ldt = LocalDateTime.now().plusDays(3);
+			d1 = dtf.format(ldt);
+			break;
+		case "Regular":
+			a = 6;
+			ldt = LocalDateTime.now().plusDays(7);
+			d1 = dtf.format(ldt);
+			break;
+		}
+		
+		switch(inter){
+		case "Yes":
+			b = 1;
+			break;
+		case "No":
+			b = 0;
+			break;
+		}
+		
+		switch(size){
+		case "Yes":
+			c = 1;
+			break;
+		case "No":
+			c = 0;
+			break;
+		}
+		
+		switch(haz){
+		case "Yes":
+			d = 1;
+			break;
+		case "No":
+			d = 0;
+			break;
+		}
+		
+		id = "" + a+b+c+d;
+		int methodID = Integer.parseInt(id);
+		
+		String q1 = "select price from shipmentmethod where shipmentmethodid =" +methodID+";";
+		try{
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+			ResultSet set = retrieve.executeQuery();
+				if (set.next()){
+					CIT345Project.price = set.getInt(1);
+					CIT345Project.dDate = d1;
+				}
+		} catch(Exception e1) {
+			}
+		System.out.println(speed + inter + haz + size + methodID);
+	}
+	
+	public void seachCustomer(String...strings){
+		boolean test = false;
+		String fname = null;
+		String lname = null;
+		String phone1 = null;
+		String phone2 = null;
+		String phone3 = null;
+		String email = null;
+
+		for (int i = 0; i < strings.length; i++){
+			if (strings[i] == ""){
+				JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+				test = false;
+				break;
+			} else {
+				for (int j = 0; j < strings.length; j++){
+			fname = strings[0];
+			lname = strings[1];
+			phone1 = strings[2];
+			phone2 = strings[3];
+			phone3 = strings[4];
+			email = strings[5];
+
+			
+		}
+		test = true;
+				
+			}
+		}
+		
+		
+		
+		//JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+		CIT345Project.customerCheck = true;
+
+		if(!phone1.isEmpty() || !phone2.isEmpty() || !phone3.isEmpty()){
+			if(phone1.isEmpty() || phone2.isEmpty() || phone3.isEmpty() ){
+				CIT345Project.customerCheck = false;
+				JOptionPane.showMessageDialog(null, "Please make sure that all phone number feilds are entered");
+			}
+		}
+		
+		if (test == true){
+			String phoneNum = ( phone1 + "-" + phone2 + "-" + phone3);
+			String q1 = "select * from customer where FirstName = '"+fname+"' or LastName = '"+lname+"' or PhoneNumber = '"+phoneNum+"' or email = '"+email+"';";
+		try{
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+
+			ResultSet rs=retrieve.executeQuery();
+			
+			CIT345Project.CSR_table.setModel(DbUtils.resultSetToTableModel(rs));
+		} catch(Exception e1) {
+			JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+			
+			}
+		
+		}
+	}
+	
+	public  void grabCIDfromCustomerList(){
+		int row = CIT345Project.CSR_table.getSelectedRow();
+		Object Selected_CID = CIT345Project.CSR_table.getModel().getValueAt(row, 0);
+		System.out.println(Selected_CID.toString());
+	}
 }
