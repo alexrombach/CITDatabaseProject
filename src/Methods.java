@@ -107,7 +107,7 @@ public class Methods {
 		String size = "";
 		String id = "";
 		
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		LocalDateTime ldt;
 		String d1 = "";
 
@@ -172,11 +172,149 @@ public class Methods {
 				if (set.next()){
 					CIT345Project.price = set.getInt(1);
 					CIT345Project.dDate = d1;
+					CIT345Project.shipMethod = methodID;
 				}
 		} catch(Exception e1) {
 			}
 		System.out.println(speed + inter + haz + size + methodID);
 	}
+	 public void shipinsert(String...strings){
+		 boolean test = false;
+		 int cid = CIT345Project.CID;
+		 int shipMethod = CIT345Project.shipMethod;
+		 String dDate = CIT345Project.dDate;
+		 double price = CIT345Project.price;
+		 String storeid = "";
+		 String street = "";
+		 String city = "";
+		 String state = "";
+		 String zip = "";
+		 String sDate = "";
+		 
+		 for (int i = 0; i < strings.length; i++){
+			 if (strings[i] == ""){
+					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					test = false;
+					break;
+				} else {
+					for (int j = 0; j < strings.length; j++){
+				storeid = strings[0];
+				street = strings[1];
+				city = strings[2];
+				state = strings[3];
+				zip = strings[4];
+				sDate = strings[5];
+			}
+					test = true;
+		 }
+		 
+		 }
+		 if (test == true){
+			 int strID = Integer.parseInt(storeid);
+			 int dzip = Integer.parseInt(zip);
+			 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+			 LocalDateTime stime = LocalDateTime.parse(sDate, dtf);
+			 LocalDateTime etime = LocalDateTime.parse(CIT345Project.dDate, dtf);
+			 
+			 String q1 = "insert into shipment (ShipCustomerID, StoreID, ShipMethod, Street, City, State, Zip, ExpectedDelivery, ShipmentDate, price) Values ("+cid+","+strID+","+shipMethod+",'"+street+"','"+city+"','"+state+"',"+dzip+",'"+etime+"','"+stime+"',"+price+");";
+			 String q2 = "select ShipmentID from shipment where ShipCustomerID = "+cid+" and ExpectedDelivery = '" +etime+"';";
+			 try{
+					PreparedStatement posted = connection.prepareStatement(q1);
+					posted.executeUpdate();
+					PreparedStatement retrieve = connection.prepareStatement(q2);
+					ResultSet set = retrieve.executeQuery();
+						if (set.next()){
+							CIT345Project.SID = set.getInt(1);
+						}
+				} catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					return;
+					}
+				finally{
+					System.out.println("insert completed");
+					System.out.println(CIT345Project.SID);
+					};
+		 }
+	 }
+	 
+	public void packageinsert(String...strings){
+		boolean test = false;
+		int sid = CIT345Project.SID;
+		double weight = CIT345Project.weight;
+		String dim = "";
+		String fragile = "";
+		String haz = "";
+		
+		 for (int i = 0; i < strings.length; i++){
+			 if (strings[i] == ""){
+					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					test = false;
+					break;
+				} else {
+					for (int j = 0; j < strings.length; j++){
+				dim = strings[0];
+				fragile = strings[1];
+				haz = strings[2];
+			}
+					test = true;
+		 }
+		 }
+			 if (test){
+				 String q1 = "insert into packages (shipmentID, Dimensions, Weight, Fragile, Hazardous) Values ("+sid+",'"+dim+"',"+weight+",'"+fragile+"','"+haz+"');";
+				 String q2 = "select PackageID from packages where ShipmentID = "+sid+";";
+				 System.out.println(q1);
+				 try{
+						PreparedStatement posted = connection.prepareStatement(q1);
+						posted.executeUpdate();
+						PreparedStatement retrieve = connection.prepareStatement(q2);
+						ResultSet set = retrieve.executeQuery();
+							if (set.next()){
+								CIT345Project.PID = set.getInt(1);
+							}
+							
+					} catch(Exception e1) {
+						JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+						return;
+						}
+					finally{
+						System.out.println("insert completed");
+						};
+			 }
+	}
 	
-
+	public void declarationinsert(String ...strings){
+		boolean test = false;
+		int pid = CIT345Project.PID;
+		String contents = "";
+		String value = "";
+		
+		 for (int i = 0; i < strings.length; i++){
+			 if (strings[i] == ""){
+					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					test = false;
+					break;
+				} else {
+					for (int j = 0; j < strings.length; j++){
+				contents = strings[0];
+				value = strings[1];
+			}
+					test = true;
+		 }
+		 }
+		 
+		 if (test){
+			 double val = Double.parseDouble(value);
+			 String q1 = "insert into declarationform (PackageID, Contents, Value) Values ("+pid+",'"+contents+"',"+val+");";
+			 	try{
+			 		PreparedStatement posted = connection.prepareStatement(q1);
+			 		posted.executeUpdate();
+			 	} catch (Exception e1){
+			 		JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					return;
+			 	} finally {
+			 		System.out.println("insert completed");
+			 	}
+		 }
+	}
 }
+
