@@ -124,7 +124,10 @@ public class CIT345Project extends JFrame {
 	public static String SID;
 	public static int CID;
 	
-
+	Object Selected_CID;
+	
+	
+	
 	Methods methods; //reference to method java class
 
 	/**
@@ -824,6 +827,10 @@ public class CIT345Project extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				customerCheck = true;
 				
+				methods.grabCIDfromCustomerList();
+				
+				
+				
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
@@ -834,6 +841,8 @@ public class CIT345Project extends JFrame {
 				BottomCard.repaint();
 				BottomCard.revalidate();
 			}
+
+		
 		});
 		
 		JButton CSR_back = new JButton("Back");
@@ -878,8 +887,10 @@ public class CIT345Project extends JFrame {
 		JLabel lblCustomerInfosummary = new JLabel("Customer Info/Summary");
 		lblCustomerInfosummary.setFont(new Font("Candara", Font.PLAIN, 18));
 		lblCustomerInfosummary.setHorizontalAlignment(SwingConstants.CENTER);
-		lblCustomerInfosummary.setBounds(31, 97, 411, 237);
+		lblCustomerInfosummary.setBounds(25, 73, 411, 98);
 		ActionPage.add(lblCustomerInfosummary);
+		
+	
 		
 		JButton AP_Ship = new JButton("Start Shipment");
 		AP_Ship.setFont(new Font("Candara", Font.PLAIN, 16));
@@ -2224,4 +2235,8 @@ public class CIT345Project extends JFrame {
 		
 		
 	}
+
+
+
+
 }

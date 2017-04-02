@@ -243,5 +243,9 @@ public class Methods {
 		}
 	}
 	
-
+	public  void grabCIDfromCustomerList(){
+		int row = CIT345Project.CSR_table.getSelectedRow();
+		Object Selected_CID = CIT345Project.CSR_table.getModel().getValueAt(row, 0);
+		System.out.println(Selected_CID.toString());
+	}
 }
