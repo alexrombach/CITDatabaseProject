@@ -388,29 +388,13 @@ public class Methods {
 	}
 	
 	public  void grabCIDfromCustomerList(){
-		int row = CIT345Project.CSR_table.getSelectedRow();
-		System.out.println(row);
-		Object Selected_CID = null;
-		try{
-			 Selected_CID = CIT345Project.CSR_table.getModel().getValueAt(row, 0);
-		}
-		catch(Exception e1) 
-		{
-			JOptionPane.showMessageDialog(null, "Make sure to select at leaste one row. If you do not have any rows to select, go back and search again");
-			CIT345Project.customerCheck = false;
-		}
 		
-		if(row != -1){
-		CIT345Project.customerCheck = true;
+		
+		int row = CIT345Project.CSR_table.getSelectedRow();
+		Object Selected_CID = CIT345Project.CSR_table.getModel().getValueAt(row, 0);
 		System.out.println(Selected_CID.toString());
 		String cid = Selected_CID.toString();
 		CIT345Project.CID = Integer.parseInt(cid);
-<<<<<<< .mine
-
-=======
-
->>>>>>> .theirs
-	}
-		
+	}	
 }
 
