@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.awt.event.ActionEvent;
@@ -130,6 +131,9 @@ public class CIT345Project extends JFrame {
 
 	public static String SID;
 	public static int CID;
+	
+	public String username;
+	public String password;
 	
 	Object Selected_CID;
 	
@@ -418,6 +422,14 @@ public class CIT345Project extends JFrame {
 		HomePage.add(HP_login);
 		HP_login.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				//sets username to the username entered by user
+				username = HP_username.getText();
+				//Clears the username from login screen
+				HP_username.setText("");
+				//sets password to the password entered by user
+				password = HP_password.getText();
+				//Clears the password from login screen
+				TPP_number.setText("");
 				MainCard.removeAll();
 				MainCard.add(CustomerInfoPage);
 				MainCard.repaint();
@@ -427,7 +439,45 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(CustomerLogin_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+				Statement stmt =  null;
+				try {
+					// system.out.println is used for testing
+					//System.out.println("tracking page " + SID);
+					String query="select * from account join customer on account.CustomerID = customer.CustomerID join contract on contract.AccountNumber = account.AccountID WHERE account.UserName='"+username+"' and account.Password ='"+password+"'";
+					try{
+						stmt = connection.createStatement();
+						ResultSet rs = stmt.executeQuery(query);
+						while(rs.next()){
+							String cusname = rs.getString("FirstName");
+							System.out.println(cusname);
+							//lblCustomerId.setText("Customer ID: " + rs.getString("CustomerID"));
+							//lblContract.setText("Customer ID: " + rs.getString("ContractTier"));
+							CIP_fname.setText(rs.getString("FirstName"));
+							CIP_lname.setText(rs.getString("LastName"));
+							CIP_address.setText(rs.getString("Street"));
+							CIP_city.setText(rs.getString("City"));
+							//CIP_state.setText(rs.getString("State"));
+							CIP_zip.setText(rs.getString("Zip"));
+							//CIP_phone.setText(rs.getString("PhoneNumber"));
+							CIP_email.setText(rs.getString("Email"));
+							CIP_username.setText(rs.getString("UserName"));
+							HP_username.setText("");
+							HP_password.setText("");
+						}
+					}
+					finally {
+						if (stmt != null) {stmt.close();}
+					}
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
 			}
+			
 		});
 		
 		JButton HP_createAccount = new JButton("Create an Account");
@@ -1716,6 +1766,17 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(HomePage_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				//lblCustomerId.setText("Customer ID: ");
+				//lblContract.setText("Customer ID: ");
+				CIP_fname.setText("");
+				CIP_lname.setText("");
+				CIP_address.setText("");
+				CIP_city.setText("");
+				//CIP_state.setText(rs.getString("State"));
+				CIP_zip.setText("");
+				//CIP_phone.setText("");
+				CIP_email.setText("");
+				CIP_username.setText("");
 			}
 		});
 		CL_logout.setFont(new Font("Candara", Font.PLAIN, 16));
