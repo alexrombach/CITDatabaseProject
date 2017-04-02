@@ -54,6 +54,10 @@ import java.awt.event.FocusEvent;
 
 public class CIT345Project extends JFrame {
 
+	public static final String CustomerSearchResult = null;
+
+	public static final String cs_fname = null;
+	
 	private JPanel contentPane;
 	private JTextField NCF_fName;
 	private JTextField NCF_lName;
@@ -68,10 +72,11 @@ public class CIT345Project extends JFrame {
 	private JTextField CS_fName;
 	private JTextField CS_lName;
 	private JTextField CS_email;
+	
 	private JTextField CS_phone1;
 	private JTextField CS_phone2;
 	private JTextField CS_phone3;
-	private JTable CSR_table;
+	static JTable CSR_table;
 	private JTextField TPP_number;
 	private JTable TPR_table;
 	private JTextField SF_storeid;
@@ -762,6 +767,18 @@ public class CIT345Project extends JFrame {
 		CustomerSearch_bot.add(CS_search);
 		CS_search.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String fname = CS_fName.getText();
+				String lname = CS_lName.getText();
+				String phone1 = CS_phone1.getText();
+				String phone2 = CS_phone2.getText();
+				String phone3 = CS_phone3.getText();
+				String email = CS_email.getText();
+				
+				methods.seachCustomer(fname, lname, phone1, phone2, phone3, email) ;
+				
+				CustomerSearchResult.setViewportView(CSR_table);
+				
 				MainCard.removeAll();
 				MainCard.add(CustomerSearchResult);
 				MainCard.repaint();
@@ -794,14 +811,7 @@ public class CIT345Project extends JFrame {
 		//-------Customer Search Result Page-------//
 		
 		CSR_table = new JTable();
-		CSR_table.setModel(new DefaultTableModel(
-			new Object[][] {
-				{null, null, null, null, null},
-			},
-			new String[] {
-				"First Name", "Last Name", "Address", "Phone #", "Email"
-			}
-		));
+
 		CSR_table.setFont(new Font("Candara", Font.PLAIN, 11));
 		CustomerSearchResult.setViewportView(CSR_table);
 		

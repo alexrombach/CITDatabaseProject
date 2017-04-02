@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -8,6 +9,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import net.proteanit.sql.DbUtils;
 
 public class Methods {
 
@@ -176,6 +181,69 @@ public class Methods {
 		} catch(Exception e1) {
 			}
 		System.out.println(speed + inter + haz + size + methodID);
+	}
+	
+	public void seachCustomer(String...strings){
+		boolean test = false;
+		String fname = "";
+		String lname = "";
+		String phone1 = "";
+		String phone2 = "";
+		String phone3 = "";
+		String email = "";
+
+		for (int i = 0; i < strings.length; i++){
+			if (strings[i] == ""){
+				JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+				test = false;
+				break;
+			} else {
+				for (int j = 0; j < strings.length; j++){
+			fname = strings[0];
+			lname = strings[1];
+			phone1 = strings[2];
+			phone2 = strings[3];
+			phone3 = strings[4];
+			email = strings[5];
+
+			
+		}
+				test = true;
+			}
+		}
+		
+		try {
+			
+			String phoneNum = (phone1 + "-" + phone2 + "-" + phone3);
+			String q1 = "select * from customer where (FirstName = '"+fname+"' and LastName = '"+lname+"') or PhoneNumber = '"+phoneNum+"' or email = '"+email+"';";
+
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+
+			ResultSet rs=retrieve.executeQuery();
+			
+			CIT345Project.CSR_table.setModel(DbUtils.resultSetToTableModel(rs));
+			
+			
+			
+
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+		
+		
+
+		
+		
+		
 	}
 	
 
