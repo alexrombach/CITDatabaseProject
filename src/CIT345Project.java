@@ -2136,6 +2136,14 @@ public class CIT345Project extends JFrame {
 		JButton MAP_create = new JButton("Create");
 		MAP_create.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				String MAPfname = MAP_fname.getText();
+				String MAPlname = textField_1.getText();
+				String MAPemail = MAP_email.getText();
+				String MAPusername = MAP_username.getText();
+				String MAPpassword = MAP_password.getText();
+				//System.out.println(MAPfname + MAPlname + MAPemail +MAPusername + MAPpassword);
+
 				MainCard.removeAll();
 				MainCard.add(HomePage);
 				MainCard.repaint();
@@ -2145,8 +2153,33 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(HomePage_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
-			}
-		});
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+				Statement stmt =  null;
+				String MAPcustomerid="SELECT CustomerID from customer WHERE FirstName='"+MAPfname+"' and LastName ='"+MAPlname+"' and Email ='"+MAPemail+"'";
+				try {
+					
+					stmt = connection.createStatement();
+					ResultSet rs = stmt.executeQuery(MAPcustomerid);
+					while(rs.next()){
+						String cusID = rs.getString("CustomerID");
+						//System.out.println(cusID);
+						//System.out.println(MAPfname + MAPlname + MAPemail +MAPusername + MAPpassword);
+
+					String query="INSERT INTO account (CustomerID,UserName,Password) values ('"+cusID+"','"+MAPusername+"','"+MAPpassword+"')";
+						PreparedStatement posted = connection.prepareStatement(query);
+						posted.executeUpdate();
+				}} catch(Exception e1) {
+					;
+					
+					}
+				finally{
+					System.out.println("insert completed");
+
+					};
+
+				}
+			});
 		MAP_create.setFont(new Font("Candara", Font.PLAIN, 16));
 		MakeAccountPage_bot.add(MAP_create);
 		
