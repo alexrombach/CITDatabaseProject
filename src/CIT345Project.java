@@ -2149,15 +2149,7 @@ public class CIT345Project extends JFrame {
 				String MAPpassword = MAP_password.getText();
 				//System.out.println(MAPfname + MAPlname + MAPemail +MAPusername + MAPpassword);
 
-				MainCard.removeAll();
-				MainCard.add(HomePage);
-				MainCard.repaint();
-				MainCard.revalidate();
 				
-				BottomCard.removeAll();
-				BottomCard.add(HomePage_bot);
-				BottomCard.repaint();
-				BottomCard.revalidate();
 				Connection connection;
 				connection=sqlConnection.dbConnector();
 				Statement stmt =  null;
@@ -2166,7 +2158,7 @@ public class CIT345Project extends JFrame {
 					
 					stmt = connection.createStatement();
 					ResultSet rs = stmt.executeQuery(MAPcustomerid);
-					while(rs.next()){
+					if(rs.next()){
 						String cusID = rs.getString("CustomerID");
 						//System.out.println(cusID);
 						//System.out.println(MAPfname + MAPlname + MAPemail +MAPusername + MAPpassword);
@@ -2174,12 +2166,26 @@ public class CIT345Project extends JFrame {
 					String query="INSERT INTO account (CustomerID,UserName,Password) values ('"+cusID+"','"+MAPusername+"','"+MAPpassword+"')";
 						PreparedStatement posted = connection.prepareStatement(query);
 						posted.executeUpdate();
-				}} catch(Exception e1) {
+						MainCard.removeAll();
+						MainCard.add(HomePage);
+						MainCard.repaint();
+						MainCard.revalidate();
+						
+						BottomCard.removeAll();
+						BottomCard.add(HomePage_bot);
+						BottomCard.repaint();
+						BottomCard.revalidate();
+						System.out.println("insert completed");
+				}
+					else{
+						JOptionPane.showMessageDialog(null, "Unable to create account, ensure all information is correct");
+					}
+					} catch(Exception e1) {
 					;
 					
 					}
 				finally{
-					System.out.println("insert completed");
+					
 
 					};
 
