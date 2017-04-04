@@ -427,7 +427,7 @@ public class CIT345Project extends JFrame {
 				//sets username to the username entered by user
 				username = HP_username.getText();
 				//Clears the username from login screen
-				HP_username.setText("");
+				//HP_username.setText("");
 				//sets password to the password entered by user
 				password = HP_password.getText();
 				//Clears the password from login screen
@@ -439,7 +439,7 @@ public class CIT345Project extends JFrame {
 				try {
 					// system.out.println is used for testing
 					//System.out.println("tracking page " + SID);
-					String query="select * from account join customer on account.CustomerID = customer.CustomerID join contract on contract.AccountNumber = account.AccountID WHERE account.UserName='"+username+"' and account.Password ='"+password+"'";
+					String query="select * from account join customer on account.CustomerID = customer.CustomerID WHERE account.UserName='"+username+"' and account.Password ='"+password+"'";
 					try{
 						stmt = connection.createStatement();
 						ResultSet rs = stmt.executeQuery(query);
