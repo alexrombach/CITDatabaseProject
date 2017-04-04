@@ -97,8 +97,6 @@ public class CIT345Project extends JFrame {
 	private JTextField CIP_city;
 	private JTextField CIP_zip;
 	private JTextField CIP_phone1;
-	private JTextField CIP_phone2;
-	private JTextField CIP_phone3;
 	private JTextField CIP_email;
 	private JTextField CIP_username;
 	private JTable ChargeTable;
@@ -474,7 +472,7 @@ public class CIT345Project extends JFrame {
 							CIP_city.setText(rs.getString("City"));
 							CIP_state.setSelectedItem(rs.getString("State"));
 							CIP_zip.setText(rs.getString("Zip"));
-							//CIP_phone.setText(rs.getString("PhoneNumber"));
+							CIP_phone1.setText(rs.getString("PhoneNumber"));
 							CIP_email.setText(rs.getString("Email"));
 							CIP_username.setText(rs.getString("UserName"));
 							try{								
@@ -1047,7 +1045,7 @@ public class CIT345Project extends JFrame {
 							CIP_city.setText(rs.getString("City"));
 							CIP_state.setSelectedItem(rs.getString("State"));
 							CIP_zip.setText(rs.getString("Zip"));
-							//CIP_phone.setText(rs.getString("PhoneNumber"));
+							CIP_phone1.setText(rs.getString("PhoneNumber"));
 							CIP_email.setText(rs.getString("Email"));
 							CIP_username.setText(rs.getString("UserName"));
 							try{								
@@ -1620,20 +1618,8 @@ public class CIT345Project extends JFrame {
 		CIP_phone1 = new JTextField();
 		CIP_phone1.setEditable(false);
 		CIP_phone1.setColumns(10);
-		CIP_phone1.setBounds(112, 278, 35, 20);
+		CIP_phone1.setBounds(112, 278, 111, 20);
 		CustomerInfoPage.add(CIP_phone1);
-		
-		CIP_phone2 = new JTextField();
-		CIP_phone2.setEditable(false);
-		CIP_phone2.setColumns(10);
-		CIP_phone2.setBounds(157, 278, 35, 20);
-		CustomerInfoPage.add(CIP_phone2);
-		
-		CIP_phone3 = new JTextField();
-		CIP_phone3.setEditable(false);
-		CIP_phone3.setColumns(10);
-		CIP_phone3.setBounds(202, 278, 55, 20);
-		CustomerInfoPage.add(CIP_phone3);
 		
 		JLabel label_23 = new JLabel("Email ");
 		label_23.setBounds(52, 315, 54, 14);
@@ -1642,7 +1628,7 @@ public class CIT345Project extends JFrame {
 		CIP_email = new JTextField();
 		CIP_email.setEditable(false);
 		CIP_email.setColumns(10);
-		CIP_email.setBounds(112, 312, 111, 20);
+		CIP_email.setBounds(112, 312, 195, 20);
 		CustomerInfoPage.add(CIP_email);
 		
 		
@@ -1687,8 +1673,8 @@ public class CIT345Project extends JFrame {
 				CIP_state.setEnabled(true);
 				CIP_zip.setEditable(true);
 				CIP_phone1.setEditable(true);
-				CIP_phone2.setEditable(true);
-				CIP_phone3.setEditable(true);
+				//CIP_phone2.setEditable(true);
+				//CIP_phone3.setEditable(true);
 				CIP_email.setEditable(true);
 				CIP_username.setEditable(true);
 				
@@ -1765,8 +1751,8 @@ public class CIT345Project extends JFrame {
 				CIP_state.setEnabled(false);
 				CIP_zip.setEditable(false);
 				CIP_phone1.setEditable(false);
-				CIP_phone2.setEditable(false);
-				CIP_phone3.setEditable(false);
+				//CIP_phone2.setEditable(false);
+				//CIP_phone3.setEditable(false);
 				CIP_email.setEditable(false);
 				CIP_username.setEditable(false);
 				
@@ -1799,8 +1785,8 @@ public class CIT345Project extends JFrame {
 				CIP_state.setEnabled(false);
 				CIP_zip.setEditable(false);
 				CIP_phone1.setEditable(false);
-				CIP_phone2.setEditable(false);
-				CIP_phone3.setEditable(false);
+				//CIP_phone2.setEditable(false);
+				//CIP_phone3.setEditable(false);
 				CIP_email.setEditable(false);
 				CIP_username.setEditable(false);
 				
@@ -1821,8 +1807,8 @@ public class CIT345Project extends JFrame {
 				CIP_state.setEnabled(true);
 				CIP_zip.setEditable(true);
 				CIP_phone1.setEditable(true);
-				CIP_phone2.setEditable(true);
-				CIP_phone3.setEditable(true);
+				//CIP_phone2.setEditable(true);
+				//CIP_phone3.setEditable(true);
 				CIP_email.setEditable(true);
 				CIP_username.setEditable(true);
 				
@@ -1890,8 +1876,8 @@ public class CIT345Project extends JFrame {
 				CIP_state.setEnabled(false);
 				CIP_zip.setEditable(false);
 				CIP_phone1.setEditable(false);
-				CIP_phone2.setEditable(false);
-				CIP_phone3.setEditable(false);
+				//CIP_phone2.setEditable(false);
+				//CIP_phone3.setEditable(false);
 				CIP_email.setEditable(false);
 				CIP_username.setEditable(false);
 				
@@ -1919,8 +1905,8 @@ public class CIT345Project extends JFrame {
 				CIP_state.setEnabled(false);
 				CIP_zip.setEditable(false);
 				CIP_phone1.setEditable(false);
-				CIP_phone2.setEditable(false);
-				CIP_phone3.setEditable(false);
+				//CIP_phone2.setEditable(false);
+				//CIP_phone3.setEditable(false);
 				CIP_email.setEditable(false);
 				CIP_username.setEditable(false);
 				
