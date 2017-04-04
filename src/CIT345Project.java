@@ -1005,15 +1005,70 @@ public class CIT345Project extends JFrame {
 		ActionPage_bot.add(AP_cInfo);
 		AP_cInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainCard.removeAll();
-				MainCard.add(CustomerInfoPage);
-				MainCard.repaint();
-				MainCard.revalidate();
-				
-				BottomCard.removeAll();
-				BottomCard.add(CustomerInfoPage_bot1);
-				BottomCard.repaint();
-				BottomCard.revalidate();
+
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+				Statement stmt =  null;
+				try {
+					// system.out.println is used for testing
+					//System.out.println("tracking page " + SID);
+					String query="select * from account join customer on account.CustomerID = customer.CustomerID WHERE customer.CustomerID ='"+CID+"'";
+					try{
+						stmt = connection.createStatement();
+						ResultSet rs = stmt.executeQuery(query);
+						if(rs.next()){
+							String x = rs.getString("AccountID");
+							String query2 = "Select * from contract where AccountNumber = '"+x+"'";
+							
+							String cusname = rs.getString("FirstName");
+							System.out.println(cusname);
+							CIP_customerid.setText(rs.getString("CustomerID"));
+							MainCard.removeAll();
+							MainCard.add(CustomerInfoPage);
+							MainCard.repaint();
+							MainCard.revalidate();
+							
+							BottomCard.removeAll();
+							BottomCard.add(CustomerInfoPage_bot1);
+							BottomCard.repaint();
+							BottomCard.revalidate();
+							CIP_fname.setText(rs.getString("FirstName"));
+							CIP_lname.setText(rs.getString("LastName"));
+							CIP_address.setText(rs.getString("Street"));
+							CIP_city.setText(rs.getString("City"));
+							//CIP_state.setText(rs.getString("State"));
+							CIP_zip.setText(rs.getString("Zip"));
+							//CIP_phone.setText(rs.getString("PhoneNumber"));
+							CIP_email.setText(rs.getString("Email"));
+							CIP_username.setText(rs.getString("UserName"));
+							try{								
+								ResultSet rs2 = stmt.executeQuery(query2);
+								if(rs2.next()){
+									CIP_contracttype.setText(rs2.getString("ContractTier"));
+							}}
+						
+							catch (Exception e1) {
+							// TODO Auto-generated catch block
+							System.out.println("Incorrect Username/Password");
+							e1.printStackTrace();
+							};
+							HP_username.setText("");
+							HP_password.setText("");
+						}
+						else{
+							JOptionPane.showMessageDialog(null, "Invalid Username/Password");
+						}
+					}
+					finally {
+						if (stmt != null) {stmt.close();}
+					}
+					
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					System.out.println("Incorrect Username/Password");
+					e1.printStackTrace();
+				}
+
 			}
 		});
 		
