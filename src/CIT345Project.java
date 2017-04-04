@@ -409,6 +409,13 @@ public class CIT345Project extends JFrame {
 		lblPassword.setBounds(30, 110, 84, 14);
 		HomePage.add(lblPassword);
 		
+		JComboBox CIP_state = new JComboBox();
+		CIP_state.setModel(new DefaultComboBoxModel(new String[] {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}));
+		CIP_state.setEnabled(false);
+		CIP_state.setMaximumRowCount(10);
+		CIP_state.setBounds(294, 187, 55, 20);
+		CustomerInfoPage.add(CIP_state);
+		
 		HP_username = new JTextField();
 		HP_username.setBounds(110, 71, 132, 20);
 		HomePage.add(HP_username);
@@ -463,7 +470,7 @@ public class CIT345Project extends JFrame {
 							CIP_lname.setText(rs.getString("LastName"));
 							CIP_address.setText(rs.getString("Street"));
 							CIP_city.setText(rs.getString("City"));
-							//CIP_state.setText(rs.getString("State"));
+							CIP_state.setSelectedItem(rs.getString("State"));
 							CIP_zip.setText(rs.getString("Zip"));
 							//CIP_phone.setText(rs.getString("PhoneNumber"));
 							CIP_email.setText(rs.getString("Email"));
@@ -1466,8 +1473,9 @@ public class CIT345Project extends JFrame {
 				methods.packageinsert(dimension, fragile, hazpack);
 				if (!content.equals("") && !value.equals("") ){
 					methods.declarationinsert(content, value);
+					JOptionPane.showMessageDialog(null, "Shipment has been completed");
 				}
-				JOptionPane.showMessageDialog(null, "Shipment has been completed");
+				
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
@@ -1633,12 +1641,7 @@ public class CIT345Project extends JFrame {
 		CIP_email.setBounds(112, 312, 111, 20);
 		CustomerInfoPage.add(CIP_email);
 		
-		JComboBox CIP_state = new JComboBox();
-		CIP_state.setModel(new DefaultComboBoxModel(new String[] {"", "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY"}));
-		CIP_state.setEnabled(false);
-		CIP_state.setMaximumRowCount(10);
-		CIP_state.setBounds(294, 187, 55, 20);
-		CustomerInfoPage.add(CIP_state);
+		
 		
 		JLabel lblContract = new JLabel("Contract:");
 		lblContract.setBounds(278, 13, 159, 19);
