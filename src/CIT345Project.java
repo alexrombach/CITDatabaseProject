@@ -430,15 +430,7 @@ public class CIT345Project extends JFrame {
 				password = HP_password.getText();
 				//Clears the password from login screen
 				TPP_number.setText("");
-				MainCard.removeAll();
-				MainCard.add(CustomerInfoPage);
-				MainCard.repaint();
-				MainCard.revalidate();
 				
-				BottomCard.removeAll();
-				BottomCard.add(CustomerLogin_bot);
-				BottomCard.repaint();
-				BottomCard.revalidate();
 				Connection connection;
 				connection=sqlConnection.dbConnector();
 				Statement stmt =  null;
@@ -449,11 +441,20 @@ public class CIT345Project extends JFrame {
 					try{
 						stmt = connection.createStatement();
 						ResultSet rs = stmt.executeQuery(query);
-						while(rs.next()){
+						if(rs.next()){
 							String cusname = rs.getString("FirstName");
 							System.out.println(cusname);
 							//lblCustomerId.setText("Customer ID: " + rs.getString("CustomerID"));
 							//lblContract.setText("Customer ID: " + rs.getString("ContractTier"));
+							MainCard.removeAll();
+							MainCard.add(CustomerInfoPage);
+							MainCard.repaint();
+							MainCard.revalidate();
+							
+							BottomCard.removeAll();
+							BottomCard.add(CustomerLogin_bot);
+							BottomCard.repaint();
+							BottomCard.revalidate();
 							CIP_fname.setText(rs.getString("FirstName"));
 							CIP_lname.setText(rs.getString("LastName"));
 							CIP_address.setText(rs.getString("Street"));
@@ -466,6 +467,9 @@ public class CIT345Project extends JFrame {
 							HP_username.setText("");
 							HP_password.setText("");
 						}
+						else{
+							JOptionPane.showMessageDialog(null, "Invalid Username/Password");
+						}
 					}
 					finally {
 						if (stmt != null) {stmt.close();}
@@ -473,6 +477,7 @@ public class CIT345Project extends JFrame {
 					
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
+					System.out.println("Incorrect Username/Password");
 					e1.printStackTrace();
 				}
 				
