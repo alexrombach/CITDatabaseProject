@@ -444,10 +444,12 @@ public class CIT345Project extends JFrame {
 						stmt = connection.createStatement();
 						ResultSet rs = stmt.executeQuery(query);
 						if(rs.next()){
+							String x = rs.getString("AccountID");
+							String query2 = "Select * from contract where AccountNumber = '"+x+"'";
+							
 							String cusname = rs.getString("FirstName");
 							System.out.println(cusname);
-							//lblCustomerId.setText("Customer ID: " + rs.getString("CustomerID"));
-							//lblContract.setText("Customer ID: " + rs.getString("ContractTier"));
+							CIP_customerid.setText(rs.getString("CustomerID"));
 							MainCard.removeAll();
 							MainCard.add(CustomerInfoPage);
 							MainCard.repaint();
@@ -466,6 +468,17 @@ public class CIT345Project extends JFrame {
 							//CIP_phone.setText(rs.getString("PhoneNumber"));
 							CIP_email.setText(rs.getString("Email"));
 							CIP_username.setText(rs.getString("UserName"));
+							try{								
+								ResultSet rs2 = stmt.executeQuery(query2);
+								if(rs2.next()){
+									CIP_contracttype.setText(rs2.getString("ContractTier"));
+							}}
+						
+							catch (Exception e1) {
+							// TODO Auto-generated catch block
+							System.out.println("Incorrect Username/Password");
+							e1.printStackTrace();
+							};
 							HP_username.setText("");
 							HP_password.setText("");
 						}
