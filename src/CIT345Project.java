@@ -141,6 +141,8 @@ public class CIT345Project extends JFrame {
 	
 
 	Methods methods; //reference to method java class
+	private JTextField CIP_customerid;
+	private JTextField CIP_contracttype;
 
 	/**
 	 * Launch the application.
@@ -1464,7 +1466,7 @@ public class CIT345Project extends JFrame {
 		
 		//-------Customer Info Page-------//
 		
-		JLabel lblCustomerId = new JLabel("Customer ID: _____________");
+		JLabel lblCustomerId = new JLabel("Customer ID:");
 		lblCustomerId.setBounds(26, 11, 159, 19);
 		CustomerInfoPage.add(lblCustomerId);
 		
@@ -1570,7 +1572,7 @@ public class CIT345Project extends JFrame {
 		CIP_state.setBounds(294, 187, 55, 20);
 		CustomerInfoPage.add(CIP_state);
 		
-		JLabel lblContract = new JLabel("Contract: _____________");
+		JLabel lblContract = new JLabel("Contract:");
 		lblContract.setBounds(278, 13, 159, 19);
 		CustomerInfoPage.add(lblContract);
 		
@@ -1583,6 +1585,18 @@ public class CIT345Project extends JFrame {
 		CIP_username.setColumns(10);
 		CIP_username.setBounds(112, 348, 111, 20);
 		CustomerInfoPage.add(CIP_username);
+		
+		CIP_customerid = new JTextField();
+		CIP_customerid.setEditable(false);
+		CIP_customerid.setBounds(99, 10, 86, 20);
+		CustomerInfoPage.add(CIP_customerid);
+		CIP_customerid.setColumns(10);
+		
+		CIP_contracttype = new JTextField();
+		CIP_contracttype.setEditable(false);
+		CIP_contracttype.setBounds(332, 10, 86, 20);
+		CustomerInfoPage.add(CIP_contracttype);
+		CIP_contracttype.setColumns(10);
 		
 	
 		
@@ -2383,8 +2397,4 @@ public class CIT345Project extends JFrame {
 		
 		
 	}
-
-
-
-
 }
