@@ -75,6 +75,7 @@ public class Methods {
 				if (set.next()){
 					CIT345Project.CID = set.getInt(1);
 					CIT345Project.customerCheck = true;
+					JOptionPane.showMessageDialog(null, "Customer has been added");
 				}
 		} catch(Exception e1) {
 			JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
@@ -199,7 +200,7 @@ public class Methods {
 		 
 		 for (int i = 0; i < strings.length; i++){
 			 if (strings[i] == ""){
-					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					JOptionPane.showMessageDialog(null, "Please make sure all shipping fields are filled out");
 					test = false;
 					break;
 				} else {
@@ -233,7 +234,7 @@ public class Methods {
 							CIT345Project.SID1 = set.getInt(1);
 						}
 				} catch(Exception e1) {
-					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					//JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
 					return;
 					}
 				finally{
@@ -253,7 +254,7 @@ public class Methods {
 		
 		 for (int i = 0; i < strings.length; i++){
 			 if (strings[i] == ""){
-					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					JOptionPane.showMessageDialog(null, "Please make sure all package fields are filled out");
 					test = false;
 					break;
 				} else {
@@ -276,14 +277,16 @@ public class Methods {
 						ResultSet set = retrieve.executeQuery();
 							if (set.next()){
 								CIT345Project.PID = set.getInt(1);
+								CIT345Project.shipped = true;
 							}
 							
 					} catch(Exception e1) {
-						JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+						//JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
 						return;
 						}
 					finally{
 						System.out.println("insert completed");
+						
 						};
 			 }
 	}
@@ -395,6 +398,12 @@ public class Methods {
 		System.out.println(Selected_CID.toString());
 		String cid = Selected_CID.toString();
 		CIT345Project.CID = Integer.parseInt(cid);
+		CIT345Project.customerCheck = true;
 	}	
+	
+	public void grabAcount (){
+		String q1 = "select AccountID from account where CustomerID = "+CIT345Project.CID+";";
+		
+	}
 }
 

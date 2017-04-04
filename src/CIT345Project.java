@@ -128,12 +128,14 @@ public class CIT345Project extends JFrame {
 	public static int SID1; 	
 	public static int PID;
 
-
+	public static int ACT_NO = 0;
 	public static String SID;
 	public static int CID;
 	
 	public String username;
 	public String password;
+	
+	public static boolean shipped = false;
 	
 	Object Selected_CID;
 	
@@ -904,7 +906,7 @@ public class CIT345Project extends JFrame {
 		CustomerSearchResult_bot.add(CSR_select);
 		CSR_select.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				customerCheck = true;
+				//customerCheck = true;
 				
 				methods.grabCIDfromCustomerList();
 				
@@ -1043,7 +1045,7 @@ public class CIT345Project extends JFrame {
 							CIP_lname.setText(rs.getString("LastName"));
 							CIP_address.setText(rs.getString("Street"));
 							CIP_city.setText(rs.getString("City"));
-							//CIP_state.setText(rs.getString("State"));
+							CIP_state.setSelectedItem(rs.getString("State"));
 							CIP_zip.setText(rs.getString("Zip"));
 							//CIP_phone.setText(rs.getString("PhoneNumber"));
 							CIP_email.setText(rs.getString("Email"));
@@ -1476,6 +1478,7 @@ public class CIT345Project extends JFrame {
 					JOptionPane.showMessageDialog(null, "Shipment has been completed");
 				}
 				
+				if (shipped){
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
@@ -1486,7 +1489,8 @@ public class CIT345Project extends JFrame {
 				BottomCard.repaint();
 				BottomCard.revalidate();
 	
-				
+				shipped = false;
+				}
 			}
 		});
 		
