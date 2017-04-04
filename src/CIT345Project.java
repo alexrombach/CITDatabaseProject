@@ -99,8 +99,8 @@ public class CIT345Project extends JFrame {
 	private JTextField CIP_phone1;
 	private JTextField CIP_email;
 	private JTextField CIP_username;
-	private JTable ChargeTable;
-	private JTable PaymentTable;
+	 static JTable ChargeTable;
+	static JTable PaymentTable;
 	private JTextField HP_username;
 	private JPasswordField HP_password;
 	private JTextField MAP_fname;
@@ -1690,6 +1690,13 @@ public class CIT345Project extends JFrame {
 		CustomerInfoPage_bot1.add(CIP_payment);
 		CIP_payment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+			
+				methods.grabBilling() ;
+				
+				ChargeHistory.setViewportView(ChargeTable);
+				PaymentHistory.setViewportView(PaymentTable);
+				
+				if (customerCheck ==true){
 				MainCard.removeAll();
 				MainCard.add(ChargeHistory);
 				MainCard.repaint();
@@ -1699,6 +1706,7 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(ChargeHistory_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				}
 			
 			}
 		});
@@ -2135,6 +2143,8 @@ public class CIT345Project extends JFrame {
 		ChargeHistory_bot.add(CH_charge);
 		CH_charge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				System.out.print("test");
 				MainCard.removeAll();
 				MainCard.add(ChargeHistory);
 				MainCard.repaint();
@@ -2187,6 +2197,8 @@ public class CIT345Project extends JFrame {
 		ChargeHistoryCL_bot.add(CHCL_charge);
 		CHCL_charge.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				
 				MainCard.removeAll();
 				MainCard.add(ChargeHistory);
 				MainCard.repaint();
@@ -2201,6 +2213,7 @@ public class CIT345Project extends JFrame {
 		
 		CHCL_pay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				MainCard.removeAll();
 				MainCard.add(PaymentHistory);
 				MainCard.repaint();

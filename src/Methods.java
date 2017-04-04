@@ -394,16 +394,53 @@ public class Methods {
 		
 		
 		int row = CIT345Project.CSR_table.getSelectedRow();
-		Object Selected_CID = CIT345Project.CSR_table.getModel().getValueAt(row, 0);
-		System.out.println(Selected_CID.toString());
-		String cid = Selected_CID.toString();
-		CIT345Project.CID = Integer.parseInt(cid);
-		CIT345Project.customerCheck = true;
+		Object Selected_CID = null;
+		try{
+			 Selected_CID = CIT345Project.CSR_table.getModel().getValueAt(row, 0);
+			System.out.println(Selected_CID.toString());
+			String cid = Selected_CID.toString();
+			CIT345Project.CID = Integer.parseInt(cid);
+			CIT345Project.customerCheck = true;
+		} catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+			CIT345Project.customerCheck = false;
+			
+			}		
+		
+		
+
 	}	
 	
 	public void grabAcount (){
 		String q1 = "select AccountID from account where CustomerID = "+CIT345Project.CID+";";
 		
 	}
+
+	public void grabBilling(){
+
+		boolean test = true;
+		if (test == true){
+			String q1 = "select * from chargehistory where CustomerID = "+CIT345Project.CID+";";
+			String q2 = "select p.DueDate, p.AmountDue, p.DatePaid, p.paymentscol from chargehistory join payments p whereCustomerID = "+CIT345Project.CID+";";
+		try{
+			PreparedStatement retrieve1 = connection.prepareStatement(q1);
+			PreparedStatement retrieve2 = connection.prepareStatement(q2);
+			ResultSet rs1=retrieve1.executeQuery();
+			ResultSet rs2=retrieve2.executeQuery();
+			
+			CIT345Project.ChargeTable.setModel(DbUtils.resultSetToTableModel(rs1));
+			CIT345Project.PaymentTable.setModel(DbUtils.resultSetToTableModel(rs2));
+			
+			CIT345Project.customerCheck = true;
+		} catch(Exception e1) {
+			JOptionPane.showMessageDialog(null, "No Payment History or Charge History Present");
+			CIT345Project.customerCheck = false;
+			
+			}
+		
+		}
+	}	
+
 }
+
 
