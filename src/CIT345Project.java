@@ -1545,7 +1545,7 @@ public class CIT345Project extends JFrame {
 		//-------Customer Info Page-------//
 		
 		JLabel lblCustomerId = new JLabel("Customer ID:");
-		lblCustomerId.setBounds(26, 11, 159, 19);
+		lblCustomerId.setBounds(26, 11, 80, 19);
 		CustomerInfoPage.add(lblCustomerId);
 		
 		JLabel label_14 = new JLabel("First Name");
@@ -1756,6 +1756,45 @@ public class CIT345Project extends JFrame {
 				CIP_email.setEditable(false);
 				CIP_username.setEditable(false);
 				
+				String cusID = CIP_customerid.getText();
+				String fname = CIP_fname.getText();
+				String lname = CIP_lname.getText();
+				String address = CIP_address.getText();
+				String city = CIP_city.getText();
+				String state = CIP_state.getSelectedItem().toString();
+				String zip = CIP_zip.getText();
+				String phone = CIP_phone1.getText();
+				String email = CIP_email.getText();
+				String username = CIP_username.getText();
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+				Statement stmt =  null;
+				
+				String query ="UPDATE customer SET FirstName = '"+fname+"', LastName = '"+lname+"', Email = '"+email+"', PhoneNumber = '"+phone+"', State = '"+state+"', Street = '"+address+"', City = '"+city+"', Zip = '"+zip+"' WHERE CustomerID = '"+cusID+"';";
+				String query2 ="UPDATE account SET UserName = '"+username+"' WHERE CustomerID = '"+cusID+"';";
+				String query3 = "SELECT * FROM account where CustomerID = '"+cusID+"'";
+				try{
+					
+					PreparedStatement posted = connection.prepareStatement(query);
+					posted.executeUpdate();
+				}
+				catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				}
+				
+				try{
+					stmt = connection.createStatement();
+					ResultSet rs = stmt.executeQuery(query3);
+					if(rs.next()){
+						PreparedStatement posted = connection.prepareStatement(query2);
+						posted.executeUpdate();
+					}					}
+				catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					}
+				
 				BottomCard.removeAll();
 				BottomCard.add(CustomerInfoPage_bot1);
 				BottomCard.repaint();
@@ -1880,6 +1919,44 @@ public class CIT345Project extends JFrame {
 				//CIP_phone3.setEditable(false);
 				CIP_email.setEditable(false);
 				CIP_username.setEditable(false);
+				String cusID = CIP_customerid.getText();
+				String fname = CIP_fname.getText();
+				String lname = CIP_lname.getText();
+				String address = CIP_address.getText();
+				String city = CIP_city.getText();
+				String state = CIP_state.getSelectedItem().toString();
+				String zip = CIP_zip.getText();
+				String phone = CIP_phone1.getText();
+				String email = CIP_email.getText();
+				String username = CIP_username.getText();
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+				Statement stmt =  null;
+				
+				String query ="UPDATE customer SET FirstName = '"+fname+"', LastName = '"+lname+"', Email = '"+email+"', PhoneNumber = '"+phone+"', State = '"+state+"', Street = '"+address+"', City = '"+city+"', Zip = '"+zip+"' WHERE CustomerID = '"+cusID+"';";
+				String query2 ="UPDATE account SET UserName = '"+username+"' WHERE CustomerID = '"+cusID+"';";
+				String query3 = "SELECT * FROM account where CustomerID = '"+cusID+"'";
+				try{
+					
+					PreparedStatement posted = connection.prepareStatement(query);
+					posted.executeUpdate();
+				}
+				catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				}
+				
+				try{
+					stmt = connection.createStatement();
+					ResultSet rs = stmt.executeQuery(query3);
+					if(rs.next()){
+						PreparedStatement posted = connection.prepareStatement(query2);
+						posted.executeUpdate();
+					}					}
+				catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+					}
 				
 				BottomCard.removeAll();
 				BottomCard.add(CustomerLogin_bot);
