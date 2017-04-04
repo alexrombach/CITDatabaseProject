@@ -1030,10 +1030,13 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(TrackPackageResult_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+
 				
 				TPR_table = new JTable();
 				
-				/*try {
+				try {
 					// system.out.println is used for testing
 					//System.out.println("tracking page " + SID);
 					String query="select tracking.Date, tracking.CurrentLocation, tracking.Status, tracking.CurrentMode from tracking join shipment on 					tracking.shipmentid = shipment.ShipmentID WHERE shipment.ShipmentID='"+SID+"' ORDER BY tracking.Date DESC;";
@@ -1042,11 +1045,12 @@ public class CIT345Project extends JFrame {
 					
 					TPR_table.setModel(DbUtils.resultSetToTableModel(rs));
 					TrackPackageResult.setViewportView(TPR_table);
+					TPP_number.setText("");
 					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}*/
+				}
 			}
 		});
 		
