@@ -2222,15 +2222,26 @@ public class CIT345Project extends JFrame {
 		UpdateTracking_bot.add(UT_update);
 		UT_update.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainCard.removeAll();
-				MainCard.add(UpdateTrackingForm);
-				MainCard.repaint();
-				MainCard.revalidate();
 				
-				BottomCard.removeAll();
-				BottomCard.add(UpdateTrackingForm_bot);
-				BottomCard.repaint();
-				BottomCard.revalidate();
+				DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime utdate = LocalDateTime.now();
+				String x = utdate.format(formatter);
+				UTF_date.setText(x);
+				SID =TPP_number.getText();
+				if(!SID.isEmpty()){
+					MainCard.removeAll();
+					MainCard.add(UpdateTrackingForm);
+					MainCard.repaint();
+					MainCard.revalidate();
+					
+					BottomCard.removeAll();
+					BottomCard.add(UpdateTrackingForm_bot);
+					BottomCard.repaint();
+					BottomCard.revalidate();
+				}
+				else{
+					JOptionPane.showMessageDialog(null, "Insert the shipping ID you would like to update");
+				}
 			}
 		});
 		
@@ -2257,15 +2268,53 @@ public class CIT345Project extends JFrame {
 		UpdateTrackingForm_bot.add(UTF_save);
 		UTF_save.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MainCard.removeAll();
-				MainCard.add(HomePage);
-				MainCard.repaint();
-				MainCard.revalidate();
 				
-				BottomCard.removeAll();
-				BottomCard.add(HomePage_bot);
-				BottomCard.repaint();
-				BottomCard.revalidate();
+				String UTFdate = UTF_date.getText();
+				String UTFlocation = UTF_location.getText();
+				String UTFstatus = UTF_status.getText();
+				String UTFmode = UTF_mode.getText();
+
+				//System.out.println(UTFdate + UTFlocation + UTFstatus + UTFmode + SID);
+
+				
+				Connection connection;
+				connection=sqlConnection.dbConnector();
+
+				String query="INSERT INTO tracking (Date, CurrentLocation, Status, CurrentMode, ShipmentID) values ('"+UTFdate+"', '"+UTFlocation+"','"+UTFstatus+"','"+UTFmode+"','"+SID+"');";
+				try {
+					
+					
+					if(!SID.isEmpty() & !UTFlocation.isEmpty() & !UTFstatus.isEmpty() & !UTFmode.isEmpty()){
+						PreparedStatement posted = connection.prepareStatement(query);
+						posted.executeUpdate();
+						JOptionPane.showMessageDialog(null, "Tracking updated");
+						MainCard.removeAll();
+						MainCard.add(HomePage);
+						MainCard.repaint();
+						MainCard.revalidate();
+						
+						BottomCard.removeAll();
+						BottomCard.add(HomePage_bot);
+						BottomCard.repaint();
+						BottomCard.revalidate();
+						UTF_location.setText("");
+						UTF_status.setText("");
+						UTF_mode.setText("");
+						TPP_number.setText("");
+
+				}
+					else{
+						JOptionPane.showMessageDialog(null, "Unable to update tracking. Please ensure all fields are filled in");
+					}
+					} catch(Exception e1) {
+					;
+					
+					}
+				finally{
+					
+
+					};
+
 			}
 		});
 		
@@ -2317,7 +2366,7 @@ public class CIT345Project extends JFrame {
 		
 		UTF_date = new JTextField();
 		UTF_date.setEditable(false);
-		UTF_date.setBounds(145, 18, 86, 20);
+		UTF_date.setBounds(145, 18, 135, 20);
 		UpdateTrackingForm.add(UTF_date);
 		UTF_date.setColumns(10);
 		
