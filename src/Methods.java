@@ -402,7 +402,7 @@ public class Methods {
 			CIT345Project.CID = Integer.parseInt(cid);
 			CIT345Project.customerCheck = true;
 		} catch(Exception e) {
-			JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+			JOptionPane.showMessageDialog(null, "Select a customer!");
 			CIT345Project.customerCheck = false;
 			
 			}		
@@ -413,6 +413,125 @@ public class Methods {
 	
 	public void grabAcount (){
 		String q1 = "select AccountID from account where CustomerID = "+CIT345Project.CID+";";
+		
+		try {
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+			ResultSet set = retrieve.executeQuery();
+				if (set.next()){
+					CIT345Project.ACT_NO = set.getInt(1);
+				}else{
+					CIT345Project.ACT_NO = 0;
+				}
+		}catch(Exception e) {
+				return;
+			}
+	}
+	
+	public void grabContract(){
+		String q1 = "select ContractTier from contract where AccountNumber = "+CIT345Project.ACT_NO+";";
+		try {
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+			ResultSet set = retrieve.executeQuery();
+				if (set.next()){
+					CIT345Project.contractType = set.getString(1);
+				}else{
+					CIT345Project.contractType = "";
+				}
+		}catch(Exception e) {
+				return;
+			}
+	}
+	
+	public void grabDiscount(){
+		String q1 = "select Discount from contracttype where Teir = '"+CIT345Project.contractType+"';";
+		try {
+			PreparedStatement retrieve = connection.prepareStatement(q1);
+			ResultSet set = retrieve.executeQuery();
+				if (set.next()){
+					CIT345Project.discount = set.getInt(1);
+				}else{
+					CIT345Project.discount = 0;
+				}
+		}catch(Exception e) {
+				return;
+			}
+	}
+	
+	public void addBronze(){
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime ldt;
+		String d = "";
+		ldt = LocalDateTime.now();
+		d = dtf.format(ldt);
+		CIT345Project.NowTime = d;
+		ldt = LocalDateTime.now().plusYears(1);
+		d = dtf.format(ldt);
+		CIT345Project.EndTime = d;
+		
+		LocalDateTime stime = LocalDateTime.parse(CIT345Project.NowTime, dtf);
+		LocalDateTime etime = LocalDateTime.parse(CIT345Project.EndTime, dtf);
+		
+		String q1 = "insert into contract (AccountNumber, ContractTier, StartDate, EndDate)"
+				+ "Values ("+CIT345Project.ACT_NO+",'Bronze','"+stime+"','"+etime+"');";
+
+		try{
+	 		PreparedStatement posted = connection.prepareStatement(q1);
+	 		posted.executeUpdate();
+	 	} catch (Exception e1){
+			return;
+	 	}
+		
+	}
+	
+	public void addSilver(){
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime ldt;
+		String d = "";
+		ldt = LocalDateTime.now();
+		d = dtf.format(ldt);
+		CIT345Project.NowTime = d;
+		ldt = LocalDateTime.now().plusYears(1);
+		d = dtf.format(ldt);
+		CIT345Project.EndTime = d;
+		
+		LocalDateTime stime = LocalDateTime.parse(CIT345Project.NowTime, dtf);
+		LocalDateTime etime = LocalDateTime.parse(CIT345Project.EndTime, dtf);
+		
+		String q1 = "insert into contract (AccountNumber, ContractTier, StartDate, EndDate)"
+				+ "Values ("+CIT345Project.ACT_NO+",'Silver','"+stime+"','"+etime+"');";
+
+		try{
+	 		PreparedStatement posted = connection.prepareStatement(q1);
+	 		posted.executeUpdate();
+	 	} catch (Exception e1){
+			return;
+	 	}
+		
+	}
+	
+	public void addGold(){
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		LocalDateTime ldt;
+		String d = "";
+		ldt = LocalDateTime.now();
+		d = dtf.format(ldt);
+		CIT345Project.NowTime = d;
+		ldt = LocalDateTime.now().plusYears(1);
+		d = dtf.format(ldt);
+		CIT345Project.EndTime = d;
+		
+		LocalDateTime stime = LocalDateTime.parse(CIT345Project.NowTime, dtf);
+		LocalDateTime etime = LocalDateTime.parse(CIT345Project.EndTime, dtf);
+		
+		String q1 = "insert into contract (AccountNumber, ContractTier, StartDate, EndDate)"
+				+ "Values ("+CIT345Project.ACT_NO+",'Gold','"+stime+"','"+etime+"');";
+
+		try{
+	 		PreparedStatement posted = connection.prepareStatement(q1);
+	 		posted.executeUpdate();
+	 	} catch (Exception e1){
+			return;
+	 	}
 		
 	}
 
@@ -439,7 +558,13 @@ public class Methods {
 			}
 		
 		}
-	}	
+	}
+	
+	public void discountPrice(){
+		double discount;
+		discount = (CIT345Project.price * CIT345Project.discount)/100;
+		CIT345Project.price = CIT345Project.price - discount;
+	}
 
 }
 

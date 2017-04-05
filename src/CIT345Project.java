@@ -114,8 +114,10 @@ public class CIT345Project extends JFrame {
 	private JTextField UTF_status;
 	private JTextField UTF_mode;
 
-	DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-	LocalDateTime now = LocalDateTime.now();
+	static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+	static LocalDateTime now = LocalDateTime.now();
+	public static String NowTime;
+	public static String EndTime;
 	public static double price = 0;
 	public static String dDate;
 	public static double weight;
@@ -129,7 +131,8 @@ public class CIT345Project extends JFrame {
 	public static int ACT_NO = 0;
 	public static String SID;
 	public static int CID;
-	
+	public static String contractType = "";
+	public static int discount = 0;
 	public String username;
 	public String password;
 	
@@ -741,6 +744,18 @@ public class CIT345Project extends JFrame {
 				methods.addNewCustomer(fname,lname,street,city,phone1,phone2,phone3,email,state,zip);
 
 				if (customerCheck ==true){
+					
+					NCF_fName.setText("");                    
+					NCF_lName.setText("");                    
+					NCF_street.setText("");                  
+					NCF_city.setText("");                      
+					NCF_zip.setText("");                        
+					NCF_phone1.setText("");                  
+					NCF_phone2.setText("");                  
+					NCF_phone3.setText("");                  
+					NCF_email.setText("");                    
+					NCF_state.setSelectedItem("");
+					
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
@@ -761,6 +776,18 @@ public class CIT345Project extends JFrame {
 		NewCustomerForm_bot.add(NCF_Cancel);
 		NCF_Cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				NCF_fName.setText("");                    
+				NCF_lName.setText("");                    
+				NCF_street.setText("");                  
+				NCF_city.setText("");                      
+				NCF_zip.setText("");                        
+				NCF_phone1.setText("");                  
+				NCF_phone2.setText("");                  
+				NCF_phone3.setText("");                  
+				NCF_email.setText("");                    
+				NCF_state.setSelectedItem("");
+				
 				MainCard.removeAll();
 				MainCard.add(HomePage);
 				MainCard.repaint();
@@ -862,6 +889,13 @@ public class CIT345Project extends JFrame {
 				CustomerSearchResult.setViewportView(CSR_table);
 				
 				if (customerCheck ==true){
+					
+					CS_fName.setText("");  
+					CS_lName.setText("");  
+					CS_phone1.setText("");
+					CS_phone2.setText("");
+					CS_phone3.setText("");
+					CS_email.setText("");  
 				MainCard.removeAll();
 				MainCard.add(CustomerSearchResult);
 				MainCard.repaint();
@@ -880,6 +914,14 @@ public class CIT345Project extends JFrame {
 		CustomerSearch_bot.add(CS_back);
 		CS_back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				CS_fName.setText("");  
+				CS_lName.setText("");  
+				CS_phone1.setText("");
+				CS_phone2.setText("");
+				CS_phone3.setText("");
+				CS_email.setText("");  
+				
 				MainCard.removeAll();
 				MainCard.add(HomePage);
 				MainCard.repaint();
@@ -907,8 +949,17 @@ public class CIT345Project extends JFrame {
 				//customerCheck = true;
 				
 				methods.grabCIDfromCustomerList();
-				
-				
+				System.out.println(CID);
+				methods.grabAcount();
+				System.out.println(ACT_NO);
+				if(ACT_NO != 0){
+					methods.grabContract();
+					System.out.println(contractType);
+				}
+				if (!contractType.equals("")){
+					methods.grabDiscount();
+					System.out.println(discount);
+				}
 				if(CIT345Project.customerCheck == true)
 				{
 					MainCard.removeAll();
@@ -952,7 +1003,11 @@ public class CIT345Project extends JFrame {
 		AP_home.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				customerCheck = false;
-				
+				SID = "";
+				SID1 = 0;
+				CID = 0; 
+				contractType = "";
+				discount = 0;
 				MainCard.removeAll();
 				MainCard.add(HomePage);
 				MainCard.repaint();
@@ -1477,6 +1532,19 @@ public class CIT345Project extends JFrame {
 				}
 				
 				if (shipped){
+					
+					SF_storeid.setText("");
+					SF_street.setText("");
+					SF_city.setText("");
+					SF_state.setSelectedItem("");
+					SF_zip.setText("");
+					SF_country.setSelectedItem("United States");
+					SF_weight.setText("");
+					SF_dimensions.setText("");
+					SF_contents.setText("");
+					SF_value.setText("");
+					
+					
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
@@ -1497,6 +1565,18 @@ public class CIT345Project extends JFrame {
 		ShipmentForm_bot.add(SF_cancel);
 		SF_cancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				SF_storeid.setText("");
+				SF_street.setText("");
+				SF_city.setText("");
+				SF_state.setSelectedItem("");
+				SF_zip.setText("");
+				SF_country.setSelectedItem("United States");
+				SF_weight.setText("");
+				SF_dimensions.setText("");
+				SF_contents.setText("");
+				SF_value.setText("");
+				
 				MainCard.removeAll();
 				MainCard.add(ActionPage);
 				MainCard.repaint();
@@ -1533,6 +1613,9 @@ public class CIT345Project extends JFrame {
 				}
 				
 				methods.calculate(speed, inter, hazpack, osize);
+				if (discount != 0){
+					methods.discountPrice();
+				}
 				SF_price.setText(Double.toString(price));
 				SF_deliverydate.setText(dDate);
 				shipSummary.setVisible(true);
@@ -1715,19 +1798,7 @@ public class CIT345Project extends JFrame {
 		JButton CIP_contract = new JButton("Add Contract");
 		CIP_contract.setFont(new Font("Candara", Font.PLAIN, 16));
 		CustomerInfoPage_bot1.add(CIP_contract);
-		CIP_contract.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MainCard.removeAll();
-				MainCard.add(ContractPage);
-				MainCard.repaint();
-				MainCard.revalidate();
-				
-				BottomCard.removeAll();
-				BottomCard.add(ContractPage_bot);
-				BottomCard.repaint();
-				BottomCard.revalidate();
-			}
-		});
+
 		
 		JButton CIP_back = new JButton("Back");
 		CIP_back.setFont(new Font("Candara", Font.PLAIN, 16));
@@ -2014,13 +2085,16 @@ public class CIT345Project extends JFrame {
 		JTextArea CP_bronzeinfo = new JTextArea();
 		CP_bronzeinfo.setBackground(Color.LIGHT_GRAY);
 		CP_bronzeinfo.setEditable(false);
-		CP_bronzeinfo.setText("Sed metus magna, dictum id rutrum sed, tincidunt non sapien. Praesent a feugiat mi. Donec consequat commodo velit sed porttitor.");
+		CP_bronzeinfo.setText("This contract costs $50/yr and gets you\r\n10% off all shipments");
 		CP_bronzeinfo.setLineWrap(true);
 		Bronze.add(CP_bronzeinfo, BorderLayout.CENTER);
 		
 		JButton CP_bronze = new JButton("Add Contract");
+		CP_bronze.setEnabled(false);
 		CP_bronze.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				methods.addBronze();
+				JOptionPane.showMessageDialog(null, "Customer Now has Bronze level contract");
 				MainCard.removeAll();
 				MainCard.add(CustomerInfoPage);
 				MainCard.repaint();
@@ -2041,8 +2115,11 @@ public class CIT345Project extends JFrame {
 		Silver.add(lblSilver, BorderLayout.WEST);
 		
 		JButton CP_silver = new JButton("Add Contract");
+		CP_silver.setEnabled(false);
 		CP_silver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				methods.addSilver();
+				JOptionPane.showMessageDialog(null, "Customer Now has Silver level contract");
 				MainCard.removeAll();
 				MainCard.add(CustomerInfoPage);
 				MainCard.repaint();
@@ -2059,7 +2136,7 @@ public class CIT345Project extends JFrame {
 		JTextArea CP_silverinfo = new JTextArea();
 		CP_silverinfo.setBackground(Color.GRAY);
 		CP_silverinfo.setEditable(false);
-		CP_silverinfo.setText("Sed metus magna, dictum id rutrum sed, tincidunt non sapien. Praesent a feugiat mi. Donec consequat commodo velit sed porttitor.");
+		CP_silverinfo.setText("This contract costs $100/yr and gets you \r\n15% off all shipments");
 		CP_silverinfo.setLineWrap(true);
 		Silver.add(CP_silverinfo, BorderLayout.CENTER);
 		
@@ -2070,8 +2147,11 @@ public class CIT345Project extends JFrame {
 		Gold.add(lblGold, BorderLayout.WEST);
 		
 		JButton CP_gold = new JButton("Add Contract");
+		CP_gold.setEnabled(false);
 		CP_gold.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				methods.addGold();
+				JOptionPane.showMessageDialog(null, "Customer Now has Gold level contract");
 				MainCard.removeAll();
 				MainCard.add(CustomerInfoPage);
 				MainCard.repaint();
@@ -2088,7 +2168,7 @@ public class CIT345Project extends JFrame {
 		JTextArea CP_goldinfo = new JTextArea();
 		CP_goldinfo.setBackground(Color.LIGHT_GRAY);
 		CP_goldinfo.setEditable(false);
-		CP_goldinfo.setText("Sed metus magna, dictum id rutrum sed, tincidunt non sapien. Praesent a feugiat mi. Donec consequat commodo velit sed porttitor.");
+		CP_goldinfo.setText("This contract costs $200/yr and gets you\r\n25% off all shipments");
 		CP_goldinfo.setLineWrap(true);
 		Gold.add(CP_goldinfo, BorderLayout.CENTER);
 		
@@ -2106,6 +2186,38 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(CustomerInfoPage_bot1);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+			}
+		});
+		
+		CIP_contract.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MainCard.removeAll();
+				MainCard.add(ContractPage);
+				MainCard.repaint();
+				MainCard.revalidate();
+				
+				BottomCard.removeAll();
+				BottomCard.add(ContractPage_bot);
+				BottomCard.repaint();
+				BottomCard.revalidate();
+				
+			if (!contractType.equals("")){
+				CP_bronze.setEnabled(false);
+				CP_silver.setEnabled(false);
+				CP_gold.setEnabled(false);
+				JOptionPane.showMessageDialog(null, "Customer already has a "+contractType+" contract");
+			}else if (ACT_NO != 0){
+				CP_bronze.setEnabled(true);
+				CP_silver.setEnabled(true);
+				CP_gold.setEnabled(true);
+			}else{
+				CP_bronze.setEnabled(false);
+				CP_silver.setEnabled(false);
+				CP_gold.setEnabled(false);
+				JOptionPane.showMessageDialog(null, "Customer must have an account first before buying a contract");
+			}
+			 
+			
 			}
 		});
 		
