@@ -29,6 +29,7 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -52,6 +53,7 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import javax.swing.ImageIcon;
 
 public class CIT345Project extends JFrame {
 
@@ -368,10 +370,12 @@ public class CIT345Project extends JFrame {
 		
 		//-------Start Page-------//
 		
-		JLabel label = new JLabel("'Company Name' Shipping Service");
+		JLabel label = new JLabel("");
+		Image img = new ImageIcon(this.getClass().getResource("/astrologo.png")).getImage();
+		label.setIcon(new ImageIcon(img));
 		label.setHorizontalAlignment(SwingConstants.CENTER);
 		label.setFont(new Font("Candara", Font.PLAIN, 24));
-		label.setBounds(10, 11, 446, 209);
+		label.setBounds(0, 96, 464, 209);
 		startPage.add(label);
 		
 		JButton StartButton = new JButton("Start");
