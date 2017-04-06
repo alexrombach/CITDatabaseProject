@@ -539,9 +539,9 @@ public class Methods {
 
 		boolean test = true;
 		if (test == true){
-			String q1 = "select * from chargehistory where CustomerID = "+CIT345Project.CID+";";
-			String q2 = "select p.DueDate, p.AmountDue, p.DatePaid, p.paymentscol from chargehistory join payments p whereCustomerID = "+CIT345Project.CID+";";
-		try{
+			String q1 = "select ShipmentID, DatePaid, TotalPrice, CreditCardID from chargehistory where CustomerID = "+CIT345Project.CID+";";
+			String q2 = "select payments.ShipmentID, payments.DueDate, payments.AmountDue, payments.DatePaid, payments.paymentscol from account join payments on account.AccountID = payments.AccoutNumber where CustomerID = "+CIT345Project.CID+";"; 
+		try{         
 			PreparedStatement retrieve1 = connection.prepareStatement(q1);
 			PreparedStatement retrieve2 = connection.prepareStatement(q2);
 			ResultSet rs1=retrieve1.executeQuery();
