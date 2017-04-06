@@ -1,0 +1,13 @@
+CustomerID,FirstName,LastName,Email,PhoneNumber,State,Street,City,Zip
+1,Jason,Edwards,jedwards0@google.ca,1-(814)917-5577,Pennsylvania,"7 Arkansas Street",Erie,16550
+2,Fred,Robertson,frobertson1@who.int,1-(714)572-4576,California,"179 Browning Way","Santa Ana",92725
+3,Juan,Greene,jgreene2@mozilla.com,1-(337)802-7457,Louisiana,"5505 Canary Parkway","Lake Charles",70607
+4,Lillian,Lawson,llawson3@godaddy.com,1-(804)246-3685,Virginia,"2374 Ryan Place",Richmond,23293
+5,Maria,Romero,mromero4@webmd.com,1-(508)601-8492,Massachusetts,"65964 Packers Terrace",Brockton,2405
+6,George,Bowman,gbowman5@github.io,1-(903)920-2752,Texas,"6394 Northridge Hill",Tyler,75710
+7,Randy,Wells,rwells6@nytimes.com,1-(602)709-0377,Arizona,"3 Rowland Park",Scottsdale,85260
+8,Peter,Frazier,pfrazier7@joomla.org,1-(808)104-7131,Hawaii,"969 Crowley Way",Honolulu,96820
+9,Maria,Thomas,mthomas8@squidoo.com,1-(952)233-1563,Minnesota,"2 Utah Plaza","Maple Plain",55579
+10,Martin,Mason,mmason9@pbs.org,1-(317)227-1154,Indiana,"26944 Annamark Crossing",Indianapolis,46231
+11,Nick,Woodle,nhwoodle@oakland.edu,248-555-5555,MI,"123 Road",Troy,48083
+12,test,test,test@test.com,123-234-1232,MI,test,test,55677

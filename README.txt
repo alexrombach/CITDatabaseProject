@@ -49,7 +49,10 @@ README-README-README-README-README-README-README-README-README-README-README-REA
 4) What files are attached/required
 	-Readme.txt 
 	-mySQL Database insertion code sql file
-		-cit345groupproject.sql (located in /OtherProjectFiles folder
+		-cit345groupproject.sql (located in /OtherProjectFiles folder)
+		-This sql file is capible of generating our entire database and all of its data.  
+	-CSV files for every table
+		-These files (located in /OtherProjectFiles folder) show all of our data in csv format per table. 
 	-If you are compiling the code:
 		-Reference rs2xml.jar and mysql-connector-java-5.1.41-bin.jar iside of the projects referenced libraries 
 		-eclispse project file 'CITDatabaseProject'
