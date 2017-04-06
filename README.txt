@@ -15,7 +15,11 @@ README-README-README-README-README-README-README-README-README-README-README-REA
 --------------------------------------------------------------------------------      |
 README-README-README-README-README-README-README-README-README-README-README-README-  |
 										      |
-@authors: Steven Nguyen, Nick Woodle, Alex Rombach				      |
+@authors: Steven Nguyen, Nick Woodle, Alex Rombach	                              |
+                                                                                      |
+https://github.com/alexrombach/CITDatabaseProject                                     |
+(The entire project and all its commits)                                              |
+			  							      |
 --------------------------------------------------------------------------------------|
 
 1) How to run the code
@@ -58,3 +62,5 @@ README-README-README-README-README-README-README-README-README-README-README-REA
 		-eclispse project file 'CITDatabaseProject'
 	-If you are runnig our .java file 
 		-Filename.java
+
+
