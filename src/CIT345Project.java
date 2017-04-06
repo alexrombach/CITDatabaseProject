@@ -1081,6 +1081,7 @@ public class CIT345Project extends JFrame {
 						if(rs.next()){
 							String x = rs.getString("CustomerID");
 							String query2 = "Select * from account where customerID = '"+x+"'";
+							System.out.println(x);
 							
 							String cusname = rs.getString("FirstName");
 							System.out.println(cusname);
@@ -1103,16 +1104,17 @@ public class CIT345Project extends JFrame {
 							CIP_phone1.setText(rs.getString("PhoneNumber"));
 							CIP_email.setText(rs.getString("Email"));
 							
-							try{								
+							try{
 								ResultSet rs2 = stmt.executeQuery(query2);
 								if(rs2.next()){
 									String y = rs2.getString("AccountID");
-									String query3 = "Select * from contract where accountID = '"+y+"'";
-									CIP_username.setText(rs.getString("UserName"));
+									System.out.println(y);
+									String query3 = "Select * from contract where accountnumber = '"+y+"'";
+									CIP_username.setText(rs2.getString("UserName"));
 									try{								
 										ResultSet rs3 = stmt.executeQuery(query3);
 										if(rs3.next()){
-											CIP_contracttype.setText(rs3.getString("ContractTeir"));
+											CIP_contracttype.setText(rs3.getString("ContractTier"));
 									}}
 									catch (Exception e1) {
 										// TODO Auto-generated catch block
