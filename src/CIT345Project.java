@@ -2429,7 +2429,8 @@ public class CIT345Project extends JFrame {
 				String MAPusername = MAP_username.getText();
 				String MAPpassword = MAP_password.getText();
 				//System.out.println(MAPfname + MAPlname + MAPemail +MAPusername + MAPpassword);
-
+				
+				if(!MAPfname.isEmpty() & !MAPlname.isEmpty() & !MAPemail.isEmpty() & !MAPusername.isEmpty() & !MAPpassword.isEmpty()){
 				
 				Connection connection;
 				connection=sqlConnection.dbConnector();
@@ -2468,7 +2469,10 @@ public class CIT345Project extends JFrame {
 				finally{
 					
 
-					};
+					};}
+				else{
+					JOptionPane.showMessageDialog(null, "Please fill in all fields");
+				}
 
 				}
 			});
@@ -2487,6 +2491,12 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(HomePage_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+				MAP_fname.setText("");
+				textField_1.setText("");
+				MAP_email.setText("");
+				MAP_username.setText("");
+				MAP_password.setText("");
+				MAP_passwordcon.setText("");
 			}
 		});
 		MAP_cancel.setFont(new Font("Candara", Font.PLAIN, 16));
