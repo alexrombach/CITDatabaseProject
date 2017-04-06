@@ -1528,11 +1528,11 @@ public class CIT345Project extends JFrame {
 				methods.packageinsert(dimension, fragile, hazpack);
 				if (!content.equals("") && !value.equals("") ){
 					methods.declarationinsert(content, value);
-					JOptionPane.showMessageDialog(null, "Shipment has been completed");
+					
 				}
 				
 				if (shipped){
-					
+					JOptionPane.showMessageDialog(null, "Shipment has been completed, your tracking ID is " + SID1);
 					SF_storeid.setText("");
 					SF_street.setText("");
 					SF_city.setText("");
