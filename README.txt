@@ -47,6 +47,16 @@ https://github.com/alexrombach/CITDatabaseProject                               
 	- Must have a macheine running windows 10 
 	- Must have the latest JAVA jdk/jre installed 
 	- Must have a macheine capible of runnig java applications
+        - For our program to run properly your computer must be able to run on Java 8. 
+	- This means that if your machine is running on either windows 10, 8, 7 sp1, vista sp2
+	- It must have more than 128 MB of RAM, more than 124 MB for JRE, and more than 2 MB for Java Update.
+	- It also must have a processor minimum of a pentium 2 266 MHz processor. 
+	- If your machine is running on Mac OS X, you must be running on OS X 10.8.3 or greater. 
+	- If your machine is running on Linux, you must have Oracle Linux 5.5 or greater, and 8u25 or above.  
+	-Another requirement is that your machine must be able to install and run MySql Workbench.  
+	-This means that your CPU must be an Intel Core or Xeon 3GHz or equal AMD CPU. 
+	-You must also have more than 4 GB of ram and a display resolution of 1920x1200 or greater.  
+	-For Eclipse installation, you computer must have more than 1GB of RAM, more than 1GB of disk space, and a processor that is 1.5 Ghz or faster.  
 
 3) Where did you test your project
 	-MySql workbench 6.3 CE
