@@ -63,8 +63,8 @@ https://github.com/alexrombach/CITDatabaseProject                               
 	-If you are compiling the code:
 		-Reference rs2xml.jar and mysql-connector-java-5.1.41-bin.jar iside of the projects referenced libraries 
 		-eclispse project file 'CITDatabaseProject'
-	-If you are runnig our .java file 
-		-Filename.java
+	-If you are runnig our .jar file 
+		-Filename.jar
 
    ___     ___    _____    ___     ___                                        _                                         __     _            
   /   \   / __|  |_   _|  | _ \   / _ \     o O O    _ _    ___    __ _    __| |     o O O  _ __     ___      o O O    / _|   (_)    _ _    
