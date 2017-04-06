@@ -1074,13 +1074,13 @@ public class CIT345Project extends JFrame {
 				try {
 					// system.out.println is used for testing
 					//System.out.println("tracking page " + SID);
-					String query="select * from account join customer on account.CustomerID = customer.CustomerID WHERE customer.CustomerID ='"+CID+"'";
+					String query="select * from customer WHERE customer.CustomerID ='"+CID+"'";
 					try{
 						stmt = connection.createStatement();
 						ResultSet rs = stmt.executeQuery(query);
 						if(rs.next()){
-							String x = rs.getString("AccountID");
-							String query2 = "Select * from contract where AccountNumber = '"+x+"'";
+							String x = rs.getString("CustomerID");
+							String query2 = "Select * from account where customerID = '"+x+"'";
 							
 							String cusname = rs.getString("FirstName");
 							System.out.println(cusname);
@@ -1102,11 +1102,22 @@ public class CIT345Project extends JFrame {
 							CIP_zip.setText(rs.getString("Zip"));
 							CIP_phone1.setText(rs.getString("PhoneNumber"));
 							CIP_email.setText(rs.getString("Email"));
-							CIP_username.setText(rs.getString("UserName"));
+							
 							try{								
 								ResultSet rs2 = stmt.executeQuery(query2);
 								if(rs2.next()){
-									CIP_contracttype.setText(rs2.getString("ContractTier"));
+									String y = rs2.getString("AccountID");
+									String query3 = "Select * from contract where accountID = '"+y+"'";
+									CIP_username.setText(rs.getString("UserName"));
+									try{								
+										ResultSet rs3 = stmt.executeQuery(query3);
+										if(rs3.next()){
+											CIP_contracttype.setText(rs3.getString("ContractTeir"));
+									}}
+									catch (Exception e1) {
+										// TODO Auto-generated catch block
+										e1.printStackTrace();
+										};
 							}}
 						
 							catch (Exception e1) {
