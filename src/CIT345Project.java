@@ -459,7 +459,9 @@ public class CIT345Project extends JFrame {
 							
 							String cusname = rs.getString("FirstName");
 							System.out.println(cusname);
-							CIP_customerid.setText(rs.getString("CustomerID"));
+							String y = rs.getString("CustomerID");
+							CIP_customerid.setText(y);
+							CIT345Project.CID = Integer.parseInt(y);
 							MainCard.removeAll();
 							MainCard.add(CustomerInfoPage);
 							MainCard.repaint();
@@ -1955,6 +1957,7 @@ public class CIT345Project extends JFrame {
 		JButton CL_pay = new JButton("Check Payments");
 		CL_pay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				methods.grabBilling();
 				MainCard.removeAll();
 				MainCard.add(ChargeHistory);
 				MainCard.repaint();
