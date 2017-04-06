@@ -197,6 +197,7 @@ public class Methods {
 		 String state = "";
 		 String zip = "";
 		 String sDate = "";
+		 String country = "";
 		 
 		 for (int i = 0; i < strings.length; i++){
 			 if (strings[i] == ""){
@@ -211,6 +212,7 @@ public class Methods {
 				state = strings[3];
 				zip = strings[4];
 				sDate = strings[5];
+				country = strings[6];
 			}
 					test = true;
 		 }
@@ -223,7 +225,7 @@ public class Methods {
 			 LocalDateTime stime = LocalDateTime.parse(sDate, dtf);
 			 LocalDateTime etime = LocalDateTime.parse(CIT345Project.dDate, dtf);
 			 
-			 String q1 = "insert into shipment (ShipCustomerID, StoreID, ShipMethod, Street, City, State, Zip, ExpectedDelivery, ShipmentDate) Values ("+cid+","+strID+","+shipMethod+",'"+street+"','"+city+"','"+state+"',"+dzip+",'"+etime+"','"+stime+"');";
+			 String q1 = "insert into shipment (ShipCustomerID, StoreID, ShipMethod, Street, City, State, Zip, ExpectedDelivery, ShipmentDate, Country) Values ("+cid+","+strID+","+shipMethod+",'"+street+"','"+city+"','"+state+"',"+dzip+",'"+etime+"','"+stime+"','"+country+"');";
 			 String q2 = "select ShipmentID from shipment where ShipCustomerID = "+cid+" and ExpectedDelivery = '" +etime+"';";
 			 try{
 					PreparedStatement posted = connection.prepareStatement(q1);
@@ -267,7 +269,7 @@ public class Methods {
 		 }
 		 }
 			 if (test){
-				 String q1 = "insert into packages (shipmentID, Dimensions, Weight, Fragile, Hazardous) Values ("+sid+",'"+dim+"',"+weight+",'"+fragile+"','"+haz+"');";
+				 String q1 = "insert into packages (shipmentID, Dimensions, Weight, Fragile) Values ("+sid+",'"+dim+"',"+weight+",'"+fragile+"');";
 				 String q2 = "select PackageID from packages where ShipmentID = "+sid+";";
 				 System.out.println(q1);
 				 try{

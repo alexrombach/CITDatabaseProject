@@ -1524,7 +1524,7 @@ public class CIT345Project extends JFrame {
 				SF_price.setText(Double.toString(price));
 				SF_deliverydate.setText(dDate);
 				shipSummary.setVisible(true);
-				methods.shipinsert(store, street, city, state, zip, sdate);
+				methods.shipinsert(store, street, city, state, zip, sdate, country);
 				methods.packageinsert(dimension, fragile, hazpack);
 				if (!content.equals("") && !value.equals("") ){
 					methods.declarationinsert(content, value);
