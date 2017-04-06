@@ -24,7 +24,7 @@ https://github.com/alexrombach/CITDatabaseProject                               
 
 1) How to run the code
 	-Setup the local database
-		-Must install latest mysql workbench and all of its components
+		-Must install latest mysql workbench and all of its components 
 		-If you wish to run our jar file:
 			- Must create an instance inside of mysql workbench with the username: root, password: Password123
 			- Must create a local database inside of MySqlWorkbench named:  cit345groupproject
@@ -49,6 +49,9 @@ https://github.com/alexrombach/CITDatabaseProject                               
 	- Must have a macheine capible of runnig java applications
 
 3) Where did you test your project
+	-MySql workbench 6.3 CE
+	-MySql server 5.7
+	-Java SE Dev Kit 8
 	-Our computers are all runnning Windows 10
 4) What files are attached/required
 	-Readme.txt 
@@ -56,7 +59,7 @@ https://github.com/alexrombach/CITDatabaseProject                               
 		-cit345groupproject.sql (located in /OtherProjectFiles folder)
 		-This sql file is capible of generating our entire database and all of its data.  
 	-CSV files for every table
-		-These files (located in /OtherProjectFiles folder) show all of our data in csv format per table. 
+		-These files (located in /OtherProjectFiles folder) shows all of our data in csv format per table. 
 	-If you are compiling the code:
 		-Reference rs2xml.jar and mysql-connector-java-5.1.41-bin.jar iside of the projects referenced libraries 
 		-eclispse project file 'CITDatabaseProject'
