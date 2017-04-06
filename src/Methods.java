@@ -223,7 +223,7 @@ public class Methods {
 			 LocalDateTime stime = LocalDateTime.parse(sDate, dtf);
 			 LocalDateTime etime = LocalDateTime.parse(CIT345Project.dDate, dtf);
 			 
-			 String q1 = "insert into shipment (ShipCustomerID, StoreID, ShipMethod, Street, City, State, Zip, ExpectedDelivery, ShipmentDate, price) Values ("+cid+","+strID+","+shipMethod+",'"+street+"','"+city+"','"+state+"',"+dzip+",'"+etime+"','"+stime+"',"+price+");";
+			 String q1 = "insert into shipment (ShipCustomerID, StoreID, ShipMethod, Street, City, State, Zip, ExpectedDelivery, ShipmentDate) Values ("+cid+","+strID+","+shipMethod+",'"+street+"','"+city+"','"+state+"',"+dzip+",'"+etime+"','"+stime+"');";
 			 String q2 = "select ShipmentID from shipment where ShipCustomerID = "+cid+" and ExpectedDelivery = '" +etime+"';";
 			 try{
 					PreparedStatement posted = connection.prepareStatement(q1);
