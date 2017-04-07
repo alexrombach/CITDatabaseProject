@@ -963,7 +963,7 @@ public class CIT345Project extends JFrame {
 				
 				methods.grabCIDfromCustomerList();
 				System.out.println(CID);
-				methods.grabAcount();
+				methods.grabAccount();
 				System.out.println(ACT_NO);
 				if(ACT_NO != 0){
 					methods.grabContract();
@@ -1039,7 +1039,11 @@ public class CIT345Project extends JFrame {
 		lblCustomerInfosummary.setBounds(25, 73, 411, 98);
 		ActionPage.add(lblCustomerInfosummary);
 		
+		JRadioButton SF_credit = new JRadioButton("Credit Card");
+		
+		SF_credit.setSelected(true);
 	
+		JRadioButton SF_account = new JRadioButton("Account");
 		
 		JButton AP_Ship = new JButton("Start Shipment");
 		AP_Ship.setFont(new Font("Candara", Font.PLAIN, 16));
@@ -1055,34 +1059,15 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(ShipmentForm_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
-//				Connection connection;
-//				connection=sqlConnection.dbConnector();
-//				Statement stmt =  null;
-//				try{
-//					String query = "select accountID from account where customerID = '"+CID+"';";
-//					System.out.println(query);
-//					stmt = connection.createStatement();
-//					ResultSet rs = stmt.executeQuery(query);
-//					if(rs.next()){
-//						System.out.println("Account");
-//						SF_credit.setSelected(false);
-//						SF_account.setSelected(true);
-//				}
-//					else if(!rs.next()){
-//						System.out.println("No Account");
-//						//SF_account.setEnabled(false);
-//						//SF_credit.setSelected(true);
-//						//SF_account.setVisible(false);
-//						
-//					}
-//				
-//					}
-//				
-//				catch (Exception e1) {
-//				// TODO Auto-generated catch block
-//
-//				e1.printStackTrace();
-//			}
+				
+				if (ACT_NO == 0){
+					SF_account.setEnabled(false);
+					SF_account.setSelected(false);
+				} else {
+					SF_account.setEnabled(true);
+					SF_account.setSelected(true);
+				}
+				
 			}
 		});
 		
@@ -1473,12 +1458,12 @@ public class CIT345Project extends JFrame {
 		shipFormFields.add(SF_hazardousPack);
 		shipSummary.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
-		JRadioButton SF_account = new JRadioButton("Account");
+		
 		SF_account.setBounds(36, 333, 109, 23);
+		
 		shipFormFields.add(SF_account);
 		
-		JRadioButton SF_credit = new JRadioButton("Credit Card");
-		SF_credit.setSelected(true);
+		
 		SF_credit.setBounds(153, 333, 109, 23);
 		shipFormFields.add(SF_credit);
 		
@@ -1551,7 +1536,16 @@ public class CIT345Project extends JFrame {
 			}
 		});
 		
-		
+		SF_credit.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if(SF_credit.isSelected()){
+					SF_ccnumber.setEnabled(true);
+				} else {
+					SF_ccnumber.setText("");
+					SF_ccnumber.setEnabled(false);
+				}
+			}
+		});
 		
 		JButton SF_submit = new JButton("Submit");
 		SF_submit.setFont(new Font("Candara", Font.PLAIN, 16));
@@ -1581,9 +1575,11 @@ public class CIT345Project extends JFrame {
 				}
 				if (SF_account.isSelected()){
 					accountchk = true;
+					ccchk = false;
 				};
 				if (SF_credit.isSelected()){
 					ccchk = true;
+					accountchk = false;
 				}
 				
 				String weight = SF_weight.getText();
@@ -1609,8 +1605,25 @@ public class CIT345Project extends JFrame {
 				SF_price.setText(Double.toString(price));
 				SF_deliverydate.setText(dDate);
 				shipSummary.setVisible(true);
-				methods.shipinsert(store, street, city, state, zip, sdate, country, ccnumber);
-				methods.packageinsert(dimension, fragile, hazpack);
+				
+				if (!dimension.equals("") && CIT345Project.weight != 0){
+					if (ccchk){
+						if (!ccnumber.equals("")){
+							methods.shipinsert(store, street, city, state, zip, sdate, country, ccnumber);
+							methods.packageinsert(dimension, fragile, hazpack);
+						} else{
+							JOptionPane.showMessageDialog(null, "Make sure credit card info is filled out");
+						}
+						
+					} else{
+						methods.shipinsert(store, street, city, state, zip, sdate, country, ccnumber);
+						methods.packageinsert(dimension, fragile, hazpack);
+					}
+					
+				} else {
+					JOptionPane.showMessageDialog(null, "Please fill out all fields");
+				}
+				
 				if (!content.equals("") && !value.equals("") ){
 					methods.declarationinsert(content, value);
 					
@@ -1624,10 +1637,14 @@ public class CIT345Project extends JFrame {
 					SF_state.setSelectedItem("");
 					SF_zip.setText("");
 					SF_country.setSelectedItem("United States");
+					SF_oversized.setSelected(false);
 					SF_weight.setText("");
 					SF_dimensions.setText("");
 					SF_contents.setText("");
 					SF_value.setText("");
+					SF_ccnumber.setText("");
+					SF_hazardousPack.setSelected(false);
+					CIT345Project.weight = 0;
 					
 					
 				MainCard.removeAll();
@@ -1657,10 +1674,14 @@ public class CIT345Project extends JFrame {
 				SF_state.setSelectedItem("");
 				SF_zip.setText("");
 				SF_country.setSelectedItem("United States");
+				SF_oversized.setSelected(false);
 				SF_weight.setText("");
 				SF_dimensions.setText("");
 				SF_contents.setText("");
 				SF_value.setText("");
+				SF_ccnumber.setText("");
+				SF_hazardousPack.setSelected(false);
+				CIT345Project.weight = 0;
 				
 				MainCard.removeAll();
 				MainCard.add(ActionPage);

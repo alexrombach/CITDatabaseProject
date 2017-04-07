@@ -255,14 +255,14 @@ public class Methods {
 				 ResultSet ac = accountcheck.executeQuery();
 					if ((ac.next() == true) && (CIT345Project.accountchk == true)){
 						String acnum = ac.getString("AccountID");
-						String q4 = "insert payments (AccoutNumber, ShipmentID, DueDate, AmountDue) values ('"+acnum+"','"+CIT345Project.SID1+"', '"+LocalDateTime.now().plusDays(3)+"', '"+CIT345Project.price+"');";
+						String q4 = "insert into payments (AccoutNumber, ShipmentID, DueDate, AmountDue) values ('"+acnum+"','"+CIT345Project.SID1+"', '"+LocalDateTime.now().plusDays(3)+"', '"+CIT345Project.price+"');";
 						System.out.println(q4);
 						PreparedStatement posted = connection.prepareStatement(q4);
 						posted.executeUpdate(); 
 					}
 					else if((CIT345Project.ccchk == true)){
 						System.out.println("Test point 3");
-						String q5 = "insert chargehistory (CustomerID, ShipmentID, DatePaid, TotalPrice, CreditCardID) values ('"+CIT345Project.CID+"','"+CIT345Project.SID1+"', '"+LocalDateTime.now()+"', '"+CIT345Project.price+"', '"+ccnumber+"');";
+						String q5 = "insert into chargehistory (CustomerID, ShipmentID, DatePaid, TotalPrice, CreditCardID) values ('"+CIT345Project.CID+"','"+CIT345Project.SID1+"', '"+LocalDateTime.now()+"', '"+CIT345Project.price+"', '"+ccnumber+"');";
 						System.out.println(q5);
 						PreparedStatement posted = connection.prepareStatement(q5);
 						posted.executeUpdate();
@@ -442,7 +442,7 @@ public class Methods {
 
 	}	
 	
-	public void grabAcount (){
+	public void grabAccount (){
 		String q1 = "select AccountID from account where CustomerID = "+CIT345Project.CID+";";
 		
 		try {

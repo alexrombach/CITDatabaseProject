@@ -1,149 +1,149 @@
 Relational Schema
 
 account (
-  `AccountID` int(11) NOT NULL AUTO_INCREMENT,
-  `CustomerID` int(11) NOT NULL,
-  `UserName` varchar(45) NOT NULL,
-  `Password` varchar(45) NOT NULL,
-  PRIMARY KEY (`AccountID`),
-  KEY `CustomerID_idx` (`CustomerID`),
-  CONSTRAINT `CustomerID` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE
+   AccountID  int(11) NOT NULL AUTO_INCREMENT,
+   CustomerID  int(11) NOT NULL,
+   UserName  varchar(45) NOT NULL,
+   Password  varchar(45) NOT NULL,
+  PRIMARY KEY ( AccountID ),
+  KEY  CustomerID_idx  ( CustomerID ),
+  CONSTRAINT  CustomerID  FOREIGN KEY ( CustomerID ) REFERENCES  customer  ( CustomerID ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
 chargehistory (
-  `CustomerID` int(11) NOT NULL,
-  `ShipmentID` int(11) NOT NULL,
-  `DatePaid` datetime NOT NULL,
-  `TotalPrice` double NOT NULL,
-  `CreditCardID` varchar(45) NOT NULL,
-  PRIMARY KEY (`CustomerID`,`ShipmentID`),
-  KEY `ShipmentIDFK_idx` (`ShipmentID`),
-  CONSTRAINT `CustomerIDFK ` FOREIGN KEY (`CustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ShipmentIDFK` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
+   CustomerID  int(11) NOT NULL,
+   ShipmentID  int(11) NOT NULL,
+   DatePaid  datetime NOT NULL,
+   TotalPrice  double NOT NULL,
+   CreditCardID  varchar(45) NOT NULL,
+  PRIMARY KEY ( CustomerID , ShipmentID ),
+  KEY  ShipmentIDFK_idx  ( ShipmentID ),
+  CONSTRAINT  CustomerIDFK   FOREIGN KEY ( CustomerID ) REFERENCES  customer  ( CustomerID ) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT  ShipmentIDFK  FOREIGN KEY ( ShipmentID ) REFERENCES  shipment  ( ShipmentID ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
 contract (
-  `ContractNumber` int(11) NOT NULL AUTO_INCREMENT,
-  `AccountNumber` int(11) NOT NULL,
-  `ContractTier` enum('Bronze','Silver','Gold') NOT NULL,
-  `StartDate` datetime NOT NULL,
-  `EndDate` datetime NOT NULL,
-  PRIMARY KEY (`ContractNumber`),
-  KEY `AccountNumberFK_idx` (`AccountNumber`),
-  KEY `TierFK_idx` (`ContractTier`),
-  KEY `AccountNumberFKcontract_idx` (`AccountNumber`),
-  KEY `TierFKcontract_idx` (`ContractTier`),
-  CONSTRAINT `AccountFK` FOREIGN KEY (`AccountNumber`) REFERENCES `account` (`AccountID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `TierFK` FOREIGN KEY (`ContractTier`) REFERENCES `contracttype` (`Teir`) ON DELETE CASCADE ON UPDATE CASCADE
+   ContractNumber  int(11) NOT NULL AUTO_INCREMENT,
+   AccountNumber  int(11) NOT NULL,
+   ContractTier  enum( Bronze , Silver , Gold ) NOT NULL,
+   StartDate  datetime NOT NULL,
+   EndDate  datetime NOT NULL,
+  PRIMARY KEY ( ContractNumber ),
+  KEY  AccountNumberFK_idx  ( AccountNumber ),
+  KEY  TierFK_idx  ( ContractTier ),
+  KEY  AccountNumberFKcontract_idx  ( AccountNumber ),
+  KEY  TierFKcontract_idx  ( ContractTier ),
+  CONSTRAINT  AccountFK  FOREIGN KEY ( AccountNumber ) REFERENCES  account  ( AccountID ) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT  TierFK  FOREIGN KEY ( ContractTier ) REFERENCES  contracttype  ( Teir ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
 contracttype (
-  `Teir` enum('Bronze','Silver','Gold') NOT NULL,
-  `Price` double NOT NULL,
-  `Discount` int(11) NOT NULL,
-  PRIMARY KEY (`Teir`)
+   Teir  enum( Bronze , Silver , Gold ) NOT NULL,
+   Price  double NOT NULL,
+   Discount  int(11) NOT NULL,
+  PRIMARY KEY ( Teir )
   
   
 customer (
-  `CustomerID` int(11) NOT NULL AUTO_INCREMENT,
-  `FirstName` varchar(45) NOT NULL,
-  `LastName` varchar(45) NOT NULL,
-  `Email` varchar(45) NOT NULL,
-  `PhoneNumber` varchar(45) NOT NULL,
-  `State` varchar(45) NOT NULL,
-  `Street` varchar(45) NOT NULL,
-  `City` varchar(45) NOT NULL,
-  `Zip` int(11) NOT NULL,
-  PRIMARY KEY (`CustomerID`)
+   CustomerID  int(11) NOT NULL AUTO_INCREMENT,
+   FirstName  varchar(45) NOT NULL,
+   LastName  varchar(45) NOT NULL,
+   Email  varchar(45) NOT NULL,
+   PhoneNumber  varchar(45) NOT NULL,
+   State  varchar(45) NOT NULL,
+   Street  varchar(45) NOT NULL,
+   City  varchar(45) NOT NULL,
+   Zip  int(11) NOT NULL,
+  PRIMARY KEY ( CustomerID )
   
   
 declarationform (
-  `FormID` int(11) NOT NULL AUTO_INCREMENT,
-  `PackageID` int(11) NOT NULL,
-  `Contents` varchar(45) NOT NULL,
-  `Value` double NOT NULL,
-  PRIMARY KEY (`FormID`),
-  KEY `ShipmentIDDF_idx` (`PackageID`),
-  CONSTRAINT `PackageIDDF` FOREIGN KEY (`PackageID`) REFERENCES `packages` (`packageID`) ON DELETE CASCADE ON UPDATE CASCADE
+   FormID  int(11) NOT NULL AUTO_INCREMENT,
+   PackageID  int(11) NOT NULL,
+   Contents  varchar(45) NOT NULL,
+   Value  double NOT NULL,
+  PRIMARY KEY ( FormID ),
+  KEY  ShipmentIDDF_idx  ( PackageID ),
+  CONSTRAINT  PackageIDDF  FOREIGN KEY ( PackageID ) REFERENCES  packages  ( packageID ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
 packages (
-  `packageID` int(11) NOT NULL AUTO_INCREMENT,
-  `shipmentID` int(11) NOT NULL,
-  `Dimensions` varchar(45) NOT NULL,
-  `Weight` double NOT NULL,
-  `Fragile` enum('Yes','No') NOT NULL,
-  PRIMARY KEY (`packageID`),
-  KEY `packageShipmentIdFK_idx` (`shipmentID`),
-  CONSTRAINT `packageShipmentIdFK` FOREIGN KEY (`shipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
+   packageID  int(11) NOT NULL AUTO_INCREMENT,
+   shipmentID  int(11) NOT NULL,
+   Dimensions  varchar(45) NOT NULL,
+   Weight  double NOT NULL,
+   Fragile  enum( Yes , No ) NOT NULL,
+  PRIMARY KEY ( packageID ),
+  KEY  packageShipmentIdFK_idx  ( shipmentID ),
+  CONSTRAINT  packageShipmentIdFK  FOREIGN KEY ( shipmentID ) REFERENCES  shipment  ( ShipmentID ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
 payments (
-  `AccoutNumber` int(11) NOT NULL,
-  `ShipmentID` int(11) NOT NULL,
-  `DueDate` datetime NOT NULL,
-  `AmountDue` double NOT NULL,
-  `DatePaid` datetime NOT NULL,
-  `paymentscol` varchar(45) NOT NULL,
-  PRIMARY KEY (`AccoutNumber`,`ShipmentID`),
-  KEY `ShipmentID_idx` (`ShipmentID`),
-  CONSTRAINT `AcountNumFK` FOREIGN KEY (`AccoutNumber`) REFERENCES `account` (`AccountID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ShipmentID` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
+   AccoutNumber  int(11) NOT NULL,
+   ShipmentID  int(11) NOT NULL,
+   DueDate  datetime NOT NULL,
+   AmountDue  double NOT NULL,
+   DatePaid  datetime NOT NULL,
+   paymentscol  varchar(45) NOT NULL,
+  PRIMARY KEY ( AccoutNumber , ShipmentID ),
+  KEY  ShipmentID_idx  ( ShipmentID ),
+  CONSTRAINT  AcountNumFK  FOREIGN KEY ( AccoutNumber ) REFERENCES  account  ( AccountID ) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT  ShipmentID  FOREIGN KEY ( ShipmentID ) REFERENCES  shipment  ( ShipmentID ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
 shipment (
-  `ShipmentID` int(11) NOT NULL AUTO_INCREMENT,
-  `ShipCustomerID` int(11) NOT NULL,
-  `StoreID` int(11) NOT NULL,
-  `ShipMethod` int(11) NOT NULL,
-  `Street` varchar(45) NOT NULL,
-  `City` varchar(45) NOT NULL,
-  `State` varchar(45) NOT NULL,
-  `Zip` int(11) NOT NULL,
-  `ExpectedDelivery` datetime NOT NULL,
-  `ShipmentDate` datetime NOT NULL,
-  `Country` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`ShipmentID`),
-  KEY `CustomerID_idx` (`ShipCustomerID`),
-  KEY `CustomerID` (`ShipCustomerID`),
-  KEY `StoreID_idx` (`StoreID`),
-  KEY `ShipmentMethodFK_idx` (`ShipMethod`),
-  CONSTRAINT `ShipCustomerID` FOREIGN KEY (`ShipCustomerID`) REFERENCES `customer` (`CustomerID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `ShipmentMethodFK` FOREIGN KEY (`ShipMethod`) REFERENCES `shipmentmethod` (`ShipmentMethodID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `StoreID` FOREIGN KEY (`StoreID`) REFERENCES `store` (`StoreID`) ON DELETE CASCADE ON UPDATE CASCADE
+   ShipmentID  int(11) NOT NULL AUTO_INCREMENT,
+   ShipCustomerID  int(11) NOT NULL,
+   StoreID  int(11) NOT NULL,
+   ShipMethod  int(11) NOT NULL,
+   Street  varchar(45) NOT NULL,
+   City  varchar(45) NOT NULL,
+   State  varchar(45) NOT NULL,
+   Zip  int(11) NOT NULL,
+   ExpectedDelivery  datetime NOT NULL,
+   ShipmentDate  datetime NOT NULL,
+   Country  varchar(45) DEFAULT NULL,
+  PRIMARY KEY ( ShipmentID ),
+  KEY  CustomerID_idx  ( ShipCustomerID ),
+  KEY  CustomerID  ( ShipCustomerID ),
+  KEY  StoreID_idx  ( StoreID ),
+  KEY  ShipmentMethodFK_idx  ( ShipMethod ),
+  CONSTRAINT  ShipCustomerID  FOREIGN KEY ( ShipCustomerID ) REFERENCES  customer  ( CustomerID ) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT  ShipmentMethodFK  FOREIGN KEY ( ShipMethod ) REFERENCES  shipmentmethod  ( ShipmentMethodID ) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT  StoreID  FOREIGN KEY ( StoreID ) REFERENCES  store  ( StoreID ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
 shipmentmethod (
-  `ShipmentMethodID` int(11) NOT NULL,
-  `Hazardous` enum('Yes','No') NOT NULL,
-  `Oversized` enum('Yes','No') NOT NULL,
-  `International` enum('Yes','No') NOT NULL,
-  `Price` double NOT NULL,
-  `Speed` enum('Overnight','Express','Regular') CHARACTER SET cp850 NOT NULL,
-  PRIMARY KEY (`ShipmentMethodID`),
-  UNIQUE KEY `ShipmentMethodID_UNIQUE` (`ShipmentMethodID`)
+   ShipmentMethodID  int(11) NOT NULL,
+   Hazardous  enum( Yes , No ) NOT NULL,
+   Oversized  enum( Yes , No ) NOT NULL,
+   International  enum( Yes , No ) NOT NULL,
+   Price  double NOT NULL,
+   Speed  enum( Overnight , Express , Regular ) CHARACTER SET cp850 NOT NULL,
+  PRIMARY KEY ( ShipmentMethodID ),
+  UNIQUE KEY  ShipmentMethodID_UNIQUE  ( ShipmentMethodID )
   
   
 store (
-  `StoreID` int(11) NOT NULL AUTO_INCREMENT,
-  `PhoneNumber` varchar(45) NOT NULL,
-  `Street` varchar(45) NOT NULL,
-  `City` varchar(45) NOT NULL,
-  `State` varchar(45) NOT NULL,
-  `Zip` int(11) NOT NULL,
-  PRIMARY KEY (`StoreID`)
+   StoreID  int(11) NOT NULL AUTO_INCREMENT,
+   PhoneNumber  varchar(45) NOT NULL,
+   Street  varchar(45) NOT NULL,
+   City  varchar(45) NOT NULL,
+   State  varchar(45) NOT NULL,
+   Zip  int(11) NOT NULL,
+  PRIMARY KEY ( StoreID )
   
   
 tracking (
-  `TrackingID` int(11) NOT NULL AUTO_INCREMENT,
-  `Date` datetime NOT NULL,
-  `CurrentLocation` varchar(45) NOT NULL,
-  `Status` varchar(45) NOT NULL,
-  `CurrentMode` varchar(45) NOT NULL,
-  `ShipmentID` int(11) NOT NULL,
-  PRIMARY KEY (`TrackingID`),
-  KEY `ShipmentIDTracking_idx` (`ShipmentID`),
-  CONSTRAINT `ShipmentIDTracking` FOREIGN KEY (`ShipmentID`) REFERENCES `shipment` (`ShipmentID`) ON DELETE CASCADE ON UPDATE CASCADE
+   TrackingID  int(11) NOT NULL AUTO_INCREMENT,
+   Date  datetime NOT NULL,
+   CurrentLocation  varchar(45) NOT NULL,
+   Status  varchar(45) NOT NULL,
+   CurrentMode  varchar(45) NOT NULL,
+   ShipmentID  int(11) NOT NULL,
+  PRIMARY KEY ( TrackingID ),
+  KEY  ShipmentIDTracking_idx  ( ShipmentID ),
+  CONSTRAINT  ShipmentIDTracking  FOREIGN KEY ( ShipmentID ) REFERENCES  shipment  ( ShipmentID ) ON DELETE CASCADE ON UPDATE CASCADE
   
   
   
