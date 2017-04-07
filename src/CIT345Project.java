@@ -106,7 +106,7 @@ public class CIT345Project extends JFrame {
 	private JTextField HP_username;
 	private JPasswordField HP_password;
 	private JTextField MAP_fname;
-	private JTextField textField_1;
+	private JTextField MAP_lname;
 	private JTextField MAP_email;
 	private JTextField MAP_username;
 	private JPasswordField MAP_password;
@@ -1212,6 +1212,8 @@ public class CIT345Project extends JFrame {
 		TPP_Back.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (customerCheck == true){
+					
+					TPP_number.setText("");
 					MainCard.removeAll();
 					MainCard.add(ActionPage);
 					MainCard.repaint();
@@ -1222,6 +1224,8 @@ public class CIT345Project extends JFrame {
 					BottomCard.repaint();
 					BottomCard.revalidate();
 			} else {
+				
+					TPP_number.setText("");
 					MainCard.removeAll();
 					MainCard.add(HomePage);
 					MainCard.repaint();
@@ -1778,8 +1782,9 @@ public class CIT345Project extends JFrame {
 				//CIP_phone2.setEditable(true);
 				//CIP_phone3.setEditable(true);
 				CIP_email.setEditable(true);
+				if (ACT_NO != 0){
 				CIP_username.setEditable(true);
-				
+				}
 				BottomCard.removeAll();
 				BottomCard.add(CustomerInfoPage_bot2);
 				BottomCard.repaint();
@@ -2384,20 +2389,20 @@ public class CIT345Project extends JFrame {
 		lblFirstName_1.setBounds(41, 48, 107, 30);
 		MakeAccountPage.add(lblFirstName_1);
 		
-		JLabel MAP_lname = new JLabel("Last Name");
-		MAP_lname.setFont(new Font("Candara", Font.PLAIN, 14));
-		MAP_lname.setBounds(41, 89, 107, 30);
-		MakeAccountPage.add(MAP_lname);
+		JLabel MAP_lbl = new JLabel("Last Name");
+		MAP_lbl.setFont(new Font("Candara", Font.PLAIN, 14));
+		MAP_lbl.setBounds(41, 89, 107, 30);
+		MakeAccountPage.add(MAP_lbl);
 		
 		MAP_fname = new JTextField();
 		MAP_fname.setBounds(137, 52, 107, 20);
 		MakeAccountPage.add(MAP_fname);
 		MAP_fname.setColumns(10);
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(137, 93, 107, 20);
-		MakeAccountPage.add(textField_1);
+		MAP_lname = new JTextField();
+		MAP_lname.setColumns(10);
+		MAP_lname.setBounds(137, 93, 107, 20);
+		MakeAccountPage.add(MAP_lname);
 		
 		JLabel lblEmail_1 = new JLabel("Email");
 		lblEmail_1.setFont(new Font("Candara", Font.PLAIN, 14));
@@ -2444,7 +2449,7 @@ public class CIT345Project extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				String MAPfname = MAP_fname.getText();
-				String MAPlname = textField_1.getText();
+				String MAPlname = MAP_lname.getText();
 				String MAPemail = MAP_email.getText();
 				String MAPusername = MAP_username.getText();
 				String MAPpassword = MAP_password.getText();
@@ -2468,6 +2473,15 @@ public class CIT345Project extends JFrame {
 					String query="INSERT INTO account (CustomerID,UserName,Password) values ('"+cusID+"','"+MAPusername+"','"+MAPpassword+"')";
 						PreparedStatement posted = connection.prepareStatement(query);
 						posted.executeUpdate();
+						
+						JOptionPane.showMessageDialog(null, "Account has been created");
+						MAP_fname.setText("");      
+						MAP_lname.setText("");    
+						MAP_email.setText("");      
+						MAP_username.setText("");
+						MAP_password.setText("");
+						MAP_passwordcon.setText("");
+						
 						MainCard.removeAll();
 						MainCard.add(HomePage);
 						MainCard.repaint();
@@ -2512,7 +2526,7 @@ public class CIT345Project extends JFrame {
 				BottomCard.repaint();
 				BottomCard.revalidate();
 				MAP_fname.setText("");
-				textField_1.setText("");
+				MAP_lname.setText("");
 				MAP_email.setText("");
 				MAP_username.setText("");
 				MAP_password.setText("");
