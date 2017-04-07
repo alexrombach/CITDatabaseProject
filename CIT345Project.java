@@ -93,6 +93,7 @@ public class CIT345Project extends JFrame {
 	private JTextField SF_dimensions;
 	private JTextField SF_contents;
 	private JTextField SF_value;
+	public JTextField SF_ccnumber;
 	private JTextField CIP_fname;
 	private JTextField CIP_lname;
 	private JTextField CIP_address;
@@ -139,6 +140,12 @@ public class CIT345Project extends JFrame {
 	public String password;
 	
 	public static boolean shipped = false;
+	public static boolean accountchk = false;
+	public static boolean ccchk = false;
+	public static String ccnum;
+	
+	public JRadioButton SF_account;
+	public JRadioButton SF_credit;
 	
 	Object Selected_CID;
 	
@@ -1048,6 +1055,34 @@ public class CIT345Project extends JFrame {
 				BottomCard.add(ShipmentForm_bot);
 				BottomCard.repaint();
 				BottomCard.revalidate();
+//				Connection connection;
+//				connection=sqlConnection.dbConnector();
+//				Statement stmt =  null;
+//				try{
+//					String query = "select accountID from account where customerID = '"+CID+"';";
+//					System.out.println(query);
+//					stmt = connection.createStatement();
+//					ResultSet rs = stmt.executeQuery(query);
+//					if(rs.next()){
+//						System.out.println("Account");
+//						SF_credit.setSelected(false);
+//						SF_account.setSelected(true);
+//				}
+//					else if(!rs.next()){
+//						System.out.println("No Account");
+//						//SF_account.setEnabled(false);
+//						//SF_credit.setSelected(true);
+//						//SF_account.setVisible(false);
+//						
+//					}
+//				
+//					}
+//				
+//				catch (Exception e1) {
+//				// TODO Auto-generated catch block
+//
+//				e1.printStackTrace();
+//			}
 			}
 		});
 		
@@ -1438,6 +1473,25 @@ public class CIT345Project extends JFrame {
 		shipFormFields.add(SF_hazardousPack);
 		shipSummary.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
+		JRadioButton SF_account = new JRadioButton("Account");
+		SF_account.setBounds(36, 333, 109, 23);
+		shipFormFields.add(SF_account);
+		
+		JRadioButton SF_credit = new JRadioButton("Credit Card");
+		SF_credit.setSelected(true);
+		SF_credit.setBounds(153, 333, 109, 23);
+		shipFormFields.add(SF_credit);
+		
+		SF_ccnumber = new JTextField();
+		SF_ccnumber.setBounds(275, 334, 187, 20);
+		shipFormFields.add(SF_ccnumber);
+		SF_ccnumber.setColumns(10);
+		shipSummary.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		ButtonGroup charge = new ButtonGroup();
+		charge.add(SF_account);
+		charge.add(SF_credit);
+		
 		JLabel lblPrice = new JLabel("Price");
 		shipSummary.add(lblPrice);
 		
@@ -1525,6 +1579,12 @@ public class CIT345Project extends JFrame {
 				} else {
 					osize = "No";
 				}
+				if (SF_account.isSelected()){
+					accountchk = true;
+				};
+				if (SF_credit.isSelected()){
+					ccchk = true;
+				}
 				
 				String weight = SF_weight.getText();
 				String dimension = SF_dimensions.getText();
@@ -1532,6 +1592,7 @@ public class CIT345Project extends JFrame {
 				String value = SF_value.getText();
 				String fragile;
 				String hazpack;
+				String ccnumber = SF_ccnumber.getText();
 				if (SF_fragile.isSelected()){
 					fragile = "Yes";
 				}else {
@@ -1542,12 +1603,13 @@ public class CIT345Project extends JFrame {
 				} else {
 					hazpack = "No";
 				}
+				
 
 				methods.calculate(speed, inter, hazpack, osize);
 				SF_price.setText(Double.toString(price));
 				SF_deliverydate.setText(dDate);
 				shipSummary.setVisible(true);
-				methods.shipinsert(store, street, city, state, zip, sdate, country);
+				methods.shipinsert(store, street, city, state, zip, sdate, country, ccnumber);
 				methods.packageinsert(dimension, fragile, hazpack);
 				if (!content.equals("") && !value.equals("") ){
 					methods.declarationinsert(content, value);

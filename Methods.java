@@ -1,3 +1,5 @@
+
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -198,6 +200,7 @@ public class Methods {
 		 String zip = "";
 		 String sDate = "";
 		 String country = "";
+		 String ccnumber = "";
 		 
 		 for (int i = 0; i < strings.length; i++){
 			 if (strings[i] == ""){
@@ -213,6 +216,7 @@ public class Methods {
 				zip = strings[4];
 				sDate = strings[5];
 				country = strings[6];
+				ccnumber = strings[7];
 			}
 					test = true;
 		 }
@@ -244,6 +248,31 @@ public class Methods {
 					System.out.println(CIT345Project.SID1);
 					};
 		 }
+		 if(test == true){
+			 String q3 = "select accountID from account where customerID = '"+cid+"';";
+			 try{
+				 PreparedStatement accountcheck = connection.prepareStatement(q3);
+				 ResultSet ac = accountcheck.executeQuery();
+					if ((ac.next() == true) && (CIT345Project.accountchk == true)){
+						String acnum = ac.getString("AccountID");
+						String q4 = "insert payments (AccoutNumber, ShipmentID, DueDate, AmountDue) values ('"+acnum+"','"+CIT345Project.SID1+"', '"+LocalDateTime.now().plusDays(3)+"', '"+CIT345Project.price+"');";
+						System.out.println(q4);
+						PreparedStatement posted = connection.prepareStatement(q4);
+						posted.executeUpdate(); 
+					}
+					else if((CIT345Project.ccchk == true)){
+						System.out.println("Test point 3");
+						String q5 = "insert chargehistory (CustomerID, ShipmentID, DatePaid, TotalPrice, CreditCardID) values ('"+CIT345Project.CID+"','"+CIT345Project.SID1+"', '"+LocalDateTime.now()+"', '"+CIT345Project.price+"', '"+ccnumber+"');";
+						System.out.println(q5);
+						PreparedStatement posted = connection.prepareStatement(q5);
+						posted.executeUpdate();
+					}
+			 }
+			 catch(Exception e1) {
+					JOptionPane.showMessageDialog(null, "Please make sure all fields are filled out");
+					return;
+					}
+		 };
 	 }
 	 
 	public void packageinsert(String...strings){
