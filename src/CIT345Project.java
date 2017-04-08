@@ -1606,6 +1606,10 @@ public class CIT345Project extends JFrame {
 				SF_deliverydate.setText(dDate);
 				shipSummary.setVisible(true);
 				
+				if (discount != 0){
+					methods.discountPrice();
+				}
+				
 				if (!dimension.equals("") && CIT345Project.weight != 0){
 					if (ccchk){
 						if (!ccnumber.equals("")){
